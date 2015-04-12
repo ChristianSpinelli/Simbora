@@ -1,15 +1,18 @@
 package com.simbora.gui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.simbora.EventoActivity;
 import com.simbora.R;
 import com.simbora.dominio.Evento;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
@@ -61,6 +64,16 @@ public class EventoDetailFragment extends Fragment {
             ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, DummyContent.ITEMS);
             ListView lv = (ListView) rootView.findViewById(R.id.listView);
             lv.setAdapter(ad);
+           System.out.println("Estou na lista");
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    System.out.println("Estou no onClick");
+                    Evento.setIdEvento(i);
+                    Intent intent=new Intent(getActivity(), EventoActivity.class);
+                    startActivity(intent);
+                }
+            });
        // }
 
         return rootView;

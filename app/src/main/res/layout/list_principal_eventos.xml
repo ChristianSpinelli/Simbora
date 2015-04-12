@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="220dp"
-    android:background="#e6e1e3d5"
-    android:paddingBottom="10dp">
+    android:layout_height="200dp"
+    android:descendantFocusability="blocksDescendants"
+    android:background="#D0DAE0">
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:minWidth="560dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="160dp"
+            android:layout_height="150dp"
             android:layout_weight="4"
             android:layout_gravity="top"
             android:id="@+id/imageViewEventoLista"
@@ -22,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:text="Caetano Veloso faz show no Teatro Guararapes"
             android:id="@+id/textViewTituloEventoLista"
             android:layout_weight="4" />
@@ -56,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="11sp"
                 android:text="Centro de Convenções"
                 android:id="@+id/textViewLocalEventoLista" />
         </LinearLayout>
@@ -82,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="17h00"
+                android:textSize="11sp"
                 android:layout_gravity="center"
                 android:id="@+id/textViewHorarioEventoLista" />
         </LinearLayout>
@@ -104,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="11sp"
                 android:text=" de 90,00 a 1.240,00"
                 android:layout_gravity="center"
                 android:id="@+id/textViewPrecoEventoLista" />

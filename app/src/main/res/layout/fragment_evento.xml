@@ -1,0 +1,61 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.simbora.EventoActivity$PlaceholderFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+    android:layout_gravity="right">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+
+        android:id="@+id/linearLayoutEvento">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="400dp"
+            android:minHeight="200dp"
+            android:id="@+id/imageViewEvento"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Título do Evento"
+            android:layout_gravity="center"
+            android:id="@+id/textViewTituloEvento" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Curtidas: 12212"
+            android:id="@+id/textViewCurtidas" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Descrição"
+            android:id="@+id/textViewDescricao" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simbora!"
+            android:layout_gravity="center"
+            android:id="@+id/buttonSimbora"
+            android:background="#ffa500"/>
+
+
+
+
+    </LinearLayout>
+</ScrollView>
