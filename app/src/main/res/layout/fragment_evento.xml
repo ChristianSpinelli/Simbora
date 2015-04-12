@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.simbora.EventoActivity$PlaceholderFragment"
+    tools:context="com.simbora.gui.EventoActivity$PlaceholderFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scrollView"
@@ -19,8 +19,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="400dp"
-            android:minHeight="200dp"
+            android:minWidth="300dp"
+            android:minHeight="160dp"
             android:id="@+id/imageViewEvento"
             android:layout_gravity="center"/>
 
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
             android:text="Descrição"
             android:id="@+id/textViewDescricao" />
 

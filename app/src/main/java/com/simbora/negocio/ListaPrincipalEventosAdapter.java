@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Created by Demis e Lucas on 11/04/2015.
  */
+//classe que monta a lista dos eventos
 public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
 
         private LayoutInflater inflater;
@@ -35,13 +36,16 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             TextView localEvento= (TextView) convertView.findViewById(R.id.textViewLocalEventoLista);
             TextView horarioEvento= (TextView) convertView.findViewById(R.id.textViewHorarioEventoLista);
             TextView precoEvento= (TextView) convertView.findViewById(R.id.textViewPrecoEventoLista);
+            TextView dataEvento = (TextView) convertView.findViewById(R.id.textViewDataEventoLista);
 
+            //seta os atributos
             Evento evento=getItem(position);
             imagemEvento.setBackgroundResource(evento.getImage());
             tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco());
             horarioEvento.setText(evento.getHora());
             precoEvento.setText(evento.getPreco());
+            dataEvento.setText(evento.getData());
           return convertView;
         }
 

@@ -1,4 +1,4 @@
-package com.simbora;
+package com.simbora.gui;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +14,7 @@ import android.os.Build;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.simbora.R;
 import com.simbora.dominio.Evento;
 import com.simbora.gui.DummyContent;
 
@@ -59,11 +60,14 @@ public class EventoActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+
+    //fragmento que contém os detalhes do evento
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
         }
 
+        //
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -76,6 +80,7 @@ public class EventoActivity extends ActionBarActivity {
 
            // imageViewEvento.set
             //pega o id do evento selecionado
+            //seta os atributos em cada campo da tela
             Evento evento=DummyContent.ITEMS.get(Evento.getIdEvento());
             imageViewEvento.setBackgroundResource(evento.getImage());
             tituloEvento.setText(evento.getNome());

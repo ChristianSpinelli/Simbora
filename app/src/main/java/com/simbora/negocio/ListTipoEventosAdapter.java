@@ -18,6 +18,7 @@ import com.simbora.R;
 import com.simbora.dominio.Evento;
 import com.simbora.dominio.TipoEvento;
 
+//classe que monta A lista dos tipos de eventos
 public class ListTipoEventosAdapter extends ArrayAdapter<TipoEvento>{
 
     private final LayoutInflater inflater;
@@ -32,14 +33,15 @@ public class ListTipoEventosAdapter extends ArrayAdapter<TipoEvento>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // get a new View no matter recycling or ViewHolder FIXME
+        //recebe o view da lista de eventos, que nesse caso é o xml list_tipo_eventos
         convertView = inflater.inflate(resourceId, parent, false);
 
-        //get all object from view
+        //relaciona os campos com os do xml
         TextView textView=(TextView) convertView.findViewById(R.id.textViewTipoEvento);
         ImageView imageView=(ImageView) convertView.findViewById(R.id.imageViewTipoEvento);
         TipoEvento dI=getItem(position);
 
+        //seta os campos
         textView.setText(dI.getNome());
         imageView.setBackgroundResource(dI.getIcone());
         return convertView;

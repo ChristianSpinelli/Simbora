@@ -41,6 +41,7 @@ public class DummyContent {
         evento1.setPreco("de 90,00 a 1.300,00");
         evento1.setDescricao("Caetano Veloso aparece mais uma vez no Teatro Guararapes.\n O cantor apresentará o show de turnê “Abraçaço”. O evento será realizado em conjunto com cantora Vanessa da Mata, dona de uma belíssima voz, e ganhadora do Grammy Latino.");
         evento1.setImage(R.mipmap.caetano_veloso);
+        evento1.setData("19/04/2015");
         evento1.setId(1);
         addItem(evento1);
 
@@ -52,6 +53,7 @@ public class DummyContent {
         evento2.setDescricao("Silvio Meira tratará sobre inovação e empreendedorismo, temas relacionados a empreendimentos. O pesquisador vai discorrer também sobre educação, porque, segundo ele, toda boa empresa é uma boa escola. Segundo ele, todo colaborador de um negócio qualquer deveria, pelo menos uma vez por semana, se perguntar o que aprendeu nos últimos sete dias.Autor de centenas de artigos científicos e textos sobre tecnologias da informação e seu impacto na economia, sociedade e pessoas, Silvio Meira é autor do livro Novos Negócios Inovadores de Crescimento Empreendedor no Brasil e, em 2007, foi eleito pela revista Época um dos 100 brasileiros mais influentes. Em 2011, foi escolhido por O Globo como personalidade do ano da economia brasileira.");
         evento2.setImage(R.mipmap.palestra_silvio_meira);
         evento2.setId(2);
+        evento2.setData("21/04/2015");
 
         addItem(evento2);
 
@@ -65,6 +67,7 @@ public class DummyContent {
                 "Se você quer aprender mais sobre as plataformas não deixe de se inscrever para as palestras e o workshop. E se você já conhece algumas delas traga um projeto seu para apresentar no 3º Encontro Arduino Recife, além de divulgar para comunidade você pode concorrer a prêmios.");
         evento3.setImage(R.mipmap.encontro_arduino);
         evento3.setId(3);
+        evento3.setData("28/02/2015");
         addItem(evento3);
 
         Evento evento4=new Evento();
@@ -81,6 +84,7 @@ public class DummyContent {
                 "Além das igrejas, as camisas também estarão disponíveis em lojas de artigos católicos e em estandes montados nos principais shoppings da Região Metropolitana do Recife.");
         evento4.setImage(R.mipmap.evangelizar_pe_reginaldo);
         evento4.setId(4);
+        evento4.setData("09/05/2015");
         addItem(evento4);
 
 

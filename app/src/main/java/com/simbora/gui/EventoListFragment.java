@@ -71,7 +71,8 @@ public class EventoListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
+        //setamos com o ListTipoEventoAdapter
+        //a lista fica com uma imagem no lado esquerdo e o nome do tipo do evento
         setListAdapter(new ListTipoEventosAdapter(
                 getActivity(),
                 R.layout.list_tipo_eventos,

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+//classe que tira os caracteres do cpf, data e hora
 public abstract class Mask {
 
     public static String unmask(String s) {

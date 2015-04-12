@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
-import com.simbora.EventoActivity;
 import com.simbora.R;
 import com.simbora.dominio.Evento;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
@@ -23,6 +21,9 @@ import com.simbora.negocio.ListaPrincipalEventosAdapter;
  * in two-pane mode (on tablets) or a {@link EventoDetailActivity}
  * on handsets.
  */
+
+//ESSA CLASSE MOSTRA A LISTA DE EVENTOS SEPARADAS POR TIPO
+//FOI GERADA A PARTIR DE UM TEMPLATE DO ANDROID
 public class EventoDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -33,6 +34,7 @@ public class EventoDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
+
     private Evento mItem;
 
     /**
@@ -54,28 +56,33 @@ public class EventoDetailFragment extends Fragment {
         }
     }
 
+    //MÉTODO QUE MOSTRA A LISTA DE EVENTOS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
-
-        // Show the dummy content as text in a TextView.
-        //if (mItem != null) {
+            //A PRINCÍPIO, ESTÁ UMA LISTA DEFAULT
+            //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
+            //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
+            //MONTANDO OS COMPONENTES DA LISTA COM A IMAGEM, HORÁRIO E LOCAL DO EVENTO
+            // A LISTA DEFAULT É DUMMYCONTENT.ITEMS
+            //ONDE O ITEMS É UMA LISTA DE EVENTOS GERADA PELA CLASSE DummyContent
+            //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
             ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, DummyContent.ITEMS);
             ListView lv = (ListView) rootView.findViewById(R.id.listView);
             lv.setAdapter(ad);
-           System.out.println("Estou na lista");
+
+            //O OnItemClickListener permite que a listView receba cliques e responda a eles;
+            //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
+            //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    System.out.println("Estou no onClick");
                     Evento.setIdEvento(i);
                     Intent intent=new Intent(getActivity(), EventoActivity.class);
                     startActivity(intent);
                 }
             });
-       // }
-
         return rootView;
     }
 }
