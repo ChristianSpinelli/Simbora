@@ -10,6 +10,8 @@ import java.util.Date;
 
 import android.widget.ArrayAdapter;
 
+import com.simbora.gui.DummyContent;
+
 public class Evento {
 
     private static final String EVENTO_SHOW="Show";
@@ -162,6 +164,14 @@ public class Evento {
     private String telefone;
 
     public Evento() {
+
+    }
+    public static ArrayList<String> getListaTitulosEventos(){
+        ArrayList<String> titulosEventos=new ArrayList<String>(10);
+        for (Evento e : DummyContent.ITEMS){
+            titulosEventos.add(e.getNome());
+        }
+        return titulosEventos;
 
     }
 

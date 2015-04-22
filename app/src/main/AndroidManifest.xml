@@ -11,6 +11,9 @@
             android:name=".gui.EventoDetailActivity"
             android:label="@string/title_evento_detail"
             android:parentActivityName=".gui.EventoListActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".gui.EventoListActivity" />

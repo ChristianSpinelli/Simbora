@@ -11,13 +11,16 @@
     tools:context="com.simbora.gui.EventoDetailFragment"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/LinearLayoutListaEventos">
 
 
     <SearchView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView" />
+        android:id="@+id/searchView"
+        android:queryHint="Pesquisar evento"
+        android:inputType="textAutoComplete" />
 
     <ListView
         android:layout_width="match_parent"

@@ -1,6 +1,10 @@
 package com.simbora.gui;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,12 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 
 import com.simbora.R;
 import com.simbora.dominio.Evento;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
+import com.simbora.negocio.SearchAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a single Evento detail screen.
@@ -36,6 +45,7 @@ public class EventoDetailFragment extends Fragment {
      */
 
     private Evento mItem;
+    private MatrixCursor cursorAtual;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -83,6 +93,81 @@ public class EventoDetailFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-        return rootView;
+
+        final SearchView search = (SearchView) rootView.findViewById(R.id.searchView);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                cursorAtual=loadHistory(s, search);
+                return true;
+            }
+
+
+
+        });
+
+        search.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int i) {
+                int x=1;
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int i) {
+                search.setQuery(cursorAtual.getString(1),true);
+                String tituloEvento=search.getQuery().toString();
+
+                for (Evento e : DummyContent.ITEMS) {
+                    if (e.getNome().equals(tituloEvento)) {
+                        System.out.println("ENTROOOOOUUUUUUU "+tituloEvento);
+                        Intent intent = new Intent(getActivity(), EventoActivity.class);
+                        Evento.setIdEvento(e.getId()-1);
+                        startActivity(intent);
+                        break;
+                    }
+
+                }
+                return false;
+            }
+        });
+
+         return rootView;
     }
+
+    public MatrixCursor loadHistory(String s, SearchView search)
+    {
+        // Cursor
+        String[] columns = new String[] { "_id", "text" };
+        Object[] temp = new Object[] { 0, "default" };
+
+        MatrixCursor cursor = new MatrixCursor(columns);
+        ArrayList<String> eventos=Evento.getListaTitulosEventos();
+        for(int i = 0; i < eventos.size(); i++) {
+            if (eventos.get(i).toLowerCase().contains(s.toLowerCase())) {
+                temp[0] = i;
+                temp[1] = eventos.get(i);
+
+                cursor.addRow(temp);
+
+            }
+
+
+
+        }
+        search.setSuggestionsAdapter(new SearchAdapter(getActivity(), cursor, eventos));
+
+
+        return cursor;
+
+
+    }
+
+
 }
