@@ -126,7 +126,6 @@ public class EventoDetailFragment extends Fragment {
 
                 for (Evento e : DummyContent.ITEMS) {
                     if (e.getNome().equals(tituloEvento)) {
-                        System.out.println("ENTROOOOOUUUUUUU "+tituloEvento);
                         Intent intent = new Intent(getActivity(), EventoActivity.class);
                         Evento.setIdEvento(e.getId()-1);
                         startActivity(intent);

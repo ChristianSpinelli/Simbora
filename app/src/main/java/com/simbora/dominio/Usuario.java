@@ -5,45 +5,13 @@ package com.simbora.dominio;
  */
 //classe que contém todos os atributos de um usuário
 public class Usuario {
-    private int idUnico;
-    private static int idUsuario;
-    private String nome;
     private String email;
-    private String dataDeNascimento;
     private String senha;
-    private String sexo;
-    private String eventoFavorito1;
-    private String eventoFavorito2;
-    private String eventoFavorito3;
-    private int mascates;
-    private int ranking;
+    private long mascates;
+    private String nome;
 
 
-    public int getIdUnico() {
-        return idUnico;
-    }
-    public void setIdUnico(int idUnico) {
-        this.idUnico = idUnico;
-    }
-    public int getRanking() {
-        return ranking;
-    }
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
-    }
-    public int getMascates() {
-        return mascates;
-    }
-    public void setMascates(int mascates) {
-        this.mascates = mascates;
-    }
-    public static int getId() {
-        return idUsuario;
-    }
-    public static void setId(int idUsuario) {
-        Usuario.idUsuario = idUsuario;
-    }
-    public String getNome() {
+ public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
@@ -55,59 +23,47 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getDataDeNascimento() {
-        return dataDeNascimento;
-    }
-    public void setDataDeNascimento(String dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
-    }
     public String getSenha() {
         return senha;
     }
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public String getSexo() {
-        return sexo;
-    }
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-    public String getEventoFavorito1() {
-        return eventoFavorito1;
-    }
-    public void setEventoFavorito1(String eventoFavorito1) {
-        this.eventoFavorito1 = eventoFavorito1;
-    }
-    public String getEventoFavorito2() {
-        return eventoFavorito2;
-    }
-    public void setEventoFavorito2(String eventoFavorito2) {
-        this.eventoFavorito2 = eventoFavorito2;
-    }
-    public String getEventoFavorito3() {
-        return eventoFavorito3;
-    }
-    public void setEventoFavorito3(String eventoFavorito3) {
-        this.eventoFavorito3 = eventoFavorito3;
-    }
-
 
     public Usuario(){
 
     }
 
-    public Usuario(String nome, String email, String senha, String dataDeNascimento, String sexo, String eventoFavorito1, String eventoFavorito2, String eventoFavorito3){
-        setDataDeNascimento(dataDeNascimento);
+    public Usuario(String nome, String email, String senha){
         setEmail(email);
         setSenha(senha);
         setNome(nome);
-        setEventoFavorito1(eventoFavorito1);
-        setEventoFavorito2(eventoFavorito2);
-        setEventoFavorito3(eventoFavorito3);
     }
 
 
+    public long getMascates() {
+        return mascates;
+    }
+
+    public void setMascates(long mascates) {
+        this.mascates = mascates;
+    }
+
+    //métodos do usuário sem ser ser gets e sets
+
+    /**
+    Método para adicionar mascates ao usuário, recebendo o número de mascates a ser adicionado como parâmetro
+     */
+    public void creditarMascates(int mascates){
+
+    }
+
+    /**
+     Método para remover mascates do usuário, recebendo o número de mascates a ser removido como parâmetro
+     */
+    public void debitarMascates(int mascates){
+
+    }
 }
 
 
