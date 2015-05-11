@@ -9,11 +9,14 @@ public enum Genero {
     OUTRO("Outro");
 
     private String descricao;
-    public String getDescricao(){
-        return descricao;
-    }
 
     Genero(String descricao){
         this.descricao=descricao;
     }
+
+    public String getDescricao(){
+        return descricao;
+    }
+
+
 }

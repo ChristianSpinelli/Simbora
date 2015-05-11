@@ -13,7 +13,6 @@ public class Evento {
     //na tela de eventos, ele é usado. Tempos que dar um jeito de pegar só o primeiro horário da lista de horários para que a app continue funcionando
 
     //apagar a data
-    //talvez tornar endereço uma lasse tbm
     //tonar imagem um array de bytes
     //tornar preco float
     private static int idEvento;
@@ -25,8 +24,41 @@ public class Evento {
     private String descricao;
     private String telefone;
     private String preco;
-    private String endereco;
+    private Endereco endereco;
     private ArrayList<Horario> horarios;
+    private TipoDeEvento tipoDeEvento;
+    private Simbora simbora;
+
+    public Evento() {
+
+    }
+
+    public Evento(String nome, String data, String hora, int image, String descricao, String telefone, int simboras, String preco, Endereco endereco) {
+        this.data = data;
+        this.hora = hora;
+        this.nome = nome;
+        this.image = image;
+        this.telefone = telefone;
+        this.preco = preco;
+        this.endereco=endereco;
+        this.descricao = descricao;
+    }
+
+    public TipoDeEvento getTipoDeEvento() {
+        return tipoDeEvento;
+    }
+
+    public void setTipoDeEvento(TipoDeEvento tipoDeEvento) {
+        this.tipoDeEvento=tipoDeEvento;
+    }
+
+    public Simbora getSimbora() {
+        return simbora;
+    }
+
+    public void setSimbora(Simbora simbora) {
+        this.simbora = simbora;
+    }
 
     public String getPreco() {
         return preco;
@@ -102,11 +134,11 @@ public class Evento {
         Evento.idEvento = idEvento;
     }
 
-    public String getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
@@ -117,21 +149,6 @@ public class Evento {
     public void setHorarios(ArrayList<Horario> horarios) {
         this.horarios = horarios;
     }
-    public Evento() {
-
-    }
-
-    public Evento(String nome, String data, String hora, int image, String descricao, String telefone, int simboras, String preco, String endereco) {
-        this.data = data;
-        this.hora = hora;
-        this.nome = nome;
-        this.image = image;
-        this.telefone = telefone;
-        this.preco = preco;
-        this.setEndereco(endereco);
-        this.descricao = descricao;
-    }
-
 
     public static ArrayList<String> getListaTitulosEventos(){
 
