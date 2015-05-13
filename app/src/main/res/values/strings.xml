@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">simbora</string>
+    <string name="app_name">Simbora</string>
     <string name="title_evento_list">Eventos</string>
     <string name="title_evento_detail">Evento Detail</string>
     <string name="title_activity_main">MainActivity</string>
@@ -7,4 +7,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_evento">EventoActivity</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="progress_bar">Carregando</string>
 </resources>

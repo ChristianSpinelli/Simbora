@@ -16,15 +16,15 @@ import android.widget.TextView;
 
 import com.simbora.R;
 import com.simbora.dominio.Evento;
-import com.simbora.dominio.TipoEvento;
+import com.simbora.dominio.TipoDeEvento;
 
 //classe que monta A lista dos tipos de eventos
-public class ListTipoEventosAdapter extends ArrayAdapter<TipoEvento>{
+public class ListTipoDeEventosAdapter extends ArrayAdapter<TipoDeEvento>{
 
     private final LayoutInflater inflater;
     private int resourceId;
 
-    public ListTipoEventosAdapter(Context context, int resource, List<TipoEvento> objects) {
+    public ListTipoDeEventosAdapter(Context context, int resource, List<TipoDeEvento> objects) {
         super(context, resource, objects);
         this.inflater=LayoutInflater.from(context);
         resourceId=resource;
@@ -39,11 +39,11 @@ public class ListTipoEventosAdapter extends ArrayAdapter<TipoEvento>{
         //relaciona os campos com os do xml
         TextView textView=(TextView) convertView.findViewById(R.id.textViewTipoEvento);
         ImageView imageView=(ImageView) convertView.findViewById(R.id.imageViewTipoEvento);
-        TipoEvento dI=getItem(position);
+        TipoDeEvento dI=getItem(position);
 
         //seta os campos
-        textView.setText(dI.getNome());
-        imageView.setBackgroundResource(dI.getIcone());
+        textView.setText(dI.getDescricao());
+        imageView.setBackgroundResource(dI.getImagem());
         return convertView;
     }
 

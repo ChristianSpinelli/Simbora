@@ -5,8 +5,19 @@ package com.simbora.dominio;
  */
 public class Endereco {
 
-    private String rua,numeroRua, bairro, cidade,Pais,cep;
+    private String rua,numeroRua, bairro, cidade,Pais,cep,
+            nome;
+        //nome é para facilitar o endereço, para colocarmos na tela
+        //é mais fácil colocarmos na tela "Teatro Boa Vista" ou R. Dom Bosco, 551 - Boa Vista, Recife - PE, 50070-070, Brasil?
 
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public String getRua() {
         return rua;

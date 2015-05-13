@@ -8,7 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.simbora.R;
-import com.simbora.negocio.ListTipoEventosAdapter;
+import com.simbora.dominio.TipoDeEvento;
+import com.simbora.negocio.ListTipoDeEventosAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A list fragment representing a list of Eventos. This fragment
@@ -20,7 +23,7 @@ import com.simbora.negocio.ListTipoEventosAdapter;
  * interface.
  */
 public class EventoListFragment extends ListFragment {
-
+    ArrayList<TipoDeEvento> listaTiposDeEventos=new ArrayList<TipoDeEvento>();
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -71,12 +74,19 @@ public class EventoListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //setamos com o ListTipoEventoAdapter
         //a lista fica com uma imagem no lado esquerdo e o nome do tipo do evento
-        setListAdapter(new ListTipoEventosAdapter(
+
+
+        for (TipoDeEvento tE : TipoDeEvento.values()){
+            listaTiposDeEventos.add(tE);
+        }
+
+        setListAdapter(new ListTipoDeEventosAdapter(
                 getActivity(),
                 R.layout.list_tipo_eventos,
-                DummyContent.TIPO_ITEMS));
+                listaTiposDeEventos));
     }
 
     @Override
@@ -116,7 +126,7 @@ public class EventoListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.TIPO_ITEMS.get(position).getId());
+        mCallbacks.onItemSelected(Integer.toString(listaTiposDeEventos.get(position).getId()));
     }
 
     @Override
