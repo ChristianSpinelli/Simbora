@@ -50,6 +50,8 @@ public class EventoListActivity extends FragmentActivity
                     .findFragmentById(R.id.evento_list))
                     .setActivateOnItemClick(true);
         }
+        //vai para a tela totos com esse comando
+        onItemSelected("1");
 
         // TODO: If exposing deep links into your app, handle intents here.
     }

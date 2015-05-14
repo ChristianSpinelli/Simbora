@@ -27,6 +27,7 @@
         android:layout_height="fill_parent"
         android:minHeight="600dp"
         android:id="@+id/listView"
-        android:dividerHeight="6dp" />
+        android:dividerHeight="6dp"
+        android:divider="#d9c8c8ba" />
 
 </LinearLayout>

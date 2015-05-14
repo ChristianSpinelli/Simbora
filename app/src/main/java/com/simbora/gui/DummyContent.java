@@ -45,11 +45,12 @@ public class DummyContent {
         evento1.setId(1);
         addItem(evento1);
 
+        Endereco endereco2=new Endereco();
         Evento evento2=new Evento();
         evento2.setNome("Silvio Meira dá palestra sobre o SBC");
         evento2.setHora("16h00");
-        endereco.setNome("Centro de Informática UFPE");
-        evento2.setEndereco(endereco);
+        endereco2.setNome("Centro de Informática UFPE");
+        evento2.setEndereco(endereco2);
         evento2.setPreco("Gratuito");
         evento2.setDescricao("Silvio Meira tratará sobre inovação e empreendedorismo, temas relacionados a empreendimentos. O pesquisador vai discorrer também sobre educação, porque, segundo ele, toda boa empresa é uma boa escola. Segundo ele, todo colaborador de um negócio qualquer deveria, pelo menos uma vez por semana, se perguntar o que aprendeu nos últimos sete dias.Autor de centenas de artigos científicos e textos sobre tecnologias da informação e seu impacto na economia, sociedade e pessoas, Silvio Meira é autor do livro Novos Negócios Inovadores de Crescimento Empreendedor no Brasil e, em 2007, foi eleito pela revista Época um dos 100 brasileiros mais influentes. Em 2011, foi escolhido por O Globo como personalidade do ano da economia brasileira.");
         evento2.setImage(R.mipmap.palestra_silvio_meira);
@@ -58,11 +59,12 @@ public class DummyContent {
 
         addItem(evento2);
 
+        Endereco endereco3=new Endereco();
         Evento evento3=new Evento();
         evento3.setNome("Encontro de Arduino Recife");
         evento3.setHora("08h00 as 18h00");
-        endereco.setNome("Fac. Maurício de Nassau");
-        evento3.setEndereco(endereco);
+        endereco3.setNome("Fac. Maurício de Nassau");
+        evento3.setEndereco(endereco3);
         evento3.setPreco("15,00");
         evento3.setDescricao("O Encontro será uma grande oportunidade para fazer networking, trocar experiência com a comunidade, aprender mais sobre automação, robótica e áreas afins, usando Arduino ou qualquer outra plataforma (Raspberry Pi, Intel Galileo...). O encontro contará com palestras, apresentação de projetos e workshop.\n" +
                 "\n" +
@@ -72,11 +74,12 @@ public class DummyContent {
         evento3.setData("28/02/2015");
         addItem(evento3);
 
+        Endereco endereco4=new Endereco();
         Evento evento4=new Evento();
         evento4.setNome("2 Evangelizar é Preciso Recife");
         evento4.setHora("14h00");
-        endereco.setNome("Praia do Pina");
-        evento4.setEndereco(endereco);
+        endereco4.setNome("Praia do Pina");
+        evento4.setEndereco(endereco4);
         evento4.setPreco("Gratuito");
         evento4.setDescricao("No próximo dia 9 de maio, a partir das 15h, fiéis de toda a Arquidiocese de Olinda e Recife se encontrarão para celebrar a segunda edição do “Evangelizar é preciso Recife – Show da Esperança”. O evento, que tem o objetivo de arrecadar recursos para a construção da Fazenda da Esperança Padre Antônio Henrique, terá como uma das atrações o padre Reginaldo Manzotti.\n" +
                 "\n" +
@@ -90,6 +93,23 @@ public class DummyContent {
         evento4.setData("09/05/2015");
         addItem(evento4);
 
+
+        Endereco endereco5=new Endereco();
+        Evento evento5=new Evento();
+        evento5.setNome("Super-Con Recife 2015");
+        evento5.setHora("09h00");
+        endereco5.setNome("Chevrolet Hall");
+        evento5.setEndereco(endereco5);
+        evento5.setPreco("de 45,00 a 170,00");
+        evento5.setDescricao("Para a alegria dos fãs de animes, mangás, cultura pop e vídeo games Recife receberá em Julho mais uma vez um dos maiores eventos de Cultura Pop do Nordeste, o Super-Con 2015.\n" +
+                "\n" +
+                "O Super-Con 2015 acontece nos dias 18 e 19 de Julho, no Chevrolet Hall, e contará com duas atrações internacionais ainda não divulgadas. Grandes atrações nacionais também marcarão presença no 11° ano do maior evento Pop de Recife.\n" +
+                "\n" +
+                "As vendas antecipadas para o Super-Con 2015 já começaram e você pode garantir presença comprando o seu ingresso aqui pelos seguintes valores:");
+        evento5.setImage(R.mipmap.supercon);
+        evento5.setId(5);
+        evento5.setData("18 e 19 de julho");
+        addItem(evento5);
     }
 
     private static void addItem(Evento item) {
