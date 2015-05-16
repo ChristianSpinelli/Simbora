@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.simbora.R;
+import com.simbora.dominio.TipoDeEvento;
 
 
 /**
@@ -63,6 +64,7 @@ public class EventoDetailActivity extends ActionBarActivity {
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
             NavUtils.navigateUpTo(this, new Intent(this, EventoListActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

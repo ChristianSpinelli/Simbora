@@ -31,6 +31,16 @@ public class EventoListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
+    //atributo que indica se é pra ir a tela principal automaticamente ou não
+    private static boolean goToTodos=true;
+
+    public boolean isGoToTodos() {
+        return goToTodos;
+    }
+
+    public static void  setGoToTodos(boolean goToTodos) {
+        EventoListActivity.goToTodos = goToTodos;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +60,11 @@ public class EventoListActivity extends FragmentActivity
                     .findFragmentById(R.id.evento_list))
                     .setActivateOnItemClick(true);
         }
-        //vai para a tela totos com esse comando
-        onItemSelected("1");
+        if(isGoToTodos()){
+            onItemSelected("1");
+            setGoToTodos(false);
+        }
+
 
         // TODO: If exposing deep links into your app, handle intents here.
     }

@@ -90,7 +90,9 @@ public class EventoDetailFragment extends Fragment {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Evento.setIdEvento(i);
                     Intent intent=new Intent(getActivity(), EventoActivity.class);
+                    EventoListActivity.setGoToTodos(true);
                     startActivity(intent);
+
                 }
             });
 
@@ -104,6 +106,7 @@ public class EventoDetailFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                //cria as sugestões a partir dos eventos que tem a string s
                 cursorAtual=loadHistory(s, search);
                 return true;
             }
@@ -115,19 +118,22 @@ public class EventoDetailFragment extends Fragment {
         search.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionSelect(int i) {
-                int x=1;
                 return false;
             }
 
             @Override
             public boolean onSuggestionClick(int i) {
+                //método que pega o evento clicado e manda a tela do evento
                 search.setQuery(cursorAtual.getString(1),true);
                 String tituloEvento=search.getQuery().toString();
 
                 for (Evento e : DummyContent.ITEMS) {
                     if (e.getNome().equals(tituloEvento)) {
+                        //se clicou no evento, prepara o intent e passa ao evento escolhido
                         Intent intent = new Intent(getActivity(), EventoActivity.class);
                         Evento.setIdEvento(e.getId()-1);
+                        //indica a ListActivity para caso ela seja chamada, vá direto a tela de eventos
+                        EventoListActivity.setGoToTodos(true);
                         startActivity(intent);
                         break;
                     }
@@ -142,11 +148,13 @@ public class EventoDetailFragment extends Fragment {
 
     public MatrixCursor loadHistory(String s, SearchView search)
     {
+        //método que gera as sugestões para o usuário
         // Cursor
         String[] columns = new String[] { "_id", "text" };
         Object[] temp = new Object[] { 0, "default" };
 
         MatrixCursor cursor = new MatrixCursor(columns);
+        //procura os eventos que tem aquela string e joga na lista para mostrar ao usuário
         ArrayList<String> eventos=Evento.getListaTitulosEventos();
         for(int i = 0; i < eventos.size(); i++) {
             if (eventos.get(i).toLowerCase().contains(s.toLowerCase())) {
