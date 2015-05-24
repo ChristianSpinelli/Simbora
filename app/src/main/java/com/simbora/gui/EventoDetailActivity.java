@@ -1,13 +1,19 @@
 package com.simbora.gui;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.simbora.R;
+import com.simbora.dominio.Evento;
 import com.simbora.dominio.TipoDeEvento;
+import com.simbora.negocio.EventoService;
+
+import java.util.ArrayList;
 
 
 /**
@@ -50,6 +56,8 @@ public class EventoDetailActivity extends ActionBarActivity {
                     .add(R.id.evento_detail_container, fragment)
                     .commit();
         }
+       // new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
+
     }
 
     @Override
@@ -69,4 +77,5 @@ public class EventoDetailActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

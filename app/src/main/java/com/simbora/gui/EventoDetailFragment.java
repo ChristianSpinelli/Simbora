@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,10 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 
 import com.simbora.R;
 import com.simbora.dominio.Evento;
+import com.simbora.negocio.EventoService;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
 import com.simbora.negocio.SearchAdapter;
 
@@ -71,6 +74,7 @@ public class EventoDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
+        new HttpAsyncTask().execute("http://192.168.0.114:5000/todo/api/v1.0/tasks");
             //A PRINCÍPIO, ESTÁ UMA LISTA DEFAULT
             //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
             //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
@@ -174,6 +178,22 @@ public class EventoDetailFragment extends Fragment {
         return cursor;
 
 
+    }
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<Evento>> {
+        @Override
+        protected ArrayList<Evento> doInBackground(String... urls) {
+
+            EventoService eventoService=new EventoService();
+            return eventoService.retornarEventos(urls[0]);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(ArrayList<Evento> result) {
+            Toast.makeText(getActivity().getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+
+
+        }
     }
 
 
