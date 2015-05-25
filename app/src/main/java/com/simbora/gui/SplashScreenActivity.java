@@ -19,11 +19,13 @@ public class SplashScreenActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         progress=(ProgressBar) findViewById(R.id.progressBar);
+        //configuramos um IP padrão
         Url.setIp("192.168.0.114");
         gotoTelaInicial();
 
     }
 
+    //método que espera 2 segundos e ai a tela principal
     public void gotoTelaInicial(){
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {

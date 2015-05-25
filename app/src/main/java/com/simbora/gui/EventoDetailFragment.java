@@ -65,8 +65,6 @@ public class EventoDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            //TODO: Apagar linha abaixo se n tiver nada a acrescentar
-            //listaEventos = (Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
         }
     }
 
@@ -75,12 +73,9 @@ public class EventoDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
+        //executa a Thread assíncrona para carregar a lista de eventos do Web Service
         new HttpAsyncTask().execute(Url.getIp()+":5000/todo/api/v1.0/eventos");
-            //A PRINCÍPIO, ESTÁ UMA LISTA DEFAULT
-            //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
-            //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
-            //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
-
+        //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
 
         final SearchView search = (SearchView) rootView.findViewById(R.id.searchView);
@@ -97,9 +92,6 @@ public class EventoDetailFragment extends Fragment {
                 cursorAtual=loadHistory(s, search);
                 return true;
             }
-
-
-
         });
 
         search.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -124,7 +116,6 @@ public class EventoDetailFragment extends Fragment {
                         startActivity(intent);
                         break;
                     }
-
                 }
                 return false;
             }
@@ -147,34 +138,35 @@ public class EventoDetailFragment extends Fragment {
             if (eventos.get(i).toLowerCase().contains(s.toLowerCase())) {
                 temp[0] = i;
                 temp[1] = eventos.get(i);
-
                 cursor.addRow(temp);
-
             }
-
-
-
         }
         search.setSuggestionsAdapter(new SearchAdapter(getActivity(), cursor, eventos));
-
-
         return cursor;
-
-
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<Evento>> {
+
+        //doInBackground realiza a operação com as outras funcionalidades do sistema rodando
+        //está retornando os eventos a partir da url
         @Override
         protected ArrayList<Evento> doInBackground(String... urls) {
 
             EventoService eventoService=new EventoService();
             return eventoService.retornarEventos(urls[0]);
         }
-        // onPostExecute displays the results of the AsyncTask.
+
+        // o onPostExecute é executado após o resultado da Thread ser coletado
+        //ou seja, quando a Thread é finalizada
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
+
             Toast.makeText(getActivity().getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            //seta a lista de eventos por tipo com os eventos do tipo escolhido
             Evento.setListaEventosPorTipo(result);
+            //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
+            //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
+            //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
             ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, Evento.getListaEventosPorTipo());
 
             lv.setAdapter(ad);
@@ -192,8 +184,6 @@ public class EventoDetailFragment extends Fragment {
 
                 }
             });
-
-
         }
     }
 

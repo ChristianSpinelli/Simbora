@@ -28,11 +28,16 @@ public class EventoDAO {
            return null;
     }
 
+
+    //,étodo que retorna Eventos dado uma Url
     public ArrayList<Evento> retornarEventos(String url){
         ArrayList<Evento> listaEventos=new ArrayList<Evento>();
         try {
+            //recebe um array de objetos JSON
+            //o nome deste array é eventos
             JSONObject jsonObject=new JSONObject(getJSON(url));
             JSONArray eventos=jsonObject.getJSONArray("eventos");
+            //percorre a lista e adiciona os atributos no método retornarEvento
             for (int i=0;i<eventos.length();i++)   {
                 Evento evento=retornarEvento(eventos.getJSONObject(i));
                 evento.setId(i+1);
@@ -59,6 +64,7 @@ public class EventoDAO {
     }
 
 
+    //método que retorna a String do JSON
     private  String getJSON(String url){
         InputStream inputStream = null;
         String result = "";
@@ -85,6 +91,7 @@ public class EventoDAO {
 
         return result;
     }
+
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
