@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.simbora.R;
 import com.simbora.dominio.Evento;
+import com.simbora.dominio.Url;
 import com.simbora.negocio.EventoService;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
 import com.simbora.negocio.SearchAdapter;
@@ -47,9 +48,9 @@ public class EventoDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
 
-    private Evento mItem;
+    private Evento evento;
     private MatrixCursor cursorAtual;
-
+    private ListView lv;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -60,12 +61,12 @@ public class EventoDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            //TODO: Apagar linha abaixo se n tiver nada a acrescentar
+            //listaEventos = (Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
         }
     }
 
@@ -74,31 +75,13 @@ public class EventoDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
-        new HttpAsyncTask().execute("http://192.168.0.114:5000/todo/api/v1.0/tasks");
+        new HttpAsyncTask().execute(Url.getIp()+":5000/todo/api/v1.0/eventos");
             //A PRINCÍPIO, ESTÁ UMA LISTA DEFAULT
             //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
             //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
-            //MONTANDO OS COMPONENTES DA LISTA COM A IMAGEM, HORÁRIO E LOCAL DO EVENTO
-            // A LISTA DEFAULT É DUMMYCONTENT.ITEMS
-            //ONDE O ITEMS É UMA LISTA DE EVENTOS GERADA PELA CLASSE DummyContent
             //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
-            ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, DummyContent.ITEMS);
-            ListView lv = (ListView) rootView.findViewById(R.id.listView);
-            lv.setAdapter(ad);
 
-            //O OnItemClickListener permite que a listView receba cliques e responda a eles;
-            //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
-            //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Evento.setIdEvento(i);
-                    Intent intent=new Intent(getActivity(), EventoActivity.class);
-                    EventoListActivity.setGoToTodos(true);
-                    startActivity(intent);
-
-                }
-            });
+        lv = (ListView) rootView.findViewById(R.id.listView);
 
         final SearchView search = (SearchView) rootView.findViewById(R.id.searchView);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -131,7 +114,7 @@ public class EventoDetailFragment extends Fragment {
                 search.setQuery(cursorAtual.getString(1),true);
                 String tituloEvento=search.getQuery().toString();
 
-                for (Evento e : DummyContent.ITEMS) {
+                for (Evento e : Evento.getListaEventosPorTipo()) {
                     if (e.getNome().equals(tituloEvento)) {
                         //se clicou no evento, prepara o intent e passa ao evento escolhido
                         Intent intent = new Intent(getActivity(), EventoActivity.class);
@@ -191,6 +174,24 @@ public class EventoDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
             Toast.makeText(getActivity().getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            Evento.setListaEventosPorTipo(result);
+            ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, Evento.getListaEventosPorTipo());
+
+            lv.setAdapter(ad);
+
+            //O OnItemClickListener permite que a listView receba cliques e responda a eles;
+            //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
+            //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Evento.setIdEvento(i);
+                    Intent intent=new Intent(getActivity(), EventoActivity.class);
+                    EventoListActivity.setGoToTodos(true);
+                    startActivity(intent);
+
+                }
+            });
 
 
         }

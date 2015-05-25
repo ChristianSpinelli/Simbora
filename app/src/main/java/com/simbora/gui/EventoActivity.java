@@ -1,8 +1,6 @@
 package com.simbora.gui;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,13 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simbora.R;
 import com.simbora.dominio.Evento;
-import com.simbora.gui.DummyContent;
 
 
 public class EventoActivity extends ActionBarActivity {
@@ -81,7 +77,7 @@ public class EventoActivity extends ActionBarActivity {
            // imageViewEvento.set
             //pega o id do evento selecionado
             //seta os atributos em cada campo da tela
-            Evento evento=DummyContent.ITEMS.get(Evento.getIdEvento());
+            Evento evento=Evento.getListaEventosPorTipo().get(Evento.getIdEvento());
             imageViewEvento.setBackgroundResource(evento.getImage());
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());

@@ -1,17 +1,16 @@
 package com.simbora.persistencia;
 
-import android.app.Activity;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.simbora.dominio.Evento;
-import com.simbora.gui.DummyContent;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,13 +27,39 @@ public class EventoDAO {
     public ArrayList<Evento> retornarEventos(){
            return null;
     }
+
     public ArrayList<Evento> retornarEventos(String url){
-         System.out.println(getUrl(url));
-        return (ArrayList<Evento>) DummyContent.ITEMS;
+        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        try {
+            JSONObject jsonObject=new JSONObject(getJSON(url));
+            JSONArray eventos=jsonObject.getJSONArray("eventos");
+            for (int i=0;i<eventos.length();i++)   {
+                Evento evento=retornarEvento(eventos.getJSONObject(i));
+                evento.setId(i+1);
+                listaEventos.add(evento);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Erro no evento", "erro na lista de eventos");
+        }
+        return listaEventos;
+    }
+
+    private Evento retornarEvento(JSONObject json){
+        Evento evento=new Evento();
+        try {
+            evento.setNome(json.getString("titulo"));
+            evento.setDescricao(json.getString("descricao"));
+            evento.setTelefone(json.getJSONArray("telefone").getJSONObject(0).getString("numero"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Erro no evento", "erro no json do evento");
+        }
+        return evento;
     }
 
 
-    private  String getUrl(String url){
+    private  String getJSON(String url){
         InputStream inputStream = null;
         String result = "";
         try {

@@ -1,55 +1,52 @@
 package com.simbora.dominio;
-
-
-import com.simbora.gui.DummyContent;
-
+import com.simbora.negocio.EventoService;
 import java.util.ArrayList;
 
 //classe Evento
 public class Evento {
 
-    //TODO:
-    //apagar o atributo hora, deixando só horários. Não apaguei ainda pois o código não funciona sem este atributo
-    //na tela de eventos, ele é usado. Tempos que dar um jeito de pegar só o primeiro horário da lista de horários para que a app continue funcionando
-
-    //apagar a data
-    //tonar imagem um array de bytes
-    //tornar preco float
     private static int idEvento;
     private int id;
     private int image;
     private String nome;
-    private String data;
-    private String hora;
     private String descricao;
     private String telefone;
-    private String preco;
+    private ArrayList<Preco> precos;
     private Endereco endereco;
     private ArrayList<Horario> horarios;
-    private TipoDeEvento tipoDeEvento;
+    private ArrayList<TipoDeEvento> tiposDeEvento;
     private Simbora simbora;
+
+    private static ArrayList<Evento> listaEventosPorTipo;
+
+    public static ArrayList<Evento> getListaEventosPorTipo() {
+        return listaEventosPorTipo;
+    }
+
+    public static void setListaEventosPorTipo(ArrayList<Evento> listaEventosPorTipo) {
+        Evento.listaEventosPorTipo = listaEventosPorTipo;
+    }
 
     public Evento() {
 
     }
 
-    public Evento(String nome, String data, String hora, int image, String descricao, String telefone, int simboras, String preco, Endereco endereco) {
-        this.data = data;
-        this.hora = hora;
+    public Evento(String nome, ArrayList<Horario> horarios, int image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
+        this.horarios = horarios;
         this.nome = nome;
         this.image = image;
         this.telefone = telefone;
-        this.preco = preco;
+        this.precos = precos;
         this.endereco=endereco;
         this.descricao = descricao;
     }
 
-    public TipoDeEvento getTipoDeEvento() {
-        return tipoDeEvento;
+    public ArrayList<TipoDeEvento> getTiposDeEvento() {
+        return tiposDeEvento;
     }
 
-    public void setTipoDeEvento(TipoDeEvento tipoDeEvento) {
-        this.tipoDeEvento=tipoDeEvento;
+    public void setTiposDeEvento(ArrayList<TipoDeEvento> tiposDeEvento) {
+        this.tiposDeEvento=tiposDeEvento;
     }
 
     public Simbora getSimbora() {
@@ -59,15 +56,6 @@ public class Evento {
     public void setSimbora(Simbora simbora) {
         this.simbora = simbora;
     }
-
-    public String getPreco() {
-        return preco;
-    }
-
-    public void setPreco(String preco) {
-        this.preco = preco;
-    }
-
 
     public String getTelefone() {
         return telefone;
@@ -91,22 +79,6 @@ public class Evento {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
     }
 
     public String getDescricao() {
@@ -154,7 +126,7 @@ public class Evento {
 
            ArrayList<String> titulosEventos=new ArrayList<String>(10);
 
-           for (Evento e : DummyContent.ITEMS){
+           for (Evento e : getListaEventosPorTipo()){
 
                   titulosEventos.add(e.getNome());
 
@@ -166,4 +138,24 @@ public class Evento {
 
     }
 
+    //retorna eventos por tipo
+    public static ArrayList<Evento> getEventos(String tipo){
+        return null;
+    }
+
+    //retorna todos os eventos
+    public static ArrayList<Evento> getEventos(){
+        EventoService eventoService=new EventoService();
+
+        setListaEventosPorTipo(eventoService.retornarEventos(Url.getIp()+":5000/todo/api/v1.0/eventos"));
+        return getListaEventosPorTipo();
+    }
+
+    public ArrayList<Preco> getPrecos() {
+        return precos;
+    }
+
+    public void setPrecos(ArrayList<Preco> precos) {
+        this.precos = precos;
+    }
 }

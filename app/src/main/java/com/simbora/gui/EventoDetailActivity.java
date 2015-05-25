@@ -56,7 +56,6 @@ public class EventoDetailActivity extends ActionBarActivity {
                     .add(R.id.evento_detail_container, fragment)
                     .commit();
         }
-       // new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
 
     }
 

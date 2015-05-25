@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 
 import com.simbora.R;
+import com.simbora.dominio.Url;
 
 import android.os.Handler;
 
@@ -18,6 +19,7 @@ public class SplashScreenActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         progress=(ProgressBar) findViewById(R.id.progressBar);
+        Url.setIp("192.168.0.114");
         gotoTelaInicial();
 
     }

@@ -40,12 +40,12 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
 
             //seta os atributos
             Evento evento=getItem(position);
-            imagemEvento.setBackgroundResource(evento.getImage());
+          //  imagemEvento.setBackgroundResource(evento.getImage());
             tituloEvento.setText(evento.getNome());
-            localEvento.setText(evento.getEndereco().getNome());
-            horarioEvento.setText(evento.getHora());
-            precoEvento.setText(evento.getPreco());
-            dataEvento.setText(evento.getData());
+//            localEvento.setText(evento.getEndereco().getNome());
+           // horarioEvento.setText(evento.getHora());
+          //  precoEvento.setText(evento.getPreco());
+          //  dataEvento.setText(evento.getData());
           return convertView;
         }
 
