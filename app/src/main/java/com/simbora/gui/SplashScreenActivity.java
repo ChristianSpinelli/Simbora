@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.simbora.R;
@@ -23,9 +26,17 @@ public class SplashScreenActivity extends ActionBarActivity {
         //configuramos um IP padrão
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
+        final EditText textoIP=(EditText) findViewById(R.id.editText);
+        Button btnEntrar = (Button) findViewById(R.id.button);
+        btnEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        Url.setIp("192.168.0.157");
-        gotoTelaInicial();
+                Url.setIp(textoIP.getText().toString());
+                gotoTelaInicial();
+
+            }
+        });
 
     }
 
