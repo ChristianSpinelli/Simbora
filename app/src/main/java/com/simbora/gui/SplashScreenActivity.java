@@ -1,5 +1,6 @@
 package com.simbora.gui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ public class SplashScreenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_splash_screen);
         progress=(ProgressBar) findViewById(R.id.progressBar);
         //configuramos um IP padrão
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+
         Url.setIp("192.168.0.157");
         gotoTelaInicial();
 

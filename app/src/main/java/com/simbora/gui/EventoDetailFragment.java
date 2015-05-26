@@ -147,6 +147,11 @@ public class EventoDetailFragment extends Fragment {
 
     private class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<Evento>> {
 
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getActivity().getBaseContext(), " Carregando...", Toast.LENGTH_LONG).show();
+        }
+
         //doInBackground realiza a operação com as outras funcionalidades do sistema rodando
         //está retornando os eventos a partir da url
         @Override
@@ -161,7 +166,7 @@ public class EventoDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
 
-            Toast.makeText(getActivity().getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getBaseContext(), "Carregada com Sucesso!", Toast.LENGTH_LONG).show();
             //seta a lista de eventos por tipo com os eventos do tipo escolhido
             Evento.setListaEventosPorTipo(result);
             //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
