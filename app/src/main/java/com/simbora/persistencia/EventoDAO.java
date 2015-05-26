@@ -6,6 +6,7 @@ import com.simbora.dominio.Endereco;
 import com.simbora.dominio.Evento;
 import com.simbora.dominio.Horario;
 import com.simbora.dominio.Preco;
+import com.simbora.dominio.TipoDeEvento;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -62,6 +63,7 @@ public class EventoDAO {
         Endereco endereco=new Endereco();
         ArrayList<Horario> horarios=new ArrayList<Horario>();
         ArrayList<Preco> precos=new ArrayList<Preco>();
+        ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
 
         try {
             evento.setNome(json.getString("titulo"));
@@ -95,12 +97,23 @@ public class EventoDAO {
                 preco.setValor(precosObject.getJSONObject(j).getDouble("preco"));
                 precos.add(preco);
             }
+
+            JSONArray tiposDeEventoObject=json.getJSONArray("tiposDeEvento");
+            for (int j=0;j<tiposDeEventoObject.length();j++){
+                for (TipoDeEvento t:TipoDeEvento.values()){
+                    if(t.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))){
+                        tiposDeEvento.add(t);
+                    }
+                }
+            }
             //seta endereco
             evento.setEndereco(endereco);
             //seta horarios
             evento.setHorarios(horarios);
             //seta precos
             evento.setPrecos(precos);
+            //seta tipos de evento
+            evento.setTiposDeEvento(tiposDeEvento);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Erro no evento", "erro no json do evento");

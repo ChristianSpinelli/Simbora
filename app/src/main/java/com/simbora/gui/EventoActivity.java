@@ -82,6 +82,11 @@ public class EventoActivity extends ActionBarActivity {
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());
 
+            //teste
+            for(int i=0;i<evento.getTiposDeEvento().size();i++){
+                System.out.println(evento.getTiposDeEvento().get(i));
+            }
+
             return rootView;
         }
     }

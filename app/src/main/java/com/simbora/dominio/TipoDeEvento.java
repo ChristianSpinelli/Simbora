@@ -14,8 +14,10 @@ public enum TipoDeEvento {
     CINEMA("Cinema",R.mipmap.ic_launcher,5),
     FAMILIA("Família",R.mipmap.ic_launcher,6),
     RELIGIOSO("Religioso",R.mipmap.ic_launcher,7),
-    EDUCACIONAl("Educacional",R.mipmap.ic_launcher,8),
-    TECNOLOGIA("Tecnologia",R.mipmap.ic_launcher,9);
+    EDUCACIONAL("Educacional",R.mipmap.ic_launcher,8),
+    TECNOLOGIA("Tecnologia",R.mipmap.ic_launcher,9),
+    GAMES("Games",R.mipmap.ic_launcher,10),
+    ANIMES("Animes",R.mipmap.ic_launcher,11);;
 
 
     private String descricao;
