@@ -13,16 +13,20 @@ import com.simbora.R;
 import com.simbora.dominio.Url;
 
 import android.os.Handler;
+import android.widget.TextView;
 
 
 public class SplashScreenActivity extends ActionBarActivity {
     ProgressBar progress;
-
+    TextView textViewCarregando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         progress=(ProgressBar) findViewById(R.id.progressBar);
+        progress.setVisibility(View.INVISIBLE);
+        textViewCarregando=(TextView) findViewById(R.id.textViewCarregando);
+        textViewCarregando.setVisibility(View.INVISIBLE);
         //configuramos um IP padrão
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
@@ -42,6 +46,8 @@ public class SplashScreenActivity extends ActionBarActivity {
 
     //método que espera 2 segundos e ai a tela principal
     public void gotoTelaInicial(){
+        progress.setVisibility(View.VISIBLE);
+        textViewCarregando.setVisibility(View.VISIBLE);
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
