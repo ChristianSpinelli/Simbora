@@ -1,5 +1,7 @@
 package com.simbora.gui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -78,14 +80,11 @@ public class EventoActivity extends ActionBarActivity {
             //pega o id do evento selecionado
             //seta os atributos em cada campo da tela
             Evento evento=Evento.getListaEventosPorTipo().get(Evento.getIdEvento());
-            imageViewEvento.setBackgroundResource(evento.getImage());
+            //converte a imagem de um array de bytes para um bitmap
+            Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
+            imageViewEvento.setImageBitmap(imagemBitmap);
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());
-
-            //teste
-            for(int i=0;i<evento.getTiposDeEvento().size();i++){
-                System.out.println(evento.getTiposDeEvento().get(i));
-            }
 
             return rootView;
         }

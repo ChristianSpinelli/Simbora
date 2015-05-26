@@ -1,5 +1,7 @@
 package com.simbora.persistencia;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.simbora.dominio.Endereco;
@@ -7,6 +9,7 @@ import com.simbora.dominio.Evento;
 import com.simbora.dominio.Horario;
 import com.simbora.dominio.Preco;
 import com.simbora.dominio.TipoDeEvento;
+import com.simbora.dominio.Url;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -106,6 +110,22 @@ public class EventoDAO {
                     }
                 }
             }
+
+            Bitmap bitmap = null;
+            byte[] bitmapdata=null;
+            //pega a imagem do servidor e converte em um bitmap
+            try {
+                InputStream in = new java.net.URL(Url.getIp()+":5000/"+json.getString("imagem")).openStream();
+                bitmap = BitmapFactory.decodeStream(in);
+
+                ByteArrayOutputStream blob = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, blob);
+                bitmapdata = blob.toByteArray();
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
             //seta endereco
             evento.setEndereco(endereco);
             //seta horarios
@@ -114,6 +134,8 @@ public class EventoDAO {
             evento.setPrecos(precos);
             //seta tipos de evento
             evento.setTiposDeEvento(tiposDeEvento);
+            //seta imagem
+            evento.setImage(bitmapdata);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Erro no evento", "erro no json do evento");

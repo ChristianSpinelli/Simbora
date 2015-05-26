@@ -7,7 +7,7 @@ public class Evento {
 
     private static int idEvento;
     private int id;
-    private int image;
+    private byte[] image;
     private String nome;
     private String descricao;
     private String telefone;
@@ -31,7 +31,7 @@ public class Evento {
 
     }
 
-    public Evento(String nome, ArrayList<Horario> horarios, int image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
+    public Evento(String nome, ArrayList<Horario> horarios, byte[] image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
         this.horarios = horarios;
         this.nome = nome;
         this.image = image;
@@ -89,11 +89,11 @@ public class Evento {
         this.descricao = descricao;
     }
 
-    public int getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

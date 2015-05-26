@@ -1,6 +1,8 @@
 package com.simbora.negocio;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,9 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
 
             //seta os atributos
             Evento evento=getItem(position);
-          //  imagemEvento.setBackgroundResource(evento.getImage());
+            //converte bytes em bitmap
+            Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
+            imagemEvento.setImageBitmap(imagemBitmap);
             tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
             horarioEvento.setText(evento.getHorarios().get(0).getHoraInicio().toString());
