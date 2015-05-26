@@ -20,7 +20,7 @@ public class SplashScreenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_splash_screen);
         progress=(ProgressBar) findViewById(R.id.progressBar);
         //configuramos um IP padrão
-        Url.setIp("192.168.0.114");
+        Url.setIp("192.168.0.157");
         gotoTelaInicial();
 
     }

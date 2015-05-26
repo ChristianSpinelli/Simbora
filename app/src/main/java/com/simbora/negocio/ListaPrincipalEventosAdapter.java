@@ -42,10 +42,10 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             Evento evento=getItem(position);
           //  imagemEvento.setBackgroundResource(evento.getImage());
             tituloEvento.setText(evento.getNome());
-//            localEvento.setText(evento.getEndereco().getNome());
-           // horarioEvento.setText(evento.getHora());
-          //  precoEvento.setText(evento.getPreco());
-          //  dataEvento.setText(evento.getData());
+            localEvento.setText(evento.getEndereco().getNome());
+            horarioEvento.setText(evento.getHorarios().get(0).getHoraInicio().toString());
+            precoEvento.setText("A partir de R$: "+evento.getPrecos().get(0).getValor()+"0");
+           dataEvento.setText(evento.getHorarios().get(0).getData().toString());
           return convertView;
         }
 

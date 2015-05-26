@@ -7,13 +7,13 @@ public class Preco {
     //nomeEntrada é o nome dado ao tipo de Ingresso
     //ex: camarote, pista, geral, superior, etc...
     private String nomeEntrada;
-    private String valor;
+    private double valor;
 
-    public String getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
