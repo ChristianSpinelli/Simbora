@@ -30,7 +30,7 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
         }
 
         public View getView(int position, View convertView, ViewGroup parent){
-             //infla o layout em um objeto do tipo View para wue possa ser manipulado
+             //infla o layout em um objeto do tipo View para que possa ser manipulado
             convertView=inflater.inflate(this.resourceId,parent,false);
             //converte os objetos do xml em objetos de java para que possamos manipulá-los
             ImageView imagemEvento=(ImageView) convertView.findViewById(R.id.imageViewEventoLista);
