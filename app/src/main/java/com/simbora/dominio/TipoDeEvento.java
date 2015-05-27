@@ -9,9 +9,9 @@ public enum TipoDeEvento {
 
     TODOS("Todos",R.mipmap.ic_launcher, 1),
     ROLANDO_AGORA("Rolando Agora", R.mipmap.ic_launcher,2),
-    SHOW("Show", R.mipmap.ic_launcher,3),
-    TEATRO("Teatro",R.mipmap.ic_launcher,4),
-    CINEMA("Cinema",R.mipmap.ic_launcher,5),
+    SHOW("Show", R.drawable.show_icone,3),
+    TEATRO("Teatro",R.drawable.teatro_icone,4),
+    CINEMA("Cinema",R.drawable.cinema_icone,5),
     FAMILIA("Família",R.mipmap.ic_launcher,6),
     RELIGIOSO("Religioso",R.mipmap.ic_launcher,7),
     EDUCACIONAL("Educacional",R.mipmap.ic_launcher,8),
