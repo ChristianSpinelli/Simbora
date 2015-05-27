@@ -9,7 +9,15 @@ public class Endereco {
             nome;
         //nome é para facilitar o endereço, para colocarmos na tela
         //é mais fácil colocarmos na tela "Teatro Boa Vista" ou R. Dom Bosco, 551 - Boa Vista, Recife - PE, 50070-070, Brasil?
+    public Endereco(){}
 
+    public Endereco(String cidade, String bairro, String rua, String numero, String local){
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.rua = rua;
+        this.numeroRua = numero;
+        this.nome = local;
+    }
 
     public String getNome() {
         return nome;

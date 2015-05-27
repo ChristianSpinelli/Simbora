@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -51,6 +52,7 @@ public class EventoDetailFragment extends Fragment {
     private Evento evento;
     private MatrixCursor cursorAtual;
     private ListView lv;
+    private Button bCriarEvento;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -77,7 +79,15 @@ public class EventoDetailFragment extends Fragment {
         new HttpAsyncTask().execute(Url.getIp()+":5000/todo/api/v1.0/eventos");
         //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
+        this.bCriarEvento = (Button) rootView.findViewById(R.id.bCriarEvento);
+        this.bCriarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CadastroEventoActivity.class);
+                startActivity(intent);
 
+            }
+        });
         final SearchView search = (SearchView) rootView.findViewById(R.id.searchView);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

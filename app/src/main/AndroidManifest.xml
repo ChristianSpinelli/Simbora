@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".gui.CadastroEventoActivity"
-            android:label="@string/title_activity_cadastro_evento" >
+            android:label="@string/criarEvento" >
         </activity>
     </application>
 

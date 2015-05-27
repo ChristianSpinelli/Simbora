@@ -15,4 +15,5 @@
     <string name="progress_bar">Carregando</string>
     <string name="eventos">Eventos</string>
     <string name="title_activity_cadastro_evento">CadastroEventoActivity</string>
+    <string name="criarEvento">Criar Evento</string>
 </resources>

@@ -4,15 +4,57 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.simbora.R;
+import com.simbora.dominio.Endereco;
+import com.simbora.dominio.Horario;
 
 public class CadastroEventoActivity extends ActionBarActivity {
+    private Button bCadastrar;
+    private EditText etNomeEvento;
+    private EditText etTelefone;
+    private EditText etRua;
+    private EditText etLocal;
+    private EditText etDescricao;
+    private EditText etCidade;
+    private EditText etBairro;
+    private EditText etNumero;
+    private ImageButton ibImagem;
+    private EditText etData;
+    private EditText etHoraInicio;
+    private EditText etHoraFim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
+
+        this.bCadastrar = (Button) findViewById(R.id.bCadastrar);
+        this.ibImagem = (ImageButton) findViewById(R.id.ibImagem);
+        this.etBairro = (EditText) findViewById(R.id.etBairro);
+        this.etCidade = (EditText) findViewById(R.id.etCidade);
+        this.etData = (EditText) findViewById(R.id.etData);
+        this.etDescricao = (EditText) findViewById(R.id.etDescricao);
+        this.etLocal = (EditText) findViewById(R.id.etLocal);
+        this.etHoraFim = (EditText) findViewById(R.id.etHoraFim);
+        this.etHoraInicio = (EditText) findViewById(R.id.etHoraInicio);
+        this.etNomeEvento = (EditText) findViewById(R.id.etNomeEvento);
+        this.etNumero = (EditText) findViewById(R.id.etNumero);
+        this.etTelefone = (EditText) findViewById(R.id.etRua);
+        this.etTelefone = (EditText) findViewById(R.id.etTelefone);
+
+        this.bCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Endereco endereco = new Endereco(etCidade.getText().toString(),etBairro.getText().toString(),etRua.getText().toString(),etNumero.getText().toString(),etLocal.getText().toString());
+                Horario horario = new Horario(etData.getText().toString(),etHoraInicio.getText().toString(),etHoraFim.getText().toString());
+
+            }
+        });
     }
 
 
