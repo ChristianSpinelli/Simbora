@@ -11,7 +11,11 @@ import android.widget.ImageButton;
 
 import com.simbora.R;
 import com.simbora.dominio.Endereco;
+import com.simbora.dominio.Evento;
 import com.simbora.dominio.Horario;
+import com.simbora.dominio.Preco;
+
+import java.util.ArrayList;
 
 public class CadastroEventoActivity extends ActionBarActivity {
     private Button bCadastrar;
@@ -44,7 +48,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
         this.etHoraInicio = (EditText) findViewById(R.id.etHoraInicio);
         this.etNomeEvento = (EditText) findViewById(R.id.etNomeEvento);
         this.etNumero = (EditText) findViewById(R.id.etNumero);
-        this.etTelefone = (EditText) findViewById(R.id.etRua);
+        this.etRua = (EditText) findViewById(R.id.etRua);
         this.etTelefone = (EditText) findViewById(R.id.etTelefone);
 
         this.bCadastrar.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +56,19 @@ public class CadastroEventoActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Endereco endereco = new Endereco(etCidade.getText().toString(),etBairro.getText().toString(),etRua.getText().toString(),etNumero.getText().toString(),etLocal.getText().toString());
                 Horario horario = new Horario(etData.getText().toString(),etHoraInicio.getText().toString(),etHoraFim.getText().toString());
+                Preco preco = new Preco();
+                ArrayList<Horario> horarios=new ArrayList<Horario>();
+                ArrayList<Preco> precos=new ArrayList<Preco>();
+
+                horarios.add(horario);
+                precos.add(preco);
+
+                Evento evento=new Evento();
+                evento.setDescricao(etDescricao.getText().toString());
+                evento.setTelefone(etTelefone.getText().toString());
+                evento.setEndereco(endereco);
+                evento.setHorarios(horarios);
+                evento.setPrecos(precos);
 
             }
         });

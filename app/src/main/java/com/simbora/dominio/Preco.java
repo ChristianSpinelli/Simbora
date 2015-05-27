@@ -22,6 +22,10 @@ public class Preco {
         return nomeEntrada;
     }
 
+    public Preco(){
+        this.nomeEntrada="";
+        this.valor=0.0;
+    }
     public void setNomeEntrada(String nomeEntrada) {
         this.nomeEntrada = nomeEntrada;
     }

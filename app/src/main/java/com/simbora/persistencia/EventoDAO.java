@@ -167,7 +167,7 @@ public class EventoDAO {
             JSONObject jsonObjectEndereco=new JSONObject();
             jsonObjectEndereco.put("bairro", evento.getEndereco().getBairro());
             jsonObjectEndereco.put("cep", evento.getEndereco().getCep());
-            jsonObjectEndereco.put("cidade", evento.getEndereco().getCep());
+            jsonObjectEndereco.put("cidade", evento.getEndereco().getCidade());
             jsonObjectEndereco.put("nome", evento.getEndereco().getNome());
             jsonObjectEndereco.put("numero", evento.getEndereco().getNumeroRua());
             jsonObjectEndereco.put("rua",evento.getEndereco().getRua());
