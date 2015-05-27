@@ -46,8 +46,6 @@ public class SearchAdapter extends CursorAdapter {
 
         text = (TextView) view.findViewById(R.id.textViewSearch);
 
-        System.out.println("Criou a lista de sugestões");
-
         return view;
 
     }

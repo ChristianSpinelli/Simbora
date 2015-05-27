@@ -14,6 +14,8 @@ import com.simbora.dominio.Url;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +26,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,7 +78,7 @@ public class EventoDAO {
         try {
             evento.setNome(json.getString("titulo"));
             evento.setDescricao(json.getString("descricao"));
-            evento.setTelefone(json.getJSONArray("telefone").getJSONObject(0).getString("numero"));
+            evento.setTelefone(json.getString("telefone"));
 
             //endereco
 
@@ -123,7 +129,7 @@ public class EventoDAO {
                 bitmapdata = blob.toByteArray();
 
             } catch (Exception e) {
-                Log.e("Error", e.getMessage());
+                Log.e("Erro na imagem", e.getMessage());
                 e.printStackTrace();
             }
             //seta endereco
@@ -141,6 +147,72 @@ public class EventoDAO {
             Log.d("Erro no evento", "erro no json do evento");
         }
         return evento;
+    }
+
+    public boolean inserirEvento(Evento evento, String url){
+        JSONObject eventoAInserir=converterEventoJSON(evento);
+        boolean inseriu=post(eventoAInserir,url);
+        return inseriu;
+    }
+
+    private JSONObject converterEventoJSON(Evento evento){
+
+        JSONObject jsonObjectEvento=new JSONObject();
+        JSONArray jsonArrayEndereco=new JSONArray();
+        JSONArray jsonArrayHorarios=new JSONArray();
+        JSONArray jsonArrayPrecos=new JSONArray();
+        JSONArray jsonArrayTiposDeEvento=new JSONArray();
+
+        try {
+            JSONObject jsonObjectEndereco=new JSONObject();
+            jsonObjectEndereco.put("bairro", evento.getEndereco().getBairro());
+            jsonObjectEndereco.put("cep", evento.getEndereco().getCep());
+            jsonObjectEndereco.put("cidade", evento.getEndereco().getCep());
+            jsonObjectEndereco.put("nome", evento.getEndereco().getNome());
+            jsonObjectEndereco.put("numero", evento.getEndereco().getNumeroRua());
+            jsonObjectEndereco.put("rua",evento.getEndereco().getRua());
+
+            jsonArrayEndereco.put(0, jsonObjectEndereco);
+
+            for (int i=0;i< evento.getHorarios().size();i++){
+                JSONObject jsonObjectHorario=new JSONObject();
+                jsonObjectHorario.put("data", evento.getHorarios().get(i).getData());
+                jsonObjectHorario.put("horaInicio",evento.getHorarios().get(i).getHoraInicio());
+                jsonObjectHorario.put("horaTermino",evento.getHorarios().get(i).getHoraTermino());
+
+                jsonArrayHorarios.put(i,jsonObjectHorario);
+            }
+
+            for (int i=0;i< evento.getPrecos().size();i++){
+                JSONObject jsonObjectPreco=new JSONObject();
+                jsonObjectPreco.put("preco", evento.getPrecos().get(i).getValor());
+                jsonObjectPreco.put("tipo",evento.getPrecos().get(i).getNomeEntrada());
+
+                jsonArrayPrecos.put(i,jsonObjectPreco);
+            }
+
+            for (int i=0;i< evento.getTiposDeEvento().size();i++){
+                JSONObject jsonObjectTipoDeEvento=new JSONObject();
+                jsonObjectTipoDeEvento.put("descricao", evento.getTiposDeEvento().get(i).getDescricao());
+
+                jsonArrayTiposDeEvento.put(i,jsonObjectTipoDeEvento);
+            }
+
+
+
+            jsonObjectEvento.put("descricao",evento.getDescricao());
+            jsonObjectEvento.put("endereco",jsonArrayEndereco);
+            jsonObjectEvento.put("horarios", jsonArrayHorarios);
+            jsonObjectEvento.put("precos", jsonArrayPrecos);
+            jsonObjectEvento.put("tiposDeEvento", jsonArrayTiposDeEvento);
+            jsonObjectEvento.put("telefone", evento.getTelefone());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return jsonObjectEvento;
     }
 
     private Date converterData(String dataString){
@@ -164,7 +236,6 @@ public class EventoDAO {
         }
         return horaConvertida;
     }
-
 
     //método que retorna a String do JSON
     private  String getJSON(String url){
@@ -194,7 +265,6 @@ public class EventoDAO {
         return result;
     }
 
-
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";
@@ -206,4 +276,45 @@ public class EventoDAO {
         return result;
 
     }
+
+    private boolean post(JSONObject jo, String urlWebService){
+        boolean inseriu=false;
+        URL url = null;
+        try {
+            url = new URL(urlWebService);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = null;
+        try {
+            httpPost = new HttpPost(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        // Seta o corpo do Post
+        try {
+            httpPost.setEntity(new StringEntity(jo.toString(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // Configura o cabeçcalho do post informando que é um JSON
+        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setHeader("Accept-Encoding", "application/json");
+        httpPost.setHeader("Accept-Language", "en-US");
+
+        // Executa o POST
+        try {
+            HttpResponse response = httpClient.execute(httpPost);
+            inseriu=true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inseriu;
+    }
+
+
 }

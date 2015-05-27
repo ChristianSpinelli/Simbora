@@ -10,8 +10,13 @@ import java.util.ArrayList;
  */
 public class EventoService {
 
+    EventoDAO eventoDAO=new EventoDAO();
+
     public ArrayList<Evento> retornarEventos(String url){
-        EventoDAO eventoDAO=new EventoDAO();
         return eventoDAO.retornarEventos(url);
+    }
+
+    public boolean inserirEvento(Evento evento, String url){
+        return eventoDAO.inserirEvento(evento, url);
     }
 }

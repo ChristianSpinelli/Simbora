@@ -8,6 +8,7 @@ import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,19 @@ import com.simbora.negocio.EventoService;
 import com.simbora.negocio.ListaPrincipalEventosAdapter;
 import com.simbora.negocio.SearchAdapter;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -113,14 +127,14 @@ public class EventoDetailFragment extends Fragment {
             @Override
             public boolean onSuggestionClick(int i) {
                 //método que pega o evento clicado e manda a tela do evento
-                search.setQuery(cursorAtual.getString(1),true);
-                String tituloEvento=search.getQuery().toString();
+                search.setQuery(cursorAtual.getString(1), true);
+                String tituloEvento = search.getQuery().toString();
 
                 for (Evento e : Evento.getListaEventosPorTipo()) {
                     if (e.getNome().equals(tituloEvento)) {
                         //se clicou no evento, prepara o intent e passa ao evento escolhido
                         Intent intent = new Intent(getActivity(), EventoActivity.class);
-                        Evento.setIdEvento(e.getId()-1);
+                        Evento.setIdEvento(e.getId() - 1);
                         //indica a ListActivity para caso ela seja chamada, vá direto a tela de eventos
                         EventoListActivity.setGoToTodos(true);
                         startActivity(intent);
@@ -167,8 +181,9 @@ public class EventoDetailFragment extends Fragment {
         @Override
         protected ArrayList<Evento> doInBackground(String... urls) {
 
-            EventoService eventoService=new EventoService();
+            EventoService eventoService = new EventoService();
             return eventoService.retornarEventos(urls[0]);
+
         }
 
         // o onPostExecute é executado após o resultado da Thread ser coletado
@@ -193,13 +208,14 @@ public class EventoDetailFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Evento.setIdEvento(i);
-                    Intent intent=new Intent(getActivity(), EventoActivity.class);
+                    Intent intent = new Intent(getActivity(), EventoActivity.class);
                     EventoListActivity.setGoToTodos(true);
                     startActivity(intent);
 
                 }
             });
         }
+
     }
 
 
