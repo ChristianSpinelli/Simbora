@@ -15,6 +15,20 @@ import com.simbora.dominio.Url;
 import android.os.Handler;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 
 public class SplashScreenActivity extends ActionBarActivity {
     ProgressBar progress;
@@ -37,6 +51,7 @@ public class SplashScreenActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Url.setIp(textoIP.getText().toString());
+                POST();
                 gotoTelaInicial();
 
             }
@@ -52,12 +67,56 @@ public class SplashScreenActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(SplashScreenActivity.this, EventoListActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, EventoListActivity.class);
                 startActivity(intent);
                 finish();
             }
         }, 2000);
 
+    }
+
+    public void POST(){
+        URL url = null;
+        try {
+            url = new URL(Url.getIp()+":5000/todo/api/v1.0/eventos");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = null;
+        try {
+            httpPost = new HttpPost(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("titulo", "json");
+            jo.put("descricao", "teste");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+// Prepare JSON to send by setting the entity
+        try {
+            httpPost.setEntity(new StringEntity(jo.toString(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+// Set up the header types needed to properly transfer JSON
+        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setHeader("Accept-Encoding", "application/json");
+        httpPost.setHeader("Accept-Language", "en-US");
+
+// Execute POST
+        try {
+            HttpResponse response = httpClient.execute(httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
