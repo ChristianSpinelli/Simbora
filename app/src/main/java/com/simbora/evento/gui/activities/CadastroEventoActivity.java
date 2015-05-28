@@ -1,4 +1,4 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -9,22 +9,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.simbora.R;
-import com.simbora.dominio.Endereco;
-import com.simbora.dominio.Evento;
-import com.simbora.dominio.Horario;
-import com.simbora.dominio.Preco;
-import com.simbora.dominio.TipoDeEvento;
-import com.simbora.dominio.Url;
-import com.simbora.negocio.EventoService;
-import com.simbora.negocio.ListaPrincipalEventosAdapter;
+import com.simbora.evento.dominio.Endereco;
+import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.dominio.Horario;
+import com.simbora.evento.dominio.Preco;
+import com.simbora.evento.dominio.TipoDeEvento;
+import com.simbora.util.dominio.Url;
+import com.simbora.evento.negocio.EventoService;
 
 import java.util.ArrayList;
 

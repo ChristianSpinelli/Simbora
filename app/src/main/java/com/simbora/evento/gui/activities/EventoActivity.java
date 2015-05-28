@@ -1,4 +1,4 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simbora.R;
-import com.simbora.dominio.Evento;
+import com.simbora.evento.dominio.Evento;
 
 
 public class EventoActivity extends ActionBarActivity {

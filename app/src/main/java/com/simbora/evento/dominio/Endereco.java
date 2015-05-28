@@ -1,4 +1,4 @@
-package com.simbora.dominio;
+package com.simbora.evento.dominio;
 
 /**
  * Created by Krys on 11/05/2015.

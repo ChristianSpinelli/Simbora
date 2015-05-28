@@ -1,15 +1,14 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.simbora.R;
-import com.simbora.dominio.TipoDeEvento;
-import com.simbora.negocio.ListTipoDeEventosAdapter;
+import com.simbora.evento.dominio.TipoDeEvento;
+import com.simbora.evento.gui.adapters.ListTipoDeEventosAdapter;
 
 import java.util.ArrayList;
 

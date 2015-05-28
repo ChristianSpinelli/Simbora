@@ -1,46 +1,32 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.fragments;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 
 import com.simbora.R;
-import com.simbora.dominio.Evento;
-import com.simbora.dominio.Url;
-import com.simbora.negocio.EventoService;
-import com.simbora.negocio.ListaPrincipalEventosAdapter;
-import com.simbora.negocio.SearchAdapter;
+import com.simbora.evento.dominio.Evento;
+import com.simbora.util.dominio.Url;
+import com.simbora.evento.gui.activities.CadastroEventoActivity;
+import com.simbora.evento.gui.activities.EventoActivity;
+import com.simbora.evento.gui.activities.EventoDetailActivity;
+import com.simbora.evento.gui.activities.EventoListActivity;
+import com.simbora.evento.negocio.EventoService;
+import com.simbora.evento.gui.adapters.ListaPrincipalEventosAdapter;
+import com.simbora.evento.gui.adapters.SearchAdapter;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**

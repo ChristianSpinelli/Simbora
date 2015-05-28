@@ -1,4 +1,4 @@
-package com.simbora.dominio;
+package com.simbora.evento.dominio;
 
 import android.util.Log;
 

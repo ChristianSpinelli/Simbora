@@ -1,6 +1,6 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/evento_list"
-    android:name="com.simbora.gui.EventoListFragment" android:layout_width="match_parent"
+    android:name="com.simbora.evento.gui.fragments.EventoListFragment" android:layout_width="match_parent"
     android:layout_height="match_parent" android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp" tools:context="com.simbora.gui.EventoListActivity"
+    android:layout_marginRight="16dp" tools:context="com.simbora.evento.gui.activities.EventoListActivity"
     tools:layout="@android:layout/list_content" />

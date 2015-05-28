@@ -1,4 +1,4 @@
-package com.simbora.negocio;
+package com.simbora.evento.gui.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simbora.R;
-import com.simbora.dominio.Evento;
+import com.simbora.evento.dominio.Evento;
 
 import java.util.List;
 

@@ -1,19 +1,13 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.simbora.R;
-import com.simbora.dominio.Evento;
-import com.simbora.dominio.TipoDeEvento;
-import com.simbora.negocio.EventoService;
-
-import java.util.ArrayList;
+import com.simbora.evento.gui.fragments.EventoDetailFragment;
 
 
 /**

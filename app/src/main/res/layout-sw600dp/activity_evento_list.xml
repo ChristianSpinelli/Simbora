@@ -3,7 +3,7 @@
     android:layout_height="match_parent" android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp" android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
-    android:showDividers="middle" tools:context="com.simbora.gui.EventoListActivity">
+    android:showDividers="middle" tools:context="com.simbora.evento.gui.activities.EventoListActivity">
 
     <!--
     This layout is a two-pane layout for the Eventos
@@ -11,7 +11,7 @@
     
     -->
 
-    <fragment android:id="@+id/evento_list" android:name="com.simbora.gui.EventoListFragment"
+    <fragment android:id="@+id/evento_list" android:name="com.simbora.evento.gui.fragments.EventoListFragment"
         android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 

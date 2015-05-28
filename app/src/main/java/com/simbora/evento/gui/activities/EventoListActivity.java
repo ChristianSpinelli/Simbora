@@ -1,10 +1,12 @@
-package com.simbora.gui;
+package com.simbora.evento.gui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.simbora.R;
+import com.simbora.evento.gui.fragments.EventoDetailFragment;
+import com.simbora.evento.gui.fragments.EventoListFragment;
 
 
 /**

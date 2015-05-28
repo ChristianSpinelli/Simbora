@@ -1,4 +1,4 @@
-package com.simbora.negocio;
+package com.simbora.evento.gui.adapters;
 
 import android.content.Context;
 import android.database.Cursor;

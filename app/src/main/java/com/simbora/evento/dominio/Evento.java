@@ -1,5 +1,7 @@
-package com.simbora.dominio;
-import com.simbora.negocio.EventoService;
+package com.simbora.evento.dominio;
+import com.simbora.pessoa.dominio.Simbora;
+import com.simbora.util.dominio.Url;
+import com.simbora.evento.negocio.EventoService;
 import java.util.ArrayList;
 
 //classe Evento

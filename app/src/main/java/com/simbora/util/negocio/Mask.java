@@ -1,4 +1,4 @@
-package com.simbora.negocio;
+package com.simbora.util.negocio;
 
 /**
  * Created by Demis e Lucas on 09/04/2015.

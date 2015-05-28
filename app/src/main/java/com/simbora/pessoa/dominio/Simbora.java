@@ -1,4 +1,4 @@
-package com.simbora.dominio;
+package com.simbora.pessoa.dominio;
 
 import java.util.ArrayList;
 

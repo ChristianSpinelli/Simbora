@@ -1,15 +1,15 @@
-package com.simbora.persistencia;
+package com.simbora.evento.persistencia;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.simbora.dominio.Endereco;
-import com.simbora.dominio.Evento;
-import com.simbora.dominio.Horario;
-import com.simbora.dominio.Preco;
-import com.simbora.dominio.TipoDeEvento;
-import com.simbora.dominio.Url;
+import com.simbora.evento.dominio.Endereco;
+import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.dominio.Horario;
+import com.simbora.evento.dominio.Preco;
+import com.simbora.evento.dominio.TipoDeEvento;
+import com.simbora.util.dominio.Url;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

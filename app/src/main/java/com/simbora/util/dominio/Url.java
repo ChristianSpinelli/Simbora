@@ -1,4 +1,4 @@
-package com.simbora.dominio;
+package com.simbora.util.dominio;
 
 /**
  * Created by Demis e Lucas on 25/05/2015.

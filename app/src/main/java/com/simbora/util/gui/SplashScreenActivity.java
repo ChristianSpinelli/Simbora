@@ -1,4 +1,4 @@
-package com.simbora.gui;
+package com.simbora.util.gui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -10,24 +10,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.simbora.R;
-import com.simbora.dominio.Url;
+import com.simbora.util.dominio.Url;
+import com.simbora.evento.gui.activities.EventoListActivity;
 
 import android.os.Handler;
 import android.widget.TextView;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 
 public class SplashScreenActivity extends ActionBarActivity {

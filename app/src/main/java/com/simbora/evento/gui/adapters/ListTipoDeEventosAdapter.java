@@ -1,4 +1,4 @@
-package com.simbora.negocio;
+package com.simbora.evento.gui.adapters;
 
 /**
  * Created by Demis e Lucas on 11/04/2015.
@@ -9,14 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.simbora.R;
-import com.simbora.dominio.Evento;
-import com.simbora.dominio.TipoDeEvento;
+import com.simbora.evento.dominio.TipoDeEvento;
 
 //classe que monta A lista dos tipos de eventos
 public class ListTipoDeEventosAdapter extends ArrayAdapter<TipoDeEvento>{
