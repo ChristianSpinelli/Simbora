@@ -117,6 +117,8 @@ public class EventoDAO {
                 }
             }
 
+
+
             Bitmap bitmap = null;
             byte[] bitmapdata=null;
             //pega a imagem do servidor e converte em um bitmap

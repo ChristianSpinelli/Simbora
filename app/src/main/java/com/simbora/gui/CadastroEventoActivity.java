@@ -1,19 +1,28 @@
 package com.simbora.gui;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.simbora.R;
 import com.simbora.dominio.Endereco;
 import com.simbora.dominio.Evento;
 import com.simbora.dominio.Horario;
 import com.simbora.dominio.Preco;
+import com.simbora.dominio.TipoDeEvento;
+import com.simbora.dominio.Url;
+import com.simbora.negocio.EventoService;
+import com.simbora.negocio.ListaPrincipalEventosAdapter;
 
 import java.util.ArrayList;
 
@@ -31,12 +40,10 @@ public class CadastroEventoActivity extends ActionBarActivity {
     private EditText etData;
     private EditText etHoraInicio;
     private EditText etHoraFim;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
-
         this.bCadastrar = (Button) findViewById(R.id.bCadastrar);
         this.ibImagem = (ImageButton) findViewById(R.id.ibImagem);
         this.etBairro = (EditText) findViewById(R.id.etBairro);
@@ -59,9 +66,11 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 Preco preco = new Preco();
                 ArrayList<Horario> horarios=new ArrayList<Horario>();
                 ArrayList<Preco> precos=new ArrayList<Preco>();
+                ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
 
                 horarios.add(horario);
                 precos.add(preco);
+                tiposDeEvento.add(TipoDeEvento.CINEMA);
 
                 Evento evento=new Evento();
                 evento.setDescricao(etDescricao.getText().toString());
@@ -69,6 +78,9 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setEndereco(endereco);
                 evento.setHorarios(horarios);
                 evento.setPrecos(precos);
+
+                new CadastrarAsyncTask().execute(evento);
+
 
             }
         });
@@ -95,5 +107,40 @@ public class CadastroEventoActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class CadastrarAsyncTask extends AsyncTask<Evento, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(CadastroEventoActivity.this, " Cadastrando...", Toast.LENGTH_LONG).show();
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Evento... evento) {
+
+            EventoService eventoService = new EventoService();
+            return eventoService.inserirEvento(evento[0], Url.getIp() + ":5000/todo/api/v1.0/eventos");
+
+        }
+
+        // o onPostExecute é executado após o resultado da Thread ser coletado
+        //ou seja, quando a Thread é finalizada
+        @Override
+        protected void onPostExecute(Boolean result) {
+            //se cadastrou, então executa este if
+            if (result) {
+                Toast.makeText(getBaseContext(), "Cadastrado com Sucesso!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(CadastroEventoActivity.this, EventoListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else{
+
+                Toast.makeText(getBaseContext(), "Falha ao inserir evento", Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 }

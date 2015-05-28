@@ -7,17 +7,17 @@ import com.simbora.R;
  */
 public enum TipoDeEvento {
 
-    TODOS("Todos",R.mipmap.ic_launcher, 1),
-    ROLANDO_AGORA("Rolando Agora", R.mipmap.ic_launcher,2),
+    TODOS("Todos",R.drawable.todos_icone, 1),
+    ROLANDO_AGORA("Rolando Agora", R.drawable.rolando_agora_icone,2),
     SHOW("Show", R.drawable.show_icone,3),
     TEATRO("Teatro",R.drawable.teatro_icone,4),
     CINEMA("Cinema",R.drawable.cinema_icone,5),
-    FAMILIA("Família",R.mipmap.ic_launcher,6),
-    RELIGIOSO("Religioso",R.mipmap.ic_launcher,7),
-    EDUCACIONAL("Educacional",R.mipmap.ic_launcher,8),
-    TECNOLOGIA("Tecnologia",R.mipmap.ic_launcher,9),
-    GAMES("Games",R.mipmap.ic_launcher,10),
-    ANIMES("Animes",R.mipmap.ic_launcher,11);;
+    FAMILIA("Família",R.drawable.familia_icone,6),
+    RELIGIOSO("Religioso",R.drawable.religioso_icone,7),
+    EDUCACIONAL("Educacional",R.drawable.educacional_icone,8),
+    TECNOLOGIA("Tecnologia",R.drawable.tecnologia_icone,9),
+    GAMES("Games",R.drawable.games_icone,10),
+    ANIMES("Animes",R.drawable.animes_icone,11);;
 
 
     private String descricao;
