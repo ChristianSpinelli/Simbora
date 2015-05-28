@@ -70,14 +70,18 @@ public class CadastroEventoActivity extends ActionBarActivity {
 
                 horarios.add(horario);
                 precos.add(preco);
+
+                //tipodefault. tirar após configurarmos o cadastro
                 tiposDeEvento.add(TipoDeEvento.CINEMA);
 
                 Evento evento=new Evento();
                 evento.setDescricao(etDescricao.getText().toString());
                 evento.setTelefone(etTelefone.getText().toString());
+                evento.setNome(etNomeEvento.getText().toString());
                 evento.setEndereco(endereco);
                 evento.setHorarios(horarios);
                 evento.setPrecos(precos);
+                evento.setTiposDeEvento(tiposDeEvento);
 
                 new CadastrarAsyncTask().execute(evento);
 

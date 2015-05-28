@@ -201,7 +201,7 @@ public class EventoDAO {
             }
 
 
-
+            jsonObjectEvento.put("titulo", evento.getNome());
             jsonObjectEvento.put("descricao",evento.getDescricao());
             jsonObjectEvento.put("endereco",jsonArrayEndereco);
             jsonObjectEvento.put("horarios", jsonArrayHorarios);
@@ -209,11 +209,12 @@ public class EventoDAO {
             jsonObjectEvento.put("tiposDeEvento", jsonArrayTiposDeEvento);
             jsonObjectEvento.put("telefone", evento.getTelefone());
 
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
+        Log.d("JSON Object", jsonObjectEvento.toString());
         return jsonObjectEvento;
     }
 
