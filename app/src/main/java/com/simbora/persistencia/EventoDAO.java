@@ -178,9 +178,9 @@ public class EventoDAO {
 
             for (int i=0;i< evento.getHorarios().size();i++){
                 JSONObject jsonObjectHorario=new JSONObject();
-                jsonObjectHorario.put("data", evento.getHorarios().get(i).getData());
-                jsonObjectHorario.put("horaInicio",evento.getHorarios().get(i).getHoraInicio());
-                jsonObjectHorario.put("horaTermino",evento.getHorarios().get(i).getHoraTermino());
+                jsonObjectHorario.put("data", converterData(evento.getHorarios().get(i).getData()));
+                jsonObjectHorario.put("horaInicio", converterHora(evento.getHorarios().get(i).getHoraInicio()));
+                jsonObjectHorario.put("horaTermino", converterHora(evento.getHorarios().get(i).getHoraTermino()));
 
                 jsonArrayHorarios.put(i,jsonObjectHorario);
             }
@@ -246,20 +246,20 @@ public class EventoDAO {
         String result = "";
         try {
 
-            // create HttpClient
+            // cria HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 
-            // make GET request to the given URL
+            // dá o GET
             HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
 
-            // receive response as inputStream
+            // recebe resposta no inputStream
             inputStream = httpResponse.getEntity().getContent();
 
-            // convert inputstream to string
+            // converte inputStream para string
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
-                result = "Did not work!";
+                result = "Não funcionou!";
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
@@ -317,6 +317,21 @@ public class EventoDAO {
             e.printStackTrace();
         }
         return inseriu;
+    }
+
+    public String converterHora(Date date){
+        return converterDatas(date, "HH:mm");
+    }
+
+    public String converterData(Date date){
+        return converterDatas(date, "dd/MM/yyyy");
+    }
+
+
+    public String converterDatas(Date date, String formato){
+        DateFormat dateFormat = new SimpleDateFormat(formato);
+        String data=dateFormat.format(date);
+        return data;
     }
 
 

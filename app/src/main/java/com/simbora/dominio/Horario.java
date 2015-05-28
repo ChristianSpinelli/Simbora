@@ -36,7 +36,7 @@ public class Horario {
     public void setData(String data) throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date hDate = dateFormat.parse(data);
-        this.setHoraInicio(hDate);
+        this.setData(hDate);
     }
     public void setHoraInicio(String horaInicio) throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");

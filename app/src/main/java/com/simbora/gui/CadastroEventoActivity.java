@@ -1,7 +1,9 @@
 package com.simbora.gui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -59,6 +61,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
         this.etTelefone = (EditText) findViewById(R.id.etTelefone);
 
         this.bCadastrar.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.CUPCAKE)
             @Override
             public void onClick(View v) {
                 Endereco endereco = new Endereco(etCidade.getText().toString(),etBairro.getText().toString(),etRua.getText().toString(),etNumero.getText().toString(),etLocal.getText().toString());
@@ -113,6 +116,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     private class CadastrarAsyncTask extends AsyncTask<Evento, Void, Boolean> {
 
         @Override

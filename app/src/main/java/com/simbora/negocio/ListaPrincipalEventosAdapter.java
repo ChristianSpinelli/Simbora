@@ -43,9 +43,12 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             //seta os atributos
             Evento evento=getItem(position);
             //converte bytes em bitmap
-            Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
-            imagemEvento.setImageBitmap(imagemBitmap);
-            tituloEvento.setText(evento.getNome());
+            if(evento.getImage()!=null){
+                Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
+                imagemEvento.setImageBitmap(imagemBitmap);
+
+            }
+             tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
             horarioEvento.setText(evento.getHorarios().get(0).getHoraInicio().toString());
             precoEvento.setText("A partir de R$: "+evento.getPrecos().get(0).getValor()+"0");
