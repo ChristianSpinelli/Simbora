@@ -26,6 +26,7 @@ import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
+import com.simbora.evento.persistencia.EventoDAO;
 import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
