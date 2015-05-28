@@ -2,10 +2,15 @@ package com.simbora.evento.gui.activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +25,8 @@ import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
-import com.simbora.util.dominio.Url;
 import com.simbora.evento.negocio.EventoService;
+import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
 
@@ -39,6 +44,8 @@ public class CadastroEventoActivity extends ActionBarActivity {
     private EditText etData;
     private EditText etHoraInicio;
     private EditText etHoraFim;
+    private static int RESULT_LOAD_IMG = 1;
+    String imagemString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,15 @@ public class CadastroEventoActivity extends ActionBarActivity {
         this.etNumero = (EditText) findViewById(R.id.etNumero);
         this.etRua = (EditText) findViewById(R.id.etRua);
         this.etTelefone = (EditText) findViewById(R.id.etTelefone);
+
+
+        this.ibImagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                carregarImagemDaGaleria(v);
+            }
+        });
 
         this.bCadastrar.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.CUPCAKE)
@@ -88,6 +104,49 @@ public class CadastroEventoActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    public void carregarImagemDaGaleria(View view) {
+        // Cria intent para ir a galeria
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            //Caso uma imagem seja selecionada
+            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
+                    && null != data) {
+                //coleta os dados da imagem
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // move ao primeiro resultado
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imagemString = cursor.getString(columnIndex);
+                cursor.close();
+
+                ibImagem.setImageBitmap(BitmapFactory
+                        .decodeFile(imagemString));
+
+                Log.d("IbImagem", imagemString);
+            } else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+            Log.d("Erro imagem", e.getMessage());
+        }
+
     }
 
 

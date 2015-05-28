@@ -15,17 +15,16 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
-import com.simbora.util.dominio.Url;
 import com.simbora.evento.gui.activities.CadastroEventoActivity;
 import com.simbora.evento.gui.activities.EventoActivity;
 import com.simbora.evento.gui.activities.EventoDetailActivity;
 import com.simbora.evento.gui.activities.EventoListActivity;
-import com.simbora.evento.negocio.EventoService;
 import com.simbora.evento.gui.adapters.ListaPrincipalEventosAdapter;
 import com.simbora.evento.gui.adapters.SearchAdapter;
+import com.simbora.evento.negocio.EventoService;
+import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
 
@@ -143,6 +142,7 @@ public class EventoDetailFragment extends Fragment {
 
         MatrixCursor cursor = new MatrixCursor(columns);
         //procura os eventos que tem aquela string e joga na lista para mostrar ao usuário
+
         ArrayList<String> eventos=Evento.getListaTitulosEventos();
         for(int i = 0; i < eventos.size(); i++) {
             if (eventos.get(i).toLowerCase().contains(s.toLowerCase())) {
@@ -155,6 +155,7 @@ public class EventoDetailFragment extends Fragment {
         return cursor;
     }
 
+    //Thread que executa as operações assincronamente
     private class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<Evento>> {
 
         @Override
@@ -176,30 +177,39 @@ public class EventoDetailFragment extends Fragment {
         //ou seja, quando a Thread é finalizada
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
+            if(result.size()!=0){
 
-            Toast.makeText(getActivity().getBaseContext(), "Carregada com Sucesso!", Toast.LENGTH_LONG).show();
-            //seta a lista de eventos por tipo com os eventos do tipo escolhido
-            Evento.setListaEventosPorTipo(result);
-            //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
-            //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
-            //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
-            ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, Evento.getListaEventosPorTipo());
+                Toast.makeText(getActivity().getBaseContext(), "Carregada com Sucesso!", Toast.LENGTH_LONG).show();
+                //seta a lista de eventos por tipo com os eventos do tipo escolhido
+                Evento.setListaEventosPorTipo(result);
+                //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
+                //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
+                //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
+                ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, Evento.getListaEventosPorTipo());
 
-            lv.setAdapter(ad);
+                lv.setAdapter(ad);
 
-            //O OnItemClickListener permite que a listView receba cliques e responda a eles;
-            //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
-            //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Evento.setIdEvento(i);
-                    Intent intent = new Intent(getActivity(), EventoActivity.class);
-                    EventoListActivity.setGoToTodos(true);
-                    startActivity(intent);
+                //O OnItemClickListener permite que a listView receba cliques e responda a eles;
+                //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
+                //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Evento.setIdEvento(i);
+                        Intent intent = new Intent(getActivity(), EventoActivity.class);
+                        EventoListActivity.setGoToTodos(true);
+                        startActivity(intent);
 
-                }
-            });
+                    }
+                });
+
+            }
+            else{
+                Toast.makeText(getActivity().getBaseContext(), "Erro na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+            }
+
+
+
         }
 
     }

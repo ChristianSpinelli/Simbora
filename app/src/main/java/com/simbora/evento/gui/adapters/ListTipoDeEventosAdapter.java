@@ -3,7 +3,7 @@ package com.simbora.evento.gui.adapters;
 /**
  * Created by Demis e Lucas on 11/04/2015.
  */
-import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.simbora.R;
 import com.simbora.evento.dominio.TipoDeEvento;
+
+import java.util.List;
 
 //classe que monta A lista dos tipos de eventos
 public class ListTipoDeEventosAdapter extends ArrayAdapter<TipoDeEvento>{
