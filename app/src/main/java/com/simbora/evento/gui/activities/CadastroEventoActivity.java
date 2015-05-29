@@ -3,6 +3,7 @@ package com.simbora.evento.gui.activities;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestParams;
 import com.simbora.R;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
@@ -26,7 +28,6 @@ import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
-import com.simbora.evento.persistencia.EventoDAO;
 import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
@@ -45,8 +46,14 @@ public class CadastroEventoActivity extends ActionBarActivity {
     private EditText etData;
     private EditText etHoraInicio;
     private EditText etHoraFim;
+
+    //TRABALHAR COM IMAGEM
     private static int RESULT_LOAD_IMG = 1;
     String imagemString;
+    String fileName;
+    String imagemCodificada;
+    RequestParams params = new RequestParams();
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +107,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setPrecos(precos);
                 evento.setTiposDeEvento(tiposDeEvento);
 
-                new CadastrarAsyncTask().execute(evento);
+               new CadastrarAsyncTask().execute(evento);
 
 
             }
@@ -136,6 +143,9 @@ public class CadastroEventoActivity extends ActionBarActivity {
 
                 ibImagem.setImageBitmap(BitmapFactory
                         .decodeFile(imagemString));
+                String fileNameSegments[] = imagemString.split("/");
+                fileName = fileNameSegments[fileNameSegments.length - 1];
+                params.put("nome", fileName);
 
                 Log.d("IbImagem", imagemString);
             } else {
@@ -208,4 +218,5 @@ public class CadastroEventoActivity extends ActionBarActivity {
 
         }
     }
+
 }

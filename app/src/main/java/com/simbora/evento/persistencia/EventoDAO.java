@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
@@ -15,7 +18,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,9 +40,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Demis e Lucas on 24/05/2015.
@@ -157,6 +157,7 @@ public class EventoDAO {
     }
 
     public boolean inserirEvento(Evento evento, String url){
+
         JSONObject eventoAInserir=converterEventoJSON(evento);
         boolean inseriu=post(eventoAInserir,url);
         return inseriu;
@@ -325,18 +326,22 @@ public class EventoDAO {
     }
 
     public void postImagem(String url, String caminho){
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setEntity(new FileEntity(new File(caminho), "application/octet-stream"));
-
+        RequestParams params = new RequestParams();
         try {
-            HttpResponse response = httpClient.execute(httpPost);
+            params.put("file",new File(caminho));
 
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(Url.getIp()+":5000/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                Log.w("async", "success!!!!");
+            }
+        });
     }
+
 
     public String converterHora(Date date){
         return converterDatas(date, "HH:mm");
