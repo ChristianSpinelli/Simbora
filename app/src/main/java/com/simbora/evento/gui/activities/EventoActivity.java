@@ -81,7 +81,7 @@ public class EventoActivity extends ActionBarActivity {
             //seta os atributos em cada campo da tela
             Evento evento=Evento.getListaEventosPorTipo().get(Evento.getIdEvento());
             //converte a imagem de um array de bytes para um bitmap
-            Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
+            Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImagem().getImagemByte(), 0, evento.getImagem().getImagemByte().length);
             imageViewEvento.setImageBitmap(imagemBitmap);
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());

@@ -43,8 +43,8 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             //seta os atributos
             Evento evento=getItem(position);
             //converte bytes em bitmap
-            if(evento.getImage()!=null){
-                Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImage(), 0, evento.getImage().length);
+            if(evento.getImagem()!=null){
+                Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImagem().getImagemByte(), 0, evento.getImagem().getImagemByte().length);
                 imagemEvento.setImageBitmap(imagemBitmap);
 
             }

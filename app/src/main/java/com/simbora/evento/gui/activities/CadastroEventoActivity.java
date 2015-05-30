@@ -3,7 +3,6 @@ package com.simbora.evento.gui.activities;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,6 +24,7 @@ import com.simbora.R;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
+import com.simbora.evento.dominio.Imagem;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
@@ -52,8 +52,6 @@ public class CadastroEventoActivity extends ActionBarActivity {
     String imagemString;
     String fileName;
     String imagemCodificada;
-    RequestParams params = new RequestParams();
-    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +96,9 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 //tipodefault. tirar após configurarmos o cadastro
                 tiposDeEvento.add(TipoDeEvento.CINEMA);
 
+                Imagem imagem=new Imagem();
+                imagem.setCaminho(imagemString);
+
                 Evento evento=new Evento();
                 evento.setDescricao(etDescricao.getText().toString());
                 evento.setTelefone(etTelefone.getText().toString());
@@ -106,6 +107,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setHorarios(horarios);
                 evento.setPrecos(precos);
                 evento.setTiposDeEvento(tiposDeEvento);
+                evento.setImagem(imagem);
 
                new CadastrarAsyncTask().execute(evento);
 
@@ -145,7 +147,6 @@ public class CadastroEventoActivity extends ActionBarActivity {
                         .decodeFile(imagemString));
                 String fileNameSegments[] = imagemString.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
-                params.put("nome", fileName);
 
                 Log.d("IbImagem", imagemString);
             } else {

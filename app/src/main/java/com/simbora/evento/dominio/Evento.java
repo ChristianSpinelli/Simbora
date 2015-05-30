@@ -5,18 +5,20 @@ import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //classe Evento
 public class Evento {
 
     private static int idEvento;
     private int id;
-    private byte[] image;
+    private Imagem imagem;
     private String nome;
     private String descricao;
     private String telefone;
     private ArrayList<Preco> precos;
     private Endereco endereco;
+
     private ArrayList<Horario> horarios;
     private ArrayList<TipoDeEvento> tiposDeEvento;
     private Simbora simbora;
@@ -35,14 +37,23 @@ public class Evento {
 
     }
 
-    public Evento(String nome, ArrayList<Horario> horarios, byte[] image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
+    public Evento(String nome, ArrayList<Horario> horarios, Imagem image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
         this.horarios = horarios;
         this.nome = nome;
-        this.image = image;
+        this.imagem = image;
         this.telefone = telefone;
         this.precos = precos;
         this.endereco=endereco;
         this.descricao = descricao;
+    }
+
+
+    public Imagem getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Imagem imagem) {
+        this.imagem = imagem;
     }
 
     public ArrayList<TipoDeEvento> getTiposDeEvento() {
@@ -92,15 +103,6 @@ public class Evento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
 
     public static int getIdEvento() {
         return idEvento;

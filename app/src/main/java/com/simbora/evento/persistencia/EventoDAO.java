@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
+import com.simbora.evento.dominio.Imagem;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.util.dominio.Url;
@@ -148,7 +149,7 @@ public class EventoDAO {
             //seta tipos de evento
             evento.setTiposDeEvento(tiposDeEvento);
             //seta imagem
-            evento.setImage(bitmapdata);
+            evento.setImagem(new Imagem(json.getString("imagem"), bitmapdata));
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Erro no evento", "erro no json do evento");
@@ -159,6 +160,7 @@ public class EventoDAO {
     public boolean inserirEvento(Evento evento, String url){
 
         JSONObject eventoAInserir=converterEventoJSON(evento);
+        postImagem(url, evento.getImagem().getCaminho());
         boolean inseriu=post(eventoAInserir,url);
         return inseriu;
     }
@@ -214,6 +216,15 @@ public class EventoDAO {
             jsonObjectEvento.put("precos", jsonArrayPrecos);
             jsonObjectEvento.put("tiposDeEvento", jsonArrayTiposDeEvento);
             jsonObjectEvento.put("telefone", evento.getTelefone());
+
+            //default caso não tenha imagem no evento
+            String nomeImagem="logo_simbora_nome.png";
+
+            if (evento.getImagem().getCaminho()!=null){
+                nomeImagem=retornarNomeImagem(evento.getImagem().getCaminho());
+            }
+
+            jsonObjectEvento.put("imagem",nomeImagem);
 
 
         } catch (JSONException e) {
@@ -327,19 +338,22 @@ public class EventoDAO {
 
     public void postImagem(String url, String caminho){
         RequestParams params = new RequestParams();
-        try {
-            params.put("file",new File(caminho));
+        if (caminho!=null){
+            try {
+                params.put("file",new File(caminho));
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post(Url.getIp()+":5000/", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                Log.w("async", "success!!!!");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        });
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(Url.getIp()+":5000/", params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    Log.w("async", "success!!!!");
+                }
+            });
+        }
+
     }
 
 
@@ -347,7 +361,7 @@ public class EventoDAO {
         return converterDatas(date, "HH:mm");
     }
 
-    public String converterData(Date date){
+    public String converterData(Date date) {
         return converterDatas(date, "dd/MM/yyyy");
     }
 
@@ -356,6 +370,13 @@ public class EventoDAO {
         DateFormat dateFormat = new SimpleDateFormat(formato);
         String data=dateFormat.format(date);
         return data;
+    }
+
+    private String retornarNomeImagem(String caminho){
+        String[] nomes=caminho.split("/");
+        String nome=nomes[nomes.length-1];
+        Log.d("Retornar evento", nome);
+        return nome;
     }
 
 
