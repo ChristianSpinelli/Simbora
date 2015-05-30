@@ -48,8 +48,32 @@ import java.util.Date;
 public class EventoDAO {
 
 
-    public ArrayList<Evento> retornarEventos(){
-           return null;
+    public ArrayList<Evento> retornarEventos(String url, TipoDeEvento tipo){
+        try {
+            JSONObject jsonObject=new JSONObject(getJSON(url));
+            JSONArray eventos=jsonObject.getJSONArray("eventos");
+            ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+
+            //criar um método para esta funcionalidade
+            //verifica se um tipo est´no evento
+             for (int i=0;i<eventos.length();i++){
+                 Log.d("print i", Integer.toString(i));
+                 JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
+                 for (int j=0;j<tiposDeEventoObject.length();j++) {
+                     Log.d("tipo do objto no json", tiposDeEventoObject.getJSONObject(j).getString("descricao"));
+                     if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
+                         Evento evento = retornarEvento(eventos.getJSONObject(i));
+                         listaEventos.add(evento);
+                     }
+                 }
+             }
+            return listaEventos;
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

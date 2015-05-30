@@ -5,6 +5,7 @@ import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.gui.activities.CadastroEventoActivity;
 import com.simbora.evento.gui.activities.EventoActivity;
 import com.simbora.evento.gui.activities.EventoDetailActivity;
@@ -48,7 +50,7 @@ public class EventoDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
 
-    private Evento evento;
+    private TipoDeEvento tipoDeEvento;
     private MatrixCursor cursorAtual;
     private ListView lv;
     private Button bCriarEvento;
@@ -66,6 +68,11 @@ public class EventoDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
+            for (TipoDeEvento tE:TipoDeEvento.values()){
+                if (tE.getId()== Integer.parseInt(getArguments().getString(ARG_ITEM_ID))){
+                    tipoDeEvento=tE;
+                }
+            }
         }
     }
 
@@ -168,8 +175,12 @@ public class EventoDetailFragment extends Fragment {
         @Override
         protected ArrayList<Evento> doInBackground(String... urls) {
 
+            Log.d("tipo do evento", tipoDeEvento.getDescricao());
             EventoService eventoService = new EventoService();
-            return eventoService.retornarEventos(urls[0]);
+            if(tipoDeEvento.equals(TipoDeEvento.TODOS)){
+                return eventoService.retornarEventos(urls[0]);
+            }
+            return eventoService.retornarEventosPorTipo(urls[0], tipoDeEvento);
 
         }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 /**
@@ -43,10 +44,9 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             //seta os atributos
             Evento evento=getItem(position);
             //converte bytes em bitmap
-            if(evento.getImagem()!=null){
+             if(evento.getImagem()!=null){
                 Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImagem().getImagemByte(), 0, evento.getImagem().getImagemByte().length);
                 imagemEvento.setImageBitmap(imagemBitmap);
-
             }
              tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
