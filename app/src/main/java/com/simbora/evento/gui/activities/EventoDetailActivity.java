@@ -66,6 +66,7 @@ public class EventoDetailActivity extends ActionBarActivity {
             //
             NavUtils.navigateUpTo(this, new Intent(this, EventoListActivity.class));
             finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
