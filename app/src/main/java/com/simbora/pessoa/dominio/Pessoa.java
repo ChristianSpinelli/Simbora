@@ -1,5 +1,8 @@
 package com.simbora.pessoa.dominio;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,6 +29,16 @@ public class Pessoa {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+    public void setDataNascimento(String dataNascimento){
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        try {
+            Date novaDataNascimento = dateFormat.parse(dataNascimento);
+            setDataNascimento(novaDataNascimento);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public Genero getGenero() {
         return genero;
@@ -33,6 +46,13 @@ public class Pessoa {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+    }
+    public void setGenero(String genero){
+        for(Genero g:Genero.values()) {
+            if (g.getDescricao().equals(genero)) {
+                setGenero(g);
+            }
+        }
     }
 
     public Usuario getUsuario() {

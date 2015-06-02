@@ -1,5 +1,7 @@
 package com.simbora.pessoa.dominio;
 
+import com.simbora.util.dominio.Imagem;
+
 /**
  * Created by Demis e Lucas on 09/04/2015.
  */
@@ -9,6 +11,7 @@ public class Usuario {
     private String senha;
     private long mascates;
     private String nome;
+    private Imagem imagem;
 
 
  public String getNome() {
@@ -40,6 +43,13 @@ public class Usuario {
         setNome(nome);
     }
 
+    public Imagem getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Imagem imagem) {
+        this.imagem = imagem;
+    }
 
     public long getMascates() {
         return mascates;

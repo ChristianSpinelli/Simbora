@@ -2,10 +2,10 @@ package com.simbora.evento.dominio;
 
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.pessoa.dominio.Simbora;
+import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //classe Evento
 public class Evento {

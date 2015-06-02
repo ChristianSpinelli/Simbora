@@ -10,7 +10,7 @@ import com.loopj.android.http.RequestParams;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
-import com.simbora.evento.dominio.Imagem;
+import com.simbora.util.dominio.Imagem;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.util.dominio.Url;
