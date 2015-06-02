@@ -5,7 +5,10 @@ import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 //classe Evento
 public class Evento {
@@ -163,5 +166,30 @@ public class Evento {
 
     public void setPrecos(ArrayList<Preco> precos) {
         this.precos = precos;
+    }
+
+    public boolean isRolandoAgora(){
+        //pega a data, hora, minuto de hoje
+        Date dataHoje=new Date();
+        DateFormat formatarData=new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatarHora=new SimpleDateFormat("HH:mm");
+
+        //converte-as para String
+        String dataHojeString=formatarData.format(dataHoje);
+        String horaString=formatarHora.format(dataHoje);
+
+        for (int i=0;i<horarios.size();i++){
+            String dataEventoString=formatarData.format(horarios.get(i).getData());
+            String horaInicioString=formatarHora.format(horarios.get(i).getHoraInicio());
+            String horaTerminoString=formatarHora.format(horarios.get(i).getHoraInicio());
+
+            //se estão na mesma data
+            if(dataEventoString.equals(dataHojeString)){
+                return true;
+                //int horaAtual=Integer.parseInt()
+            }
+
+        }
+        return false;
     }
 }

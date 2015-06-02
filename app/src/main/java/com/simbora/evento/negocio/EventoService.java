@@ -15,6 +15,12 @@ public class EventoService {
     EventoDAO eventoDAO=new EventoDAO();
 
     public ArrayList<Evento> retornarEventos(TipoDeEvento tipoDeEvento){
+        if(tipoDeEvento.equals(TipoDeEvento.ROLANDO_AGORA)){
+            return eventoDAO.retornarEventosRolandoAgora(Url.getIp("eventos"));
+        }
+        if(tipoDeEvento.equals(TipoDeEvento.TODOS)){
+            return eventoDAO.retornarEventos(Url.getIp("eventos"));
+        }
         return eventoDAO.retornarEventos(Url.getIp("eventos"));
     }
     public ArrayList<Evento> retornarEventos(String url){

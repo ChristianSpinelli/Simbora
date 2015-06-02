@@ -16,4 +16,9 @@
     <string name="eventos">Eventos</string>
     <string name="title_activity_cadastro_evento">CadastroEventoActivity</string>
     <string name="criarEvento">Criar Evento</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in_short">Entrando</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="title_activity_login">Login</string>
 </resources>

@@ -180,6 +180,9 @@ public class EventoDetailFragment extends Fragment {
             if(tipoDeEvento.equals(TipoDeEvento.TODOS)){
                 return eventoService.retornarEventos(urls[0]);
             }
+            if(tipoDeEvento.equals(tipoDeEvento.ROLANDO_AGORA)){
+                return eventoService.retornarEventos(tipoDeEvento);
+            }
             return eventoService.retornarEventosPorTipo(urls[0], tipoDeEvento);
 
         }

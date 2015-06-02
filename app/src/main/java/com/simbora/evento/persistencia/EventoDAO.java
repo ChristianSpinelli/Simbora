@@ -59,10 +59,8 @@ public class EventoDAO {
             //criar um método para esta funcionalidade
             //verifica se um tipo est´no evento
              for (int i=0;i<eventos.length();i++){
-                 Log.d("print i", Integer.toString(i));
                  JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
                  for (int j=0;j<tiposDeEventoObject.length();j++) {
-                     Log.d("tipo do objto no json", tiposDeEventoObject.getJSONObject(j).getString("descricao"));
                      if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
                          Evento evento = retornarEvento(eventos.getJSONObject(i));
                          listaEventos.add(evento);
@@ -81,11 +79,7 @@ public class EventoDAO {
 
     //,étodo que retorna Eventos dado uma Url
     public ArrayList<Evento> retornarEventos(String url){
-        PessoaDAO p=new PessoaDAO();
-        String urlPessoas=p.retornarUrl("simbora@simbora.org");
-        Pessoa pessoa=p.retornarPessoa(urlPessoas);
         ArrayList<Evento> listaEventos=new ArrayList<Evento>();
-        Log.d("Pessoa", pessoa.getUsuario().getNome());
         try {
             //recebe um array de objetos JSON
             //o nome deste array é eventos
@@ -102,6 +96,30 @@ public class EventoDAO {
             Log.d("Erro no evento", "erro na lista de eventos");
         }
         return listaEventos;
+    }
+
+    public ArrayList<Evento> retornarEventosRolandoAgora(String url){
+        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        ArrayList<Evento> listaEventosRolandoAgora=new ArrayList<Evento>();
+
+        try {
+            listaEventos=retornarEventos(url);
+            for(Evento evento: listaEventos){
+                if(evento.isRolandoAgora()){
+                    listaEventosRolandoAgora.add(evento);
+                }
+            }
+
+            //corrigir índices
+            for(int i=0;i<listaEventosRolandoAgora.size();i++){
+                listaEventosRolandoAgora.get(i).setId(i+1);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaEventosRolandoAgora;
     }
 
     private Evento retornarEvento(JSONObject json){

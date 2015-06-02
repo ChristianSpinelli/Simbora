@@ -38,9 +38,8 @@ public class Pessoa {
             setDataNascimento(novaDataNascimento);
         } catch (ParseException e) {
             Log.d("Erro na conversão"," colocando data padrão" );
-            Date dataPadrao=new Date();
             try {
-                dataPadrao=dateFormat.parse("01/01/2000");
+                Date dataPadrao=dateFormat.parse("01/01/2000");
                 setDataNascimento(dataPadrao);
             } catch (ParseException e1) {
                 e1.printStackTrace();
