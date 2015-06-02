@@ -3,6 +3,7 @@ package com.simbora.evento.gui.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
 
-import java.io.FileInputStream;
 import java.util.List;
 
 /**
@@ -45,9 +45,9 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             Evento evento=getItem(position);
             //converte bytes em bitmap
              if(evento.getImagem()!=null){
-                Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImagem().getImagemByte(), 0, evento.getImagem().getImagemByte().length);
-                imagemEvento.setImageBitmap(imagemBitmap);
-            }
+                 Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
+                 imagemEvento.setImageBitmap(imagemBitmap);
+             }
              tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
             horarioEvento.setText(evento.getHorarios().get(0).getHoraInicio().toString());
@@ -55,6 +55,34 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
            dataEvento.setText(evento.getHorarios().get(0).getData().toString());
           return convertView;
         }
+    // Decodifica a imagem para evitar erros de memória
+    private Bitmap decodeFile(byte[] byteArray) {
+        try {
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, o);
+
+
+
+            // novo tamanho a ser escalado
+            final int REQUIRED_SIZE=70;
+
+            // Achar o valor de escala correto, deve ser uma potência de dois
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decodifica com a escala correta
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, o2);
+        }catch (Exception e){
+            Log.d("Exceção na conversão", e.getMessage());
+        }
+        return null;
+    }
 
 }
 

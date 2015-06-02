@@ -1,14 +1,11 @@
 package com.simbora.pessoa.dominio.perssistencia;
 
-import com.simbora.pessoa.dominio.Genero;
 import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.pessoa.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by Krys on 02/06/2015.

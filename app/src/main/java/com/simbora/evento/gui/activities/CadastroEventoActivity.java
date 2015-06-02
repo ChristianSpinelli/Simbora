@@ -10,8 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,11 +26,11 @@ import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
+import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.negocio.Mask;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CadastroEventoActivity extends ActionBarActivity {
     private Button bCadastrar;
@@ -90,6 +88,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 Endereco endereco = new Endereco(etCidade.getText().toString(),etBairro.getText().toString(),etRua.getText().toString(),etNumero.getText().toString(),etLocal.getText().toString());
                 Horario horario = new Horario(etData.getText().toString(),etHoraInicio.getText().toString(),etHoraFim.getText().toString());
                 Preco preco = new Preco();
+                Imagem imagem = new Imagem();
                 ArrayList<Horario> horarios=new ArrayList<Horario>();
                 ArrayList<Preco> precos=new ArrayList<Preco>();
                 ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
@@ -100,6 +99,8 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 //tipodefault. tirar após configurarmos o cadastro
                 tiposDeEvento.add(TipoDeEvento.CINEMA);
 
+                imagem.setCaminho(imagemString);
+
                 Evento evento=new Evento();
                 evento.setDescricao(etDescricao.getText().toString());
                 evento.setTelefone(etTelefone.getText().toString());
@@ -108,6 +109,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setHorarios(horarios);
                 evento.setPrecos(precos);
                 evento.setTiposDeEvento(tiposDeEvento);
+                evento.setImagem(imagem);
 
                 new CadastrarAsyncTask().execute(evento);
 
