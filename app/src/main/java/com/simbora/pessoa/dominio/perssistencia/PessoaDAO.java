@@ -3,7 +3,9 @@ package com.simbora.pessoa.dominio.perssistencia;
 import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.pessoa.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
+import com.simbora.util.dominio.Url;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,7 +49,7 @@ public class PessoaDAO {
 
     }
 
-    public Pessoa retornarPessoa(String url){
+    private Pessoa retornarPessoa(String url){
         Pessoa pessoa = new Pessoa();
         JSONObject pessoaObect = new JSONObject();
         try {
@@ -59,6 +61,29 @@ public class PessoaDAO {
 
         return pessoa;
 
+    }
+
+    private String retornarUrl(String email){
+        String url = "";
+        String urlPessoas = "";
+        Url urlPagina = new Url();
+        urlPessoas = urlPagina.getIp("pessoas");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.get(urlPessoas);
+            JSONArray pessoas = jsonObject.getJSONArray("pessoas");
+            JSONObject usuario = new JSONObject();
+            for (int i=0;i<=pessoas.length();i++){
+               usuario =  pessoas.getJSONObject(i).getJSONArray("usuario").getJSONObject(0);
+                if(usuario.get("email").equals(email)){
+                   url = pessoas.getJSONObject(i).getString("uri");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
 }

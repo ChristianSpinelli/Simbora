@@ -11,6 +11,10 @@ public class Url {
         return "http://"+ip;
     }
 
+    public static String getIp(String pagina){
+        return "http://"+ip+":5000/todo/api/v1.0/"+pagina;
+    }
+
     public static void setIp(String ip) {
         Url.ip = ip;
     }
