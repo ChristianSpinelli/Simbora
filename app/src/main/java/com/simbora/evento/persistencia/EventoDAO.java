@@ -12,6 +12,8 @@ import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
+import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.pessoa.dominio.perssistencia.PessoaDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 
@@ -79,7 +81,11 @@ public class EventoDAO {
 
     //,étodo que retorna Eventos dado uma Url
     public ArrayList<Evento> retornarEventos(String url){
+        PessoaDAO p=new PessoaDAO();
+        String urlPessoas=p.retornarUrl("simbora@simbora.org");
+        Pessoa pessoa=p.retornarPessoa(urlPessoas);
         ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        Log.d("Pessoa", pessoa.getUsuario().getNome());
         try {
             //recebe um array de objetos JSON
             //o nome deste array é eventos
@@ -286,16 +292,12 @@ public class EventoDAO {
         InputStream inputStream = null;
         String result = "";
         try {
-
             // cria HttpClient
             HttpClient httpclient = new DefaultHttpClient();
-
             // dá o GET
             HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
             // recebe resposta no inputStream
             inputStream = httpResponse.getEntity().getContent();
-
             // converte inputStream para string
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);

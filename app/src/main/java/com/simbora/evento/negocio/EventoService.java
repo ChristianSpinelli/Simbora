@@ -3,6 +3,7 @@ package com.simbora.evento.negocio;
 import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.persistencia.EventoDAO;
+import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,9 @@ public class EventoService {
 
     EventoDAO eventoDAO=new EventoDAO();
 
+    public ArrayList<Evento> retornarEventos(TipoDeEvento tipoDeEvento){
+        return eventoDAO.retornarEventos(Url.getIp("eventos"));
+    }
     public ArrayList<Evento> retornarEventos(String url){
         return eventoDAO.retornarEventos(url);
     }

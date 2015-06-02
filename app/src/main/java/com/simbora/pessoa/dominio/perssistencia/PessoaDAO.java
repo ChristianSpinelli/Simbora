@@ -85,7 +85,7 @@ public class PessoaDAO {
             JSONObject jsonObject = new JSONObject(getJSON(urlPessoas));
             JSONArray pessoas = jsonObject.getJSONArray("pessoas");
             JSONObject usuario = new JSONObject();
-            for (int i=0;i<=pessoas.length();i++){
+            for (int i=0;i<pessoas.length();i++){
                usuario =  pessoas.getJSONObject(i).getJSONArray("usuario").getJSONObject(0);
                 Log.d("Teste",usuario.getString("email"));
                 if(usuario.getString("email").equals(email)){
@@ -98,7 +98,7 @@ public class PessoaDAO {
         return url;
     }
 
-    //método que retorna a String do JSON
+    //mï¿½todo que retorna a String do JSON
     private  String getJSON(String url){
         InputStream inputStream = null;
         String result = "";
@@ -107,7 +107,7 @@ public class PessoaDAO {
             // cria HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 
-            // dá o GET
+            // dï¿½ o GET
             HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
 
             // recebe resposta no inputStream
@@ -117,7 +117,7 @@ public class PessoaDAO {
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
-                result = "Não funcionou!";
+                result = "Nï¿½o funcionou!";
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());

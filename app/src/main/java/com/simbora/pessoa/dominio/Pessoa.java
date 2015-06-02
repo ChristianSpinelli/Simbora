@@ -1,5 +1,7 @@
 package com.simbora.pessoa.dominio;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +37,15 @@ public class Pessoa {
             Date novaDataNascimento = dateFormat.parse(dataNascimento);
             setDataNascimento(novaDataNascimento);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.d("Erro na conversão"," colocando data padrão" );
+            Date dataPadrao=new Date();
+            try {
+                dataPadrao=dateFormat.parse("01/01/2000");
+                setDataNascimento(dataPadrao);
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+
         }
 
     }

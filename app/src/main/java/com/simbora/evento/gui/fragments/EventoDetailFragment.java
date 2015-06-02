@@ -82,7 +82,7 @@ public class EventoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
         //executa a Thread assíncrona para carregar a lista de eventos do Web Service
-        new HttpAsyncTask().execute(Url.getIp()+":5000/todo/api/v1.0/eventos");
+        new HttpAsyncTask().execute(Url.getIp("eventos"));
         //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
         this.bCriarEvento = (Button) rootView.findViewById(R.id.bCriarEvento);
