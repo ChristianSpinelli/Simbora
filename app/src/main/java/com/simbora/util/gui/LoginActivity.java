@@ -117,25 +117,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
 
-            //TODO: descomentar quando resolver o problema
-            //mPasswordView.setError(getString(R.string.error_invalid_password));
-            //focusView = mPasswordView;
-            //cancel = true;
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
 
-            //TODO: descomentar quando resolver o problema
-            //mEmailView.setError(getString(R.string.error_field_required));
-            //focusView = mEmailView;
-            //cancel = true;
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
         } else if (!isEmailValid(email)) {
 
-            //TODO: descomentar quando resolver o problema
-            //mEmailView.setError(getString(R.string.error_invalid_email));
-            //focusView = mEmailView;
-            //cancel = true;
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
         }
 
         if (cancel) {
@@ -297,9 +294,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 finish();
             } else {
 
-                //TODO: descomentar quando resolver o problema
-                //mPasswordView.setError(getString(R.string.error_incorrect_password));
-                //mPasswordView.requestFocus();
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
             }
         }
 

@@ -192,4 +192,9 @@ public class Evento {
         }
         return false;
     }
+
+    public boolean isRolandoAgora(int i){
+        Date dataAtual=new Date();
+        return false;
+    }
 }

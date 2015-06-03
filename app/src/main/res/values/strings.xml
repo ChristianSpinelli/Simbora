@@ -21,4 +21,8 @@
     <string name="action_sign_in_short">Entrando</string>
     <string name="action_sign_in">Entrar</string>
     <string name="title_activity_login">Login</string>
+    <string name="error_incorrect_password">A senha está errada</string>
+    <string name="error_invalid_email">Email inválido</string>
+    <string name="error_field_required">Este campo precisa ser preenchido</string>
+    <string name="error_invalid_password">Senha inválida</string>
 </resources>
