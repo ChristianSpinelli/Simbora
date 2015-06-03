@@ -1,14 +1,10 @@
 package com.simbora.evento.dominio;
 
-import android.util.Log;
-
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 

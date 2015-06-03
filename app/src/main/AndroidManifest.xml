@@ -52,7 +52,7 @@
             android:label="@string/criarEvento" >
         </activity>
         <activity
-            android:name=".usuario.gui.LoginActivity"
+            android:name=".util.gui.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
