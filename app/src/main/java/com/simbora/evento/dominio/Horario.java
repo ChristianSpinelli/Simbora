@@ -13,13 +13,13 @@ public class Horario {
 
     private Date horaInicio;
     private Date horaTermino;
-    private Date data;
+
 
     public Horario(String data,String horaInicio,String horaTermino){
         try {
-            this.setHoraInicio(horaInicio);
-            this.setHoraTermino(horaTermino);
-            this.setData(data);
+            this.setHoraInicio(data,horaInicio);
+            this.setHoraTermino(data,horaTermino);
+
         } catch (Exception e) {
             Log.d("Erro inst 'horario' ",e.getMessage());
             e.printStackTrace();
@@ -32,19 +32,19 @@ public class Horario {
         return horaInicio;
     }
 
-    public void setData(String data) throws Exception {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date hDate = dateFormat.parse(data);
+    public void setData(String data,String horaInicio) throws Exception {
+        this.setHoraInicio(data,horaInicio);
+    }
+    public void setHoraInicio(String data, String horaInicio) throws Exception {
+        String diaHoraInicio = data+" "+horaInicio;
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date hDate = dateFormat.parse(diaHoraInicio);
         this.setData(hDate);
     }
-    public void setHoraInicio(String horaInicio) throws Exception {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        Date hDate = dateFormat.parse(horaInicio);
-        this.setHoraInicio(hDate);
-    }
-    public void setHoraTermino(String Termino) throws Exception {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        Date hDate = dateFormat.parse(Termino);
+    public void setHoraTermino(String data,String Termino) throws Exception {
+        String diaHoraFim = data+" "+horaInicio;
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date hDate = dateFormat.parse(diaHoraFim);
         this.setHoraTermino(hDate);
     }
     public void setHoraInicio(Date horaInicio) {
@@ -60,11 +60,11 @@ public class Horario {
     }
 
     public Date getData() {
-        return data;
+        return this.getHoraInicio();
     }
 
     public void setData(Date data) {
-        this.data = data;
+        this.setHoraInicio(data);
     }
 
 
