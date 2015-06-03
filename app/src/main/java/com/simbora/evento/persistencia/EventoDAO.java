@@ -12,34 +12,18 @@ import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
-import com.simbora.pessoa.dominio.Pessoa;
-import com.simbora.pessoa.dominio.perssistencia.PessoaDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.simbora.util.persistencia.AbstractDAO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,38 +31,34 @@ import java.util.Date;
 /**
  * Created by Demis e Lucas on 24/05/2015.
  */
-public class EventoDAO {
+public class EventoDAO extends AbstractDAO<Evento>{
 
-
-    public ArrayList<Evento> retornarEventos(String url, TipoDeEvento tipo){
-        try {
-            JSONObject jsonObject=new JSONObject(getJSON(url));
-            JSONArray eventos=jsonObject.getJSONArray("eventos");
-            ArrayList<Evento> listaEventos=new ArrayList<Evento>();
-
-            //criar um método para esta funcionalidade
-            //verifica se um tipo est´no evento
-             for (int i=0;i<eventos.length();i++){
-                 JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
-                 for (int j=0;j<tiposDeEventoObject.length();j++) {
-                     if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
-                         Evento evento = retornarEvento(eventos.getJSONObject(i));
-                         listaEventos.add(evento);
-                     }
-                 }
-             }
-            return listaEventos;
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Evento consultar(Evento evento, String url) {
         return null;
     }
 
+    @Override
+    public Evento remover(Evento evento, String url) {
+        return null;
+    }
 
-    //,étodo que retorna Eventos dado uma Url
-    public ArrayList<Evento> retornarEventos(String url){
+    @Override
+    public void atualizar(Evento evento, String url) {
+
+    }
+
+    @Override
+    public boolean inserir(Evento evento, String url) {
+        JSONObject eventoAInserir = converterEventoJSON(evento);
+        postImagem(url, evento.getImagem().getCaminho());
+        boolean inseriu=post(eventoAInserir,url);
+        return inseriu;
+
+    }
+
+    @Override
+    public ArrayList<Evento> consultar(String url) {
         ArrayList<Evento> listaEventos=new ArrayList<Evento>();
         try {
             //recebe um array de objetos JSON
@@ -87,7 +67,7 @@ public class EventoDAO {
             JSONArray eventos=jsonObject.getJSONArray("eventos");
             //percorre a lista e adiciona os atributos no método retornarEvento
             for (int i=0;i<eventos.length();i++)   {
-                Evento evento=retornarEvento(eventos.getJSONObject(i));
+                Evento evento=converterParaObjeto(eventos.getJSONObject(i));
                 evento.setId(i+1);
                 listaEventos.add(evento);
             }
@@ -96,33 +76,11 @@ public class EventoDAO {
             Log.d("Erro no evento", "erro na lista de eventos");
         }
         return listaEventos;
+
     }
 
-    public ArrayList<Evento> retornarEventosRolandoAgora(String url){
-        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
-        ArrayList<Evento> listaEventosRolandoAgora=new ArrayList<Evento>();
-
-        try {
-            listaEventos=retornarEventos(url);
-            for(Evento evento: listaEventos){
-                if(evento.isRolandoAgora()){
-                    listaEventosRolandoAgora.add(evento);
-                }
-            }
-
-            //corrigir índices
-            for(int i=0;i<listaEventosRolandoAgora.size();i++){
-                listaEventosRolandoAgora.get(i).setId(i+1);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listaEventosRolandoAgora;
-    }
-
-    private Evento retornarEvento(JSONObject json){
+    @Override
+    public Evento converterParaObjeto(JSONObject jsonObject) {
         Evento evento=new Evento();
         Endereco endereco=new Endereco();
         ArrayList<Horario> horarios=new ArrayList<Horario>();
@@ -130,13 +88,12 @@ public class EventoDAO {
         ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
 
         try {
-            evento.setNome(json.getString("titulo"));
-            evento.setDescricao(json.getString("descricao"));
-            evento.setTelefone(json.getString("telefone"));
+            evento.setNome(jsonObject.getString("titulo"));
+            evento.setDescricao(jsonObject.getString("descricao"));
+            evento.setTelefone(jsonObject.getString("telefone"));
 
             //endereco
-
-            JSONObject enderecoObject=json.getJSONArray("endereco").getJSONObject(0);
+            JSONObject enderecoObject=jsonObject.getJSONArray("endereco").getJSONObject(0);
             endereco.setNome(enderecoObject.getString("nome"));
             endereco.setBairro(enderecoObject.getString("bairro"));
             endereco.setCep(enderecoObject.getString("cep"));
@@ -145,13 +102,13 @@ public class EventoDAO {
             endereco.setRua(enderecoObject.getString("rua"));
 
             //horarios
-            JSONArray horariosObject=json.getJSONArray("horarios");
+            JSONArray horariosObject=jsonObject.getJSONArray("horarios");
             for (int i=0;i<horariosObject.length();i++)   {
-               Horario horario=new Horario(horariosObject.getJSONObject(i).getString("data"),horariosObject.getJSONObject(i).getString("horaInicio"),horariosObject.getJSONObject(i).getString("horaTermino"));
+                Horario horario=new Horario(horariosObject.getJSONObject(i).getString("data"),horariosObject.getJSONObject(i).getString("horaInicio"),horariosObject.getJSONObject(i).getString("horaTermino"));
                 horarios.add(horario);
             }
 
-            JSONArray precosObject=json.getJSONArray("precos");
+            JSONArray precosObject=jsonObject.getJSONArray("precos");
             for (int j=0;j<precosObject.length();j++){
                 Preco preco=new Preco();
                 preco.setNomeEntrada(precosObject.getJSONObject(j).getString("tipo"));
@@ -159,7 +116,7 @@ public class EventoDAO {
                 precos.add(preco);
             }
 
-            JSONArray tiposDeEventoObject=json.getJSONArray("tiposDeEvento");
+            JSONArray tiposDeEventoObject=jsonObject.getJSONArray("tiposDeEvento");
             for (int j=0;j<tiposDeEventoObject.length();j++){
                 for (TipoDeEvento t:TipoDeEvento.values()){
                     if(t.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))){
@@ -168,13 +125,12 @@ public class EventoDAO {
                 }
             }
 
-
-
             Bitmap bitmap = null;
             byte[] bitmapdata=null;
+
             //pega a imagem do servidor e converte em um bitmap
             try {
-                InputStream in = new java.net.URL(Url.getIp()+":5000/"+json.getString("imagem")).openStream();
+                InputStream in = new java.net.URL(Url.getIp()+":5000/"+jsonObject.getString("imagem")).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
 
                 ByteArrayOutputStream blob = new ByteArrayOutputStream();
@@ -194,7 +150,7 @@ public class EventoDAO {
             //seta tipos de evento
             evento.setTiposDeEvento(tiposDeEvento);
             //seta imagem
-            evento.setImagem(new Imagem(json.getString("imagem"), bitmapdata));
+            evento.setImagem(new Imagem(jsonObject.getString("imagem"), bitmapdata));
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Erro no evento", "erro no json do evento");
@@ -202,12 +158,55 @@ public class EventoDAO {
         return evento;
     }
 
-    public boolean inserirEvento(Evento evento, String url){
+    @Override
+    public JSONObject converterParaJSON(Evento evento) {
+        return null;
+    }
 
-        JSONObject eventoAInserir = converterEventoJSON(evento);
-        postImagem(url, evento.getImagem().getCaminho());
-        boolean inseriu=post(eventoAInserir,url);
-        return inseriu;
+    public ArrayList<Evento> consultar(String url, TipoDeEvento tipo){
+        try {
+            JSONObject jsonObject=new JSONObject(getJSON(url));
+            JSONArray eventos=jsonObject.getJSONArray("eventos");
+            ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+            //criar um método para esta funcionalidade
+            //verifica se um tipo est´no evento
+             for (int i=0;i<eventos.length();i++){
+                 JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
+                 for (int j=0;j<tiposDeEventoObject.length();j++) {
+                     if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
+                         Evento evento = converterParaObjeto(eventos.getJSONObject(i));
+                         listaEventos.add(evento);
+                     }
+                 }
+             }
+            return listaEventos;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Evento> consultarRolandoAgora(String url){
+        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        ArrayList<Evento> listaEventosRolandoAgora=new ArrayList<Evento>();
+
+        try {
+            listaEventos=consultar(url);
+            for(Evento evento: listaEventos){
+                if(evento.isRolandoAgora()){
+                    listaEventosRolandoAgora.add(evento);
+                }
+            }
+            //corrigir índices
+            for(int i=0;i<listaEventosRolandoAgora.size();i++){
+                listaEventosRolandoAgora.get(i).setId(i+1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaEventosRolandoAgora;
     }
 
     private JSONObject converterEventoJSON(Evento evento){
@@ -280,103 +279,6 @@ public class EventoDAO {
         return jsonObjectEvento;
     }
 
-    private Date converterData(String dataString){
-        DateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
-        Date dataConvertida=null;
-        try {
-            dataConvertida=dateFormat.parse(dataString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dataConvertida;
-    }
-
-    private Date converterHora(String dataString){
-        DateFormat dateFormat=new SimpleDateFormat("HH:mm");
-        Date horaConvertida=null;
-        try {
-            horaConvertida=dateFormat.parse(dataString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return horaConvertida;
-    }
-
-    //método que retorna a String do JSON
-    private  String getJSON(String url){
-        InputStream inputStream = null;
-        String result = "";
-        try {
-            // cria HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
-            // dá o GET
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-            // recebe resposta no inputStream
-            inputStream = httpResponse.getEntity().getContent();
-            // converte inputStream para string
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "Não funcionou!";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
-        return result;
-    }
-
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-
-        inputStream.close();
-        return result;
-
-    }
-
-    private boolean post(JSONObject jo, String urlWebService){
-        boolean inseriu=false;
-        URL url = null;
-        try {
-            url = new URL(urlWebService);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = null;
-        try {
-            httpPost = new HttpPost(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        // Seta o corpo do Post
-        try {
-            httpPost.setEntity(new StringEntity(jo.toString(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        // Configura o cabeçcalho do post informando que é um JSON
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("Accept-Encoding", "application/json");
-        httpPost.setHeader("Accept-Language", "en-US");
-
-        // Executa o POST
-        try {
-            HttpResponse response = httpClient.execute(httpPost);
-            inseriu=true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return inseriu;
-    }
-
     public void postImagem(String url, String caminho){
         RequestParams params = new RequestParams();
         if (caminho!=null){
@@ -406,7 +308,6 @@ public class EventoDAO {
         return converterDatas(date, "dd/MM/yyyy");
     }
 
-
     public String converterDatas(Date date, String formato){
         DateFormat dateFormat = new SimpleDateFormat(formato);
         String data=dateFormat.format(date);
@@ -416,9 +317,8 @@ public class EventoDAO {
     private String retornarNomeImagem(String caminho){
         String[] nomes=caminho.split("/");
         String nome=nomes[nomes.length-1];
-        Log.d("Retornar evento", nome);
-        return nome;
+        String nomeSemEspaco=nome.replace(" ","_");
+        Log.d("Retornar evento", nomeSemEspaco);
+        return nomeSemEspaco;
     }
-
-
 }

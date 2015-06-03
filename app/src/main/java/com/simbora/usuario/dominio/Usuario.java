@@ -1,4 +1,4 @@
-package com.simbora.pessoa.dominio;
+package com.simbora.usuario.dominio;
 
 import com.simbora.util.dominio.Imagem;
 

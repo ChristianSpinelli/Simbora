@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -54,10 +55,8 @@ public class EventoDetailFragment extends Fragment {
     private MatrixCursor cursorAtual;
     private ListView lv;
     private Button bCriarEvento;
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    private ProgressBar progressBarEventos;
+
     public EventoDetailFragment() {
     }
 
@@ -82,6 +81,7 @@ public class EventoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
         //executa a Thread assíncrona para carregar a lista de eventos do Web Service
+        progressBarEventos=(ProgressBar) rootView.findViewById(R.id.progressBarLoadingEventos);
         new HttpAsyncTask().execute(Url.getIp("eventos"));
         //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
@@ -177,13 +177,9 @@ public class EventoDetailFragment extends Fragment {
 
             Log.d("tipo do evento", tipoDeEvento.getDescricao());
             EventoService eventoService = new EventoService();
-            if(tipoDeEvento.equals(TipoDeEvento.TODOS)){
-                return eventoService.retornarEventos(urls[0]);
-            }
-            if(tipoDeEvento.equals(tipoDeEvento.ROLANDO_AGORA)){
-                return eventoService.retornarEventos(tipoDeEvento);
-            }
-            return eventoService.retornarEventosPorTipo(urls[0], tipoDeEvento);
+            progressBarEventos.setVisibility(View.VISIBLE);
+            return eventoService.retornarEventos(tipoDeEvento);
+
 
         }
 
@@ -191,6 +187,7 @@ public class EventoDetailFragment extends Fragment {
         //ou seja, quando a Thread é finalizada
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
+            progressBarEventos.setVisibility(View.GONE);
             if(result.size()!=0){
 
                 Toast.makeText(getActivity().getBaseContext(), "Carregada com Sucesso!", Toast.LENGTH_LONG).show();

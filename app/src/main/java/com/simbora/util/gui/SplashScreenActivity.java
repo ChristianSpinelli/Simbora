@@ -1,10 +1,10 @@
 package com.simbora.util.gui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.simbora.R;
-import com.simbora.evento.gui.activities.EventoListActivity;
+import com.simbora.usuario.gui.LoginActivity;
 import com.simbora.util.dominio.Url;
 
 
-public class SplashScreenActivity extends ActionBarActivity {
+public class SplashScreenActivity extends Activity {
     ProgressBar progress;
     TextView textViewCarregando;
     @Override
@@ -52,7 +52,7 @@ public class SplashScreenActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, EventoListActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

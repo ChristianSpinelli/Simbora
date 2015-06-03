@@ -16,25 +16,21 @@ public class EventoService {
 
     public ArrayList<Evento> retornarEventos(TipoDeEvento tipoDeEvento){
         if(tipoDeEvento.equals(TipoDeEvento.ROLANDO_AGORA)){
-            return eventoDAO.retornarEventosRolandoAgora(Url.getIp("eventos"));
+            return eventoDAO.consultarRolandoAgora(Url.getIp("eventos"));
         }
         if(tipoDeEvento.equals(TipoDeEvento.TODOS)){
-            return eventoDAO.retornarEventos(Url.getIp("eventos"));
+            return eventoDAO.consultar(Url.getIp("eventos"));
         }
-        return eventoDAO.retornarEventos(Url.getIp("eventos"));
+        return eventoDAO.consultar(Url.getIp("eventos"),tipoDeEvento);
     }
     public ArrayList<Evento> retornarEventos(String url){
-        return eventoDAO.retornarEventos(url);
-    }
-
-    public ArrayList<Evento> retornarEventosPorTipo(String url, TipoDeEvento tipoDeEvento){
-        return eventoDAO.retornarEventos(url, tipoDeEvento);
+        return eventoDAO.consultar(url);
     }
 
 
     public boolean inserirEvento(Evento evento, String url){
 
-        return eventoDAO.inserirEvento(evento, url);
+        return eventoDAO.inserir(evento, url);
     }
 
 

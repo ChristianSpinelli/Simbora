@@ -1,11 +1,12 @@
-package com.simbora.pessoa.dominio.perssistencia;
+package com.simbora.pessoa.dominio.persistencia;
 
 import android.util.Log;
 
 import com.simbora.pessoa.dominio.Pessoa;
-import com.simbora.pessoa.dominio.Usuario;
+import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
+import com.simbora.util.persistencia.AbstractDAO;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -19,28 +20,52 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Krys on 02/06/2015.
  */
-public class PessoaDAO {
+public class PessoaDAO extends AbstractDAO<Pessoa>{
 
-    private Pessoa retornarPessoa(JSONObject json) {
+    @Override
+    public Pessoa consultar(Pessoa pessoa, String url) {
+        return null;
+    }
 
+    @Override
+    public Pessoa remover(Pessoa pessoa, String url) {
+        return null;
+    }
+
+    @Override
+    public void atualizar(Pessoa pessoa, String url) {
+
+    }
+
+    @Override
+    public boolean inserir(Pessoa pessoa, String url) {
+        return false;
+    }
+
+    @Override
+    public ArrayList<Pessoa> consultar(String url) {
+        return null;
+    }
+
+    @Override
+    public Pessoa converterParaObjeto(JSONObject jsonObject) {
         Pessoa pessoa = new Pessoa();
         Usuario usuario = new Usuario();
         Imagem imagem = new Imagem();
-        JSONObject generoObject = new JSONObject();
-        JSONObject usuarioObject = new JSONObject();
 
         try {
-            pessoa.setCpf(json.getString("cpf"));
-            pessoa.setDataNascimento(json.getString("dataNascimento"));
+            pessoa.setCpf(jsonObject.getString("cpf"));
+            pessoa.setDataNascimento(jsonObject.getString("dataNascimento"));
 
-            generoObject = json.getJSONArray("genero").getJSONObject(0);
+            JSONObject generoObject = jsonObject.getJSONArray("genero").getJSONObject(0);
             pessoa.setGenero(generoObject.getString("descricao"));
 
-            usuarioObject = json.getJSONArray("usuario").getJSONObject(0);
+            JSONObject usuarioObject = jsonObject.getJSONArray("usuario").getJSONObject(0);
             usuario.setEmail(usuarioObject.getString("email"));
             usuario.setMascates(usuarioObject.getLong("mascates"));
             usuario.setNome(usuarioObject.getString("nome"));
@@ -57,15 +82,19 @@ public class PessoaDAO {
 
         return pessoa;
 
-
     }
 
-    public Pessoa retornarPessoa(String url){
+    @Override
+    public JSONObject converterParaJSON(Pessoa pessoa) {
+        return null;
+    }
+
+     public Pessoa consultarPessoa(String url){
         Pessoa pessoa = new Pessoa();
         JSONObject pessoaObect = null;
         try {
             pessoaObect = new JSONObject(getJSON(url));
-            pessoa = retornarPessoa(pessoaObect.getJSONObject("pessoa"));
+            pessoa = converterParaObjeto(pessoaObect.getJSONObject("pessoa"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -74,6 +103,7 @@ public class PessoaDAO {
 
     }
 
+    //TODO: colocar para consultar
     public String retornarUrl(String email){
         String url = "";
         String urlPessoas = "";
@@ -84,9 +114,8 @@ public class PessoaDAO {
         try {
             JSONObject jsonObject = new JSONObject(getJSON(urlPessoas));
             JSONArray pessoas = jsonObject.getJSONArray("pessoas");
-            JSONObject usuario = new JSONObject();
             for (int i=0;i<pessoas.length();i++){
-               usuario =  pessoas.getJSONObject(i).getJSONArray("usuario").getJSONObject(0);
+              JSONObject usuario =  pessoas.getJSONObject(i).getJSONArray("usuario").getJSONObject(0);
                 Log.d("Teste",usuario.getString("email"));
                 if(usuario.getString("email").equals(email)){
                    url = pessoas.getJSONObject(i).getString("uri");
@@ -96,46 +125,6 @@ public class PessoaDAO {
             e.printStackTrace();
         }
         return url;
-    }
-
-    //m�todo que retorna a String do JSON
-    private  String getJSON(String url){
-        InputStream inputStream = null;
-        String result = "";
-        try {
-
-            // cria HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
-
-            // d� o GET
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
-            // recebe resposta no inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // converte inputStream para string
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "N�o funcionou!";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
-        return result;
-    }
-
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-
-        inputStream.close();
-        return result;
-
     }
 
 }

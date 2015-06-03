@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:id="@+id/LinearLayoutListaEventos">
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -28,6 +29,17 @@
             android:id="@+id/bCriarEvento" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarLoadingEventos"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

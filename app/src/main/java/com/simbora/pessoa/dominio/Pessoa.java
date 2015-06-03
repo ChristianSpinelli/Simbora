@@ -2,6 +2,8 @@ package com.simbora.pessoa.dominio;
 
 import android.util.Log;
 
+import com.simbora.usuario.dominio.Usuario;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
