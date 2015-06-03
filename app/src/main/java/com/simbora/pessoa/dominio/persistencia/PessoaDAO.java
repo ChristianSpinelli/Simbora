@@ -119,12 +119,15 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
                 Log.d("Teste",usuario.getString("email"));
                 if(usuario.getString("email").equals(email)){
                    url = pessoas.getJSONObject(i).getString("uri");
+                    Log.d("Teste3",url);
+                    return url;
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return url;
+        return null;
+
     }
 
 }
