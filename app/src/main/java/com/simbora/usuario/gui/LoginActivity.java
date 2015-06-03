@@ -31,6 +31,7 @@ import java.util.List;
 
 import com.simbora.R;
 import com.simbora.evento.gui.activities.EventoListActivity;
+import com.simbora.pessoa.dominio.negocio.ManterPessoa;
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.usuario.negocio.UsuarioService;
 
@@ -113,6 +114,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             focusView = mPasswordView;
             cancel = true;
         }
+
+        //ManterPessoa manterPessoa = new ManterPessoa();
+       // String url =manterPessoa.retornarUrl(email);
+
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
