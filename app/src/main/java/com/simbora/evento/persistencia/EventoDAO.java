@@ -147,10 +147,7 @@ public class EventoDAO {
             //horarios
             JSONArray horariosObject=json.getJSONArray("horarios");
             for (int i=0;i<horariosObject.length();i++)   {
-               Horario horario=new Horario();
-                horario.setData(converterData(horariosObject.getJSONObject(i).getString("data")));
-                horario.setHoraInicio(converterHora(horariosObject.getJSONObject(i).getString("horaInicio")));
-                horario.setHoraInicio(converterHora(horariosObject.getJSONObject(i).getString("horaTermino")));
+               Horario horario=new Horario(horariosObject.getJSONObject(i).getString("data"),horariosObject.getJSONObject(i).getString("horaInicio"),horariosObject.getJSONObject(i).getString("horaTermino"));
                 horarios.add(horario);
             }
 

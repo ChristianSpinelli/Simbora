@@ -41,8 +41,8 @@ public class Horario {
         Date hDate = dateFormat.parse(diaHoraInicio);
         this.setData(hDate);
     }
-    public void setHoraTermino(String data,String Termino) throws Exception {
-        String diaHoraFim = data+" "+horaInicio;
+    public void setHoraTermino(String data,String termino) throws Exception {
+        String diaHoraFim = data+" "+termino;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date hDate = dateFormat.parse(diaHoraFim);
         this.setHoraTermino(hDate);

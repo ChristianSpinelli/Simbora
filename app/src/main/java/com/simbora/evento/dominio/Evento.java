@@ -1,5 +1,7 @@
 package com.simbora.evento.dominio;
 
+import android.util.Log;
+
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Imagem;
@@ -168,33 +170,15 @@ public class Evento {
         this.precos = precos;
     }
 
+
     public boolean isRolandoAgora(){
-        //pega a data, hora, minuto de hoje
-        Date dataHoje=new Date();
-        DateFormat formatarData=new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat formatarHora=new SimpleDateFormat("HH:mm");
-
-        //converte-as para String
-        String dataHojeString=formatarData.format(dataHoje);
-        String horaString=formatarHora.format(dataHoje);
-
-        for (int i=0;i<horarios.size();i++){
-            String dataEventoString=formatarData.format(horarios.get(i).getData());
-            String horaInicioString=formatarHora.format(horarios.get(i).getHoraInicio());
-            String horaTerminoString=formatarHora.format(horarios.get(i).getHoraInicio());
-
-            //se estão na mesma data
-            if(dataEventoString.equals(dataHojeString)){
+        Date dateAtual=new Date();
+        for(Horario horario: this.horarios){
+            if(dateAtual.after(horario.getHoraInicio()) && (horario.getHoraTermino().after(dateAtual))){
                 return true;
-                //int horaAtual=Integer.parseInt()
             }
-
         }
         return false;
     }
 
-    public boolean isRolandoAgora(int i){
-        Date dataAtual=new Date();
-        return false;
-    }
 }

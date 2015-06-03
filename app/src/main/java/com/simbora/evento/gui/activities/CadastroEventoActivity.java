@@ -28,7 +28,7 @@ import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
-import com.simbora.util.negocio.Mask;
+import com.simbora.util.gui.Mask;
 
 import java.util.ArrayList;
 
