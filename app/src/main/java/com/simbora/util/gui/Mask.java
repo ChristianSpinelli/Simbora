@@ -5,9 +5,13 @@ package com.simbora.util.gui;
  */
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
+import com.simbora.util.dominio.Mascara;
+
 import java.util.Calendar;
+import java.util.Date;
 
 //classe que tira os caracteres do cpf, data e hora
 public abstract class Mask {
@@ -18,7 +22,7 @@ public abstract class Mask {
                 .replaceAll("[)]", "").replaceAll("[:]", "");
     }
 
-    public static TextWatcher insert(final String mask, final EditText ediTxt) {
+    public static TextWatcher insert(final Mascara mascara, final EditText ediTxt) {
         return new TextWatcher() {
             boolean isUpdating;
             String old = "";
@@ -26,6 +30,7 @@ public abstract class Mask {
             private String current = "";
             private String ddmmyyyy = "DDMMYYYY";
             private Calendar cal = Calendar.getInstance();
+            private Calendar calendario = Calendar.getInstance();
 
             private void mascararData(CharSequence s){
                 if (!s.toString().equals(current)) {
@@ -43,23 +48,37 @@ public abstract class Mask {
                     if (clean.length() < 8){
                         clean = clean + ddmmyyyy.substring(clean.length());
                     }else{
-                        //This part makes sure that when we finish entering numbers
-                        //the date is correct, fixing it otherwise
+                        //Validação da data
+
                         int day  = Integer.parseInt(clean.substring(0,2));
                         int mon  = Integer.parseInt(clean.substring(2,4));
                         int year = Integer.parseInt(clean.substring(4,8));
 
-                        if(mon > 12) mon = 12;
+                        /*if(mon > 12) mon = 12;
+                        Date data = new Date();*/
 
+                        Log.d("Ano",""+calendario.get(Calendar.YEAR));
+                        Log.d("Mês",""+(calendario.get(Calendar.MONTH)+1));
+                        Log.d("Dia",""+calendario.get(Calendar.DAY_OF_MONTH));
+                        if (year<calendario.get(Calendar.YEAR) ){
+                            year = calendario.get(Calendar.YEAR);
+
+                            if ((mon -1)<calendario.get(Calendar.MONTH) && (mon-1)<=calendario.getActualMaximum(Calendar.MONTH)){
+                               mon = calendario.get(Calendar.MONTH)+1;
+
+                                if (day<calendario.get(Calendar.DAY_OF_MONTH)){
+                                    day =calendario.get(Calendar.DAY_OF_MONTH);
+                                }
+
+                            }else {
+                                mon = 12;
+                            }
+                        }
+
+                        cal.set(Calendar.YEAR, year);
                         cal.set(Calendar.MONTH, mon-1);
 
-                        year = (year<Calendar.YEAR)?Calendar.YEAR:(year>2100)?2100:year;
-                        cal.set(Calendar.YEAR, year);
-                        // ^ first set year for the line below to work correctly
-                        //with leap years - otherwise, date e.g. 29/02/2012
-                        //would be automatically corrected to 28/02/2012
-
-                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                        day = (day > calendario.getActualMaximum(Calendar.DATE))? calendario.getActualMaximum(Calendar.DATE):day;
                         clean = String.format("%02d%02d%02d",day, mon, year);
                     }
 
@@ -74,31 +93,24 @@ public abstract class Mask {
                 }
             }
 
+            private void mascarar(CharSequence s){
+                switch (mascara){
+                    case DATA:
+                         mascararData(s);
+                        break;
+                    case HORA:
+                        break;
+                    case TELEFONE:
+                        break;
+                    default:
+                }
+
+            }
+
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
-                String str = Mask.unmask(s.toString());
-                String mascara = "";
-                if (isUpdating) {
-                    old = str;
-                    isUpdating = false;
-                    return;
-                }
-                int i = 0;
-                for (char m : mask.toCharArray()) {
-                    if (m != '#' && str.length() > old.length()) {
-                        mascara += m;
-                        continue;
-                    }
-                    try {
-                        mascara += str.charAt(i);
-                    } catch (Exception e) {
-                        break;
-                    }
-                    i++;
-                }
-                isUpdating = true;
-                ediTxt.setText(mascara);
-                ediTxt.setSelection(mascara.length());
+                        this.mascarar(s);
+
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count,
