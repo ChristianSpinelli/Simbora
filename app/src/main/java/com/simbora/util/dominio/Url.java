@@ -13,15 +13,15 @@ public class Url {
     public static final String USUARIOS=":5000/todo/api/v1.0/usuarios";
     public static final String PESSOAS=":5000/todo/api/v1.0/pessoas";
 
-    public static String getEVENTOS() {
+    public static String getEventos() {
         return getIp()+EVENTOS;
     }
 
-    public static String getUSUARIOS() {
+    public static String getUsuarios() {
         return getIp()+USUARIOS;
     }
 
-    public static String getPESSOAS() {
+    public static String getPessoas() {
         return getIp()+PESSOAS;
     }
 

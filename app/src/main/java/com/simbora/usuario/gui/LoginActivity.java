@@ -31,6 +31,8 @@ import java.util.List;
 
 import com.simbora.R;
 import com.simbora.evento.gui.activities.EventoListActivity;
+import com.simbora.usuario.dominio.Usuario;
+import com.simbora.usuario.negocio.UsuarioService;
 
 /**
  * A login screen that offers login via email/password.
@@ -254,9 +256,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
-
-             return true;
+            UsuarioService usuarioService=new UsuarioService();
+            Usuario usuario=new Usuario();
+            usuario.setEmail(mEmail);
+            usuario.setSenha(mPassword);
+            if(usuarioService.consultarUsuario(usuario)!=null){
+                return true;
+            }
+            return false;
         }
 
         @Override
