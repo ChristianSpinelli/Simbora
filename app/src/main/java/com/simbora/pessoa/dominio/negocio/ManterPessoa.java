@@ -1,6 +1,7 @@
 package com.simbora.pessoa.dominio.negocio;
 
-import com.simbora.pessoa.dominio.perssistencia.PessoaDAO;
+import com.simbora.pessoa.dominio.persistencia.PessoaDAO;
+
 
 /**
  * Created by Krys on 03/06/2015.
