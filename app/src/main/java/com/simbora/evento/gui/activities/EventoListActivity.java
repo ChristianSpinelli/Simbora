@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.simbora.R;
+import com.simbora.empresa.dominio.Empresa;
+import com.simbora.empresa.negocio.EmpresaService;
 import com.simbora.evento.gui.fragments.EventoDetailFragment;
 import com.simbora.evento.gui.fragments.EventoListFragment;
 import com.simbora.pessoa.dominio.Pessoa;
@@ -54,6 +56,7 @@ public class EventoListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_list);
         new PessoaAsyncTask().execute(Usuario.getUsuarioLogado());
+        new EmpresaAsyncTask().execute(Usuario.getUsuarioLogado());
 
         if (findViewById(R.id.evento_detail_container) != null) {
             // The detail container view will be present only in the
@@ -111,6 +114,18 @@ public class EventoListActivity extends FragmentActivity
             Pessoa pessoa= new Pessoa();
             pessoa.setUsuario(params[0]);
             return pessoaService.consultarPessoa(pessoa);
+
+        }
+    }
+
+    private class EmpresaAsyncTask extends AsyncTask<Usuario, Void, Empresa>{
+
+        @Override
+        protected Empresa doInBackground(Usuario... params) {
+            EmpresaService empresaService = new EmpresaService();
+            Empresa empresa=new Empresa();
+            empresa.setUsuario(params[0]);
+            return empresaService.consultarEmpresa(empresa);
 
         }
     }

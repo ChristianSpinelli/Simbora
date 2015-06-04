@@ -96,7 +96,7 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
 
     }
 
-    //TODO: colocar para consultar
+
     public String retornarUrl(String email){
         String url = null;
         String urlPessoas = "";

@@ -33,9 +33,11 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
                     usuarioARetornar=converterParaObjeto(jsonArrayUsuarios.getJSONObject(i));
                 }
 
-                return usuarioARetornar;
 
             }
+
+            return usuarioARetornar;
+
 
         } catch (JSONException e) {
             e.printStackTrace();
