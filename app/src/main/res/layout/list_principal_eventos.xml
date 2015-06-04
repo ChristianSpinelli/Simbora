@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="240dp"
     android:descendantFocusability="blocksDescendants"
     android:background="@mipmap/evangelizar_pe_reginaldo"
     android:paddingBottom="2dp"
-    android:id="@+id/LinearLayoutPrincipalEventos">
+    android:id="@+id/relativeLayoutPrincipalEventos">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:minWidth="560dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="160dp"
-            android:layout_weight="4"
-            android:layout_gravity="top"
-            android:id="@+id/imageViewEventoLista"
-             />
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutInformacoes"
+        android:layout_alignParentBottom="true"
+        android:background="#ae0e0302">
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,118 +22,133 @@
             android:textStyle="bold"
             android:text="Caetano Veloso faz show no Teatro Guararapes"
             android:id="@+id/textViewTituloEventoLista"
-            android:layout_weight="4"
             android:paddingRight="4dp"
-            android:paddingLeft="4dp" />
+            android:paddingLeft="4dp"
+            android:textColor="#ffffffff" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayoutLocalePreco">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:minHeight="33dp"
+                android:id="@+id/linearLayoutLocal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="2dp"
+                    android:src="@android:drawable/ic_menu_directions"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="11sp"
+                    android:text="Centro de Convenções"
+                    android:id="@+id/textViewLocalEventoLista"
+                    android:textColor="#ffffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="33dp"
+                android:layout_weight="2"
+                android:id="@+id/linearLayoutPreco">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="2dp"
+                    android:src="@mipmap/dinheiro"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:text=" de 90,00 a 1.240,00"
+                    android:layout_gravity="center"
+                    android:id="@+id/textViewPrecoEventoLista"
+                    android:textColor="#ffffffff" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayoutHoraeData">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="33dp"
+                android:layout_weight="2"
+                android:id="@+id/linearLayoutHorario">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/imageView3"
+                    android:src="@android:drawable/ic_menu_recent_history" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="17h00"
+                    android:textSize="11sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/textViewHorarioEventoLista"
+                    android:textColor="#ffffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="33dp"
+                android:layout_weight="2"
+                android:layout_gravity="right"
+                android:id="@+id/linearLayoutData">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageViewData"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="2dp"
+                    android:src="@android:drawable/ic_menu_day" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="11sp"
+                    android:text="Small Text"
+                    android:id="@+id/textViewDataEventoLista"
+                    android:textColor="#ffffffff" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minHeight="180dp"
-        android:layout_weight="3"
-        android:id="@+id/linearLayoutInformacoes"
-        android:background="#dcff6f30">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:minHeight="45dp"
-            android:id="@+id/linearLayoutLocal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:layout_gravity="center"
-                android:layout_marginRight="2dp"
-                android:src="@android:drawable/ic_menu_directions"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="9sp"
-                android:text="Centro de Convenções"
-                android:id="@+id/textViewLocalEventoLista" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:id="@+id/linearLayoutData">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageViewData"
-                android:layout_gravity="center"
-                android:layout_marginRight="2dp"
-                android:src="@android:drawable/ic_menu_day" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="9sp"
-                android:text="Small Text"
-                android:id="@+id/textViewDataEventoLista" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:id="@+id/linearLayoutHorario">
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_gravity="center"
-                android:id="@+id/imageView3"
-                android:src="@android:drawable/ic_menu_recent_history" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="17h00"
-                android:textSize="9sp"
-                android:layout_gravity="center"
-                android:id="@+id/textViewHorarioEventoLista" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:id="@+id/linearLayoutPreco">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView4"
-                android:layout_gravity="center"
-                android:layout_marginRight="2dp"
-                android:src="@mipmap/dinheiro"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="9sp"
-                android:text=" de 90,00 a 1.240,00"
-                android:layout_gravity="center"
-                android:id="@+id/textViewPrecoEventoLista" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

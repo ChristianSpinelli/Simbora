@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simbora.R;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 //classe que monta a lista dos eventos
 public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
-        private LinearLayout linearLayoutLista;
+        private RelativeLayout relativeLayoutLista;
         private LayoutInflater inflater;
         private int resourceId;
         public ListaPrincipalEventosAdapter(Context context, int resource, List<Evento> objects){
@@ -32,24 +33,24 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             this.resourceId=resource;
         }
 
+
         public View getView(int position, View convertView, ViewGroup parent){
              //infla o layout em um objeto do tipo View para que possa ser manipulado
             convertView=inflater.inflate(this.resourceId,parent,false);
             //converte os objetos do xml em objetos de java para que possamos manipulá-los
-            ImageView imagemEvento=(ImageView) convertView.findViewById(R.id.imageViewEventoLista);
             TextView tituloEvento= (TextView) convertView.findViewById(R.id.textViewTituloEventoLista);
             TextView localEvento= (TextView) convertView.findViewById(R.id.textViewLocalEventoLista);
             TextView horarioEvento= (TextView) convertView.findViewById(R.id.textViewHorarioEventoLista);
             TextView precoEvento= (TextView) convertView.findViewById(R.id.textViewPrecoEventoLista);
             TextView dataEvento = (TextView) convertView.findViewById(R.id.textViewDataEventoLista);
-            linearLayoutLista= (LinearLayout) convertView.findViewById(R.id.LinearLayoutPrincipalEventos);
+            relativeLayoutLista= (RelativeLayout) convertView.findViewById(R.id.relativeLayoutPrincipalEventos);
             //seta os atributos
             Evento evento=getItem(position);
             //converte bytes em bitmap
              if(evento.getImagem()!=null){
                  Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
                  BitmapDrawable background = new BitmapDrawable(imagemBitmap);
-                 linearLayoutLista.setBackgroundDrawable(background);
+                 relativeLayoutLista.setBackgroundDrawable(background);
              }
              tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
