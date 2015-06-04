@@ -42,7 +42,7 @@ public abstract class Mask {
             private void mascararHora(CharSequence s) {
                 String time = this.mascarar(s, MaskType.HORA.getMask());
 
-                if (time.length()== 4) {
+                if (time.length()== 5) {
                     int hora = Integer.parseInt(time.substring(0, 2));
 
                     int min = Integer.parseInt(time.substring(3, 5));
@@ -54,9 +54,9 @@ public abstract class Mask {
                         min = 0;
                     }
                     time = String.format("%02d:%02d", hora, min);
-
                     updateEditText(editText, time);
                 }
+
             }
 
             private String mascarar(CharSequence s, String mask) {
