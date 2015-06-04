@@ -27,7 +27,7 @@ import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.util.dominio.Imagem;
-import com.simbora.util.dominio.Mascara;
+import com.simbora.util.gui.Mascara;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.gui.Mask;
 import com.simbora.util.gui.MultiSelectionSpinner;
@@ -82,7 +82,15 @@ public class CadastroEventoActivity extends ActionBarActivity {
         String[] tiposEventoStr = TipoDeEvento.getNomes();
         this.spinnerTipos = (MultiSelectionSpinner) findViewById(R.id.spinnerTipos);
         this.spinnerTipos.setItems(tiposEventoStr);
+        this.spinnerTipos.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
 
+                    if (!hasFocus) v.setVisibility(View.GONE);
+
+
+            }
+        });
         //FimSpinnerTipoEvento
 
         this.ibImagem.setOnClickListener(new View.OnClickListener() {
