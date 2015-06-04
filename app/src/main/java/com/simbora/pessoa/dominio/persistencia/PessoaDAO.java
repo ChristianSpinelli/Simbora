@@ -8,18 +8,10 @@ import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -50,12 +42,29 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
 
     @Override
     public boolean inserir(Pessoa pessoa, String url) {
-        return false;
+        JSONObject inserirPessoa = converterParaJSON(pessoa);
+        Boolean inseriu =post(inserirPessoa, url);
+        return inseriu;
     }
 
     @Override
     public ArrayList<Pessoa> consultar(String url) {
-        return null;
+        ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
+        Pessoa pessoa =new Pessoa();
+        String urlPessoas = Url.getIp("pessoas");
+        try {
+            JSONObject jsonObject = new JSONObject(getJSON(urlPessoas));
+            JSONArray jSonPessoas = jsonObject.getJSONArray("pessoas");
+            for (int i=0;i<jSonPessoas.length();i++){
+                JSONObject jsonPessoa = jSonPessoas.getJSONObject(i).getJSONArray("pessoa").getJSONObject(0);
+                pessoa = converterParaObjeto(jsonPessoa);
+                pessoas.add(pessoa);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return pessoas;
     }
 
     @Override

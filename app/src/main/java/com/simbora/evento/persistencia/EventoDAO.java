@@ -12,6 +12,7 @@ import com.simbora.evento.dominio.Evento;
 import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
+import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
@@ -48,7 +49,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
     }
 
-    @Override
+
     public boolean inserir(Evento evento, String url) {
         JSONObject eventoAInserir = converterEventoJSON(evento);
         postImagem(url, evento.getImagem().getCaminho());

@@ -2,6 +2,8 @@ package com.simbora.util.persistencia;
 
 import android.util.Log;
 
+import com.simbora.pessoa.dominio.Pessoa;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;

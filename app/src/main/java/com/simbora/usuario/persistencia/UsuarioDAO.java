@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
