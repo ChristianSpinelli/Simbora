@@ -32,6 +32,8 @@ public abstract class Mask {
             private Calendar cal = Calendar.getInstance();
             private Calendar calendario = Calendar.getInstance();
 
+            
+
             private void mascararData(CharSequence s){
                 if (!s.toString().equals(current)) {
                     String clean = s.toString().replaceAll("[^\\d.]", "");
@@ -57,28 +59,40 @@ public abstract class Mask {
                         /*if(mon > 12) mon = 12;
                         Date data = new Date();*/
 
-                        Log.d("Ano",""+calendario.get(Calendar.YEAR));
-                        Log.d("Mês",""+(calendario.get(Calendar.MONTH)+1));
-                        Log.d("Dia",""+calendario.get(Calendar.DAY_OF_MONTH));
-                        if (year<calendario.get(Calendar.YEAR) ){
-                            year = calendario.get(Calendar.YEAR);
+                        Log.d("Ano_atual",""+cal.get(Calendar.YEAR));
+                        Log.d("Mês_atual",""+(cal.get(Calendar.MONTH)+1));
+                        Log.d("Dia_atual",""+cal.get(Calendar.DAY_OF_MONTH));
 
-                            if ((mon -1)<calendario.get(Calendar.MONTH) && (mon-1)<=calendario.getActualMaximum(Calendar.MONTH)){
-                               mon = calendario.get(Calendar.MONTH)+1;
+                        if (year<cal.get(Calendar.YEAR) ){
+                            year = cal.get(Calendar.YEAR);
 
-                                if (day<calendario.get(Calendar.DAY_OF_MONTH)){
-                                    day =calendario.get(Calendar.DAY_OF_MONTH);
-                                }
 
-                            }else {
-                                mon = 12;
-                            }
+                        }else if (year>cal.getActualMaximum(Calendar.YEAR)){
+                            year = cal.getActualMaximum(Calendar.YEAR);
+                        }
+                        cal.set(Calendar.YEAR, year);
+
+                        if ((mon -1)<calendario.get(Calendar.MONTH)){
+                            mon = calendario.get(Calendar.MONTH)+1;
+
+                        }else if ((mon-1)>cal.getActualMaximum(Calendar.MONTH)){
+                            mon = cal.get(Calendar.MONTH)+1;
                         }
 
-                        cal.set(Calendar.YEAR, year);
                         cal.set(Calendar.MONTH, mon-1);
 
-                        day = (day > calendario.getActualMaximum(Calendar.DATE))? calendario.getActualMaximum(Calendar.DATE):day;
+                        if (day<cal.get(Calendar.DAY_OF_MONTH)){
+                            day = cal.get(Calendar.DAY_OF_MONTH);
+                        }else if (day>cal.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                            day = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                        }
+
+                        cal.set(Calendar.DAY_OF_MONTH,day);
+
+                        Log.d("Ano_checked",""+cal.get(Calendar.YEAR));
+                        Log.d("Mês_checked",""+(cal.get(Calendar.MONTH)+1));
+                        Log.d("Dia_checked",""+cal.get(Calendar.DAY_OF_MONTH));
+                        //day = (day > calendario.getActualMaximum(Calendar.DATE))? calendario.getActualMaximum(Calendar.DATE):day;
                         clean = String.format("%02d%02d%02d",day, mon, year);
                     }
 

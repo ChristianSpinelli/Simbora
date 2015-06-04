@@ -5,6 +5,7 @@ import com.simbora.util.dominio.Imagem;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //classe Evento
 public class Evento {
@@ -19,7 +20,7 @@ public class Evento {
     private Endereco endereco;
 
     private ArrayList<Horario> horarios;
-    private ArrayList<TipoDeEvento> tiposDeEvento;
+    private List<TipoDeEvento> tiposDeEvento;
     private Simbora simbora;
 
     private static ArrayList<Evento> listaEventosPorTipo;
@@ -36,7 +37,7 @@ public class Evento {
 
     }
 
-    public Evento(String nome, ArrayList<Horario> horarios, Imagem image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco) {
+    public Evento(String nome, ArrayList<Horario> horarios, Imagem image, String descricao, String telefone, int simboras, ArrayList<Preco> precos, Endereco endereco,List<TipoDeEvento> tiposDeEvento) {
         this.horarios = horarios;
         this.nome = nome;
         this.imagem = image;
@@ -44,6 +45,7 @@ public class Evento {
         this.precos = precos;
         this.endereco=endereco;
         this.descricao = descricao;
+        this.tiposDeEvento = tiposDeEvento;
     }
 
 
@@ -55,12 +57,12 @@ public class Evento {
         this.imagem = imagem;
     }
 
-    public ArrayList<TipoDeEvento> getTiposDeEvento() {
+    public List<TipoDeEvento> getTiposDeEvento() {
         return tiposDeEvento;
     }
 
-    public void setTiposDeEvento(ArrayList<TipoDeEvento> tiposDeEvento) {
-        this.tiposDeEvento=tiposDeEvento;
+    public void setTiposDeEvento(List<TipoDeEvento> tiposDeEvento) {
+        this.tiposDeEvento = tiposDeEvento;
     }
 
     public Simbora getSimbora() {
