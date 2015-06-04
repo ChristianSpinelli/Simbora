@@ -1,9 +1,7 @@
 package com.simbora.evento.dominio;
 
-import com.simbora.evento.negocio.EventoService;
 import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Imagem;
-import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,14 +146,6 @@ public class Evento {
     //retorna eventos por tipo
     public static ArrayList<Evento> getEventos(String tipo){
         return null;
-    }
-
-    //retorna todos os eventos
-    public static ArrayList<Evento> getEventos(){
-        EventoService eventoService=new EventoService();
-
-        setListaEventosPorTipo(eventoService.retornarEventos(Url.getIp()+":5000/todo/api/v1.0/eventos"));
-        return getListaEventosPorTipo();
     }
 
     public ArrayList<Preco> getPrecos() {
