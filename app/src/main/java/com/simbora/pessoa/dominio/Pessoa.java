@@ -13,6 +13,16 @@ import java.util.Date;
  * Created by Demis e Lucas on 10/05/2015.
  */
 public class Pessoa {
+    private static Pessoa pessoaLogada;
+
+    public static Pessoa getPessoaLogada() {
+        return pessoaLogada;
+    }
+
+    public static void setPessoaLogada(Pessoa pessoaLogada) {
+        Pessoa.pessoaLogada = pessoaLogada;
+    }
+
     private String cpf;
     private Date dataNascimento;
     private Genero genero;

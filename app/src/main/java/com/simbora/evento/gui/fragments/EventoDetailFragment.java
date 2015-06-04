@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simbora.R;
@@ -27,6 +29,8 @@ import com.simbora.evento.gui.activities.EventoListActivity;
 import com.simbora.evento.gui.adapters.ListaPrincipalEventosAdapter;
 import com.simbora.evento.gui.adapters.SearchAdapter;
 import com.simbora.evento.negocio.EventoService;
+import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Url;
 
 import java.util.ArrayList;
@@ -56,6 +60,8 @@ public class EventoDetailFragment extends Fragment {
     private ListView lv;
     private Button bCriarEvento;
     private ProgressBar progressBarEventos;
+    private ImageView imageViewUsuario;
+    private TextView textViewUsuario;
 
     public EventoDetailFragment() {
     }
@@ -82,6 +88,15 @@ public class EventoDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_evento_detail, container, false);
         //executa a Thread assíncrona para carregar a lista de eventos do Web Service
         progressBarEventos=(ProgressBar) rootView.findViewById(R.id.progressBarLoadingEventos);
+        textViewUsuario= (TextView) rootView.findViewById(R.id.textViewNomeUsuario);
+        if(Pessoa.getPessoaLogada()!=null){
+            textViewUsuario.setText(Usuario.getUsuarioLogado().getNome()+" Pessoa!");
+        }
+        else{
+            textViewUsuario.setText(Usuario.getUsuarioLogado().getNome()+" Empresa!");
+
+        }
+
         new HttpAsyncTask().execute(Url.getIp("eventos"));
         //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
@@ -189,8 +204,6 @@ public class EventoDetailFragment extends Fragment {
         protected void onPostExecute(ArrayList<Evento> result) {
             progressBarEventos.setVisibility(View.GONE);
             if(result.size()!=0){
-
-                Toast.makeText(getActivity().getBaseContext(), "Carregada com Sucesso!", Toast.LENGTH_LONG).show();
                 //seta a lista de eventos por tipo com os eventos do tipo escolhido
                 Evento.setListaEventosPorTipo(result);
                 //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()

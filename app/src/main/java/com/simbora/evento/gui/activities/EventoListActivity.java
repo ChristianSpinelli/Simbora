@@ -116,6 +116,11 @@ public class EventoListActivity extends FragmentActivity
             return pessoaService.consultarPessoa(pessoa);
 
         }
+
+        @Override
+        protected void onPostExecute(Pessoa pessoa) {
+            Pessoa.setPessoaLogada(pessoa);
+        }
     }
 
     private class EmpresaAsyncTask extends AsyncTask<Usuario, Void, Empresa>{
@@ -127,6 +132,11 @@ public class EventoListActivity extends FragmentActivity
             empresa.setUsuario(params[0]);
             return empresaService.consultarEmpresa(empresa);
 
+        }
+
+        @Override
+        protected void onPostExecute(Empresa empresa) {
+            Empresa.setEmpresaLogada(empresa);
         }
     }
 }

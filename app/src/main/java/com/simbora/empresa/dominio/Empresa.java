@@ -6,6 +6,15 @@ import com.simbora.usuario.dominio.Usuario;
  * Created by Demis on 04/06/15.
  */
 public class Empresa {
+    public static Empresa getEmpresaLogada() {
+        return empresaLogada;
+    }
+
+    public static void setEmpresaLogada(Empresa empresaLogada) {
+        Empresa.empresaLogada = empresaLogada;
+    }
+
+    private static Empresa empresaLogada;
     private String cnpj;
     private Usuario usuario;
 
