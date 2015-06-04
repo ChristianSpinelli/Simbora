@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +31,6 @@ import java.util.List;
 
 import com.simbora.R;
 import com.simbora.evento.gui.activities.EventoListActivity;
-import com.simbora.pessoa.dominio.negocio.ManterPessoa;
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.usuario.negocio.UsuarioService;
 

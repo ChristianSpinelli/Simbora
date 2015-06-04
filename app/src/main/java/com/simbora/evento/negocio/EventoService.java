@@ -29,7 +29,12 @@ public class EventoService {
 
 
     public boolean inserirEvento(Evento evento, String url){
-
+        //se nada for selecionado no Spinenr do tipon de eventos, é configurado como todos
+        if(evento.getTiposDeEvento()==null){
+            ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
+            tiposDeEvento.add(TipoDeEvento.TODOS);
+            evento.setTiposDeEvento(tiposDeEvento);
+        }
         return eventoDAO.inserir(evento, url);
     }
 

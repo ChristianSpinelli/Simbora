@@ -85,7 +85,7 @@ public class EventoActivity extends ActionBarActivity {
             imageViewEvento.setImageBitmap(imagemBitmap);
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());
-
+            curtidas.setText("Curtidas: "+evento.getSimbora().getPessoas().size());
             return rootView;
         }
     }

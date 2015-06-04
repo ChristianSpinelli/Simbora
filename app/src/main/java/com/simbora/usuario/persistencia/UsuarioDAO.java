@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class UsuarioDAO extends AbstractDAO<Usuario>{
 
 
+    /** consulta por email e senha */
     @Override
     public Usuario consultar(Usuario usuario, String url) {
         JSONObject jsonObject= null;
@@ -77,7 +78,7 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
     public Usuario converterParaObjeto(JSONObject jsonObject) {
         Usuario usuario=new Usuario();
         try {
-            usuario.setEmail(jsonObject.getString("nome"));
+            usuario.setEmail(jsonObject.getString("email"));
             usuario.setMascates(jsonObject.getLong("mascates"));
             usuario.setNome(jsonObject.getString("nome"));
             usuario.setSenha(jsonObject.getString("senha"));
@@ -109,5 +110,17 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
     @Override
     public JSONObject converterParaJSON(Usuario usuario) {
         return null;
+    }
+
+    public Usuario consultarPorId(String id){
+        Usuario usuario=null;
+        try {
+            JSONObject jsonObjectUsuario=new JSONObject(getJSON(Url.getUsuarios()+"/"+id)).getJSONObject("usuario");
+            Log.d("JSON Usuario", jsonObjectUsuario.toString());
+            usuario=converterParaObjeto(jsonObjectUsuario);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return usuario;
     }
 }
