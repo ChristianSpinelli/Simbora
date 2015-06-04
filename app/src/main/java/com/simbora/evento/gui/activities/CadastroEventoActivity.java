@@ -27,7 +27,7 @@ import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
 import com.simbora.util.dominio.Imagem;
-import com.simbora.util.gui.Mascara;
+import com.simbora.util.gui.MaskType;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.gui.Mask;
 import com.simbora.util.gui.MultiSelectionSpinner;
@@ -72,10 +72,10 @@ public class CadastroEventoActivity extends ActionBarActivity {
         this.etTelefone = (EditText) findViewById(R.id.etTelefone);
 
         //Mascara
-        this.etData.addTextChangedListener(Mask.insert(Mascara.DATA, this.etData));
-        this.etTelefone.addTextChangedListener(Mask.insert(Mascara.TELEFONE, this.etTelefone));
-        this.etHoraFim.addTextChangedListener(Mask.insert(Mascara.HORA,this.etHoraFim));
-        this.etHoraInicio.addTextChangedListener(Mask.insert(Mascara.HORA,this.etHoraInicio));
+        this.etData.addTextChangedListener(Mask.insert(MaskType.DATA, this.etData));
+        this.etTelefone.addTextChangedListener(Mask.insert(MaskType.TELEFONE, this.etTelefone));
+        this.etHoraFim.addTextChangedListener(Mask.insert(MaskType.HORA,this.etHoraFim));
+        this.etHoraInicio.addTextChangedListener(Mask.insert(MaskType.HORA,this.etHoraInicio));
         //FimMascara
 
         //SpinnerTipoEvento

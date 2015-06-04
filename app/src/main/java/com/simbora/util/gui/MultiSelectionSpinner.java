@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -47,6 +48,7 @@ public class MultiSelectionSpinner extends Spinner implements
                     "Argument 'which' is out of bounds.");
         }
     }
+
 
     @Override
     public boolean performClick() {

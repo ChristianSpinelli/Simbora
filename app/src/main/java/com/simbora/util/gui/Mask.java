@@ -8,21 +8,17 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.simbora.util.dominio.Mascara;
-
 import java.util.Calendar;
-import java.util.Date;
 
 //classe que tira os caracteres do cpf, data e hora
 public abstract class Mask {
 
-    public static String unmask(String s) {
-        return s.replaceAll("[.]", "").replaceAll("[-]", "")
-                .replaceAll("[/]", "").replaceAll("[(]", "")
-                .replaceAll("[)]", "").replaceAll("[:]", "");
-    }
+   static String cleanStr(CharSequence s){
+       String clean = s.toString().replaceAll("[^\\d.]", "");
+       return clean;
+   }
 
-    public static TextWatcher insert(final Mascara mascara, final EditText ediTxt) {
+    public static TextWatcher insert(final MaskType maskType, final EditText editText) {
         return new TextWatcher() {
             boolean isUpdating;
             String old = "";
@@ -30,13 +26,45 @@ public abstract class Mask {
             private String current = "";
             private String ddmmyyyy = "DDMMYYYY";
             private Calendar cal = Calendar.getInstance();
-            private Calendar calendario = Calendar.getInstance();
 
-            
+
+
+            private void mascararTelefone(CharSequence s){
+                this.mascarar(s,MaskType.TELEFONE.getMask());
+            }
+            private void mascararHora(CharSequence s){
+                this.mascarar(s,MaskType.HORA.getMask());
+            }
+
+            private void mascarar(CharSequence s,String mask){
+                String str = Mask.cleanStr(s);
+                String mascara = "";
+                if (isUpdating) {
+                    old = str;
+                    isUpdating = false;
+                    return;
+                }
+                int i = 0;
+                for (char m : mask.toCharArray()) {
+                    if (m != '#' && str.length() > old.length()) {
+                        mascara += m;
+                        continue;
+                    }
+                    try {
+                        mascara += str.charAt(i);
+                    } catch (Exception e) {
+                        break;
+                    }
+                    i++;
+                }
+                isUpdating = true;
+                editText.setText(mascara);
+                editText.setSelection(mascara.length());
+            }
 
             private void mascararData(CharSequence s){
                 if (!s.toString().equals(current)) {
-                    String clean = s.toString().replaceAll("[^\\d.]", "");
+                    String clean = Mask.cleanStr(s);
                     String cleanC = current.replaceAll("[^\\d.]", "");
 
                     int cl = clean.length();
@@ -72,8 +100,8 @@ public abstract class Mask {
                         }
                         cal.set(Calendar.YEAR, year);
 
-                        if ((mon -1)<calendario.get(Calendar.MONTH)){
-                            mon = calendario.get(Calendar.MONTH)+1;
+                        if ((mon -1)<cal.get(Calendar.MONTH)){
+                            mon = cal.get(Calendar.MONTH)+1;
 
                         }else if ((mon-1)>cal.getActualMaximum(Calendar.MONTH)){
                             mon = cal.get(Calendar.MONTH)+1;
@@ -102,23 +130,24 @@ public abstract class Mask {
 
                     sel = sel < 0 ? 0 : sel;
                     current = clean;
-                    ediTxt.setText(current);
-                    ediTxt.setSelection(sel < current.length() ? sel : current.length());
+                    editText.setText(current);
+                    editText.setSelection(sel < current.length() ? sel : current.length());
                 }
             }
 
             private void mascarar(CharSequence s){
-                switch (mascara){
+                switch (maskType){
                     case DATA:
                          mascararData(s);
                         break;
                     case HORA:
+                        mascararHora(s);
                         break;
                     case TELEFONE:
+                        mascararTelefone(s);
                         break;
                     default:
                 }
-
             }
 
             public void onTextChanged(CharSequence s, int start, int before,
