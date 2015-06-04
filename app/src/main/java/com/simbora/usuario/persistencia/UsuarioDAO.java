@@ -1,14 +1,20 @@
 package com.simbora.usuario.persistencia;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.simbora.usuario.dominio.Usuario;
+import com.simbora.util.dominio.Imagem;
+import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -76,6 +82,24 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
             usuario.setNome(jsonObject.getString("nome"));
             usuario.setSenha(jsonObject.getString("senha"));
             usuario.setId(jsonObject.getString("uri").split("/")[7]);
+
+            //add imagem no usuario
+            Bitmap bitmap;
+            byte[] bitmapdata=null;
+            try {
+                InputStream in = new java.net.URL(Url.getIp()+":5000/"+jsonObject.getString("imagem")).openStream();
+                bitmap = BitmapFactory.decodeStream(in);
+
+                ByteArrayOutputStream blob = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, blob);
+                bitmapdata = blob.toByteArray();
+
+            } catch (Exception e) {
+                Log.e("Erro na imagem", e.getMessage());
+                e.printStackTrace();
+            }
+
+            usuario.setImagem(new Imagem(jsonObject.getString("imagem"), bitmapdata));
         } catch (JSONException e) {
             e.printStackTrace();
         }

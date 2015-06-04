@@ -2,6 +2,8 @@ package com.simbora.evento.gui.fragments;
 
 import android.content.Intent;
 import android.database.MatrixCursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,12 +91,11 @@ public class EventoDetailFragment extends Fragment {
         //executa a Thread assíncrona para carregar a lista de eventos do Web Service
         progressBarEventos=(ProgressBar) rootView.findViewById(R.id.progressBarLoadingEventos);
         textViewUsuario= (TextView) rootView.findViewById(R.id.textViewNomeUsuario);
-        if(Pessoa.getPessoaLogada()!=null){
-            textViewUsuario.setText(Usuario.getUsuarioLogado().getNome()+" Pessoa!");
-        }
-        else{
-            textViewUsuario.setText(Usuario.getUsuarioLogado().getNome()+" Empresa!");
+        imageViewUsuario= (ImageView) rootView.findViewById(R.id.imageViewUsuario);
 
+        if (Usuario.getUsuarioLogado()!=null){
+            imageViewUsuario.setImageBitmap(decodeFile(Usuario.getUsuarioLogado().getImagem().getImagemByte()));
+            textViewUsuario.setText(Usuario.getUsuarioLogado().getNome());
         }
 
         new HttpAsyncTask().execute(Url.getIp("eventos"));
@@ -237,6 +238,35 @@ public class EventoDetailFragment extends Fragment {
         }
 
     }
+
+    private Bitmap decodeFile(byte[] byteArray) {
+        try {
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, o);
+
+
+
+            // novo tamanho a ser escalado
+            final int REQUIRED_SIZE=70;
+
+            // Achar o valor de escala correto, deve ser uma potência de dois
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decodifica com a escala correta
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, o2);
+        }catch (Exception e){
+            Log.d("Exceção na conversão", e.getMessage());
+        }
+        return null;
+    }
+
 
 
 }

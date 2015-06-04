@@ -3,12 +3,14 @@ package com.simbora.evento.gui.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.simbora.R;
@@ -21,7 +23,7 @@ import java.util.List;
  */
 //classe que monta a lista dos eventos
 public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
-
+        private LinearLayout linearLayoutLista;
         private LayoutInflater inflater;
         private int resourceId;
         public ListaPrincipalEventosAdapter(Context context, int resource, List<Evento> objects){
@@ -40,13 +42,14 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             TextView horarioEvento= (TextView) convertView.findViewById(R.id.textViewHorarioEventoLista);
             TextView precoEvento= (TextView) convertView.findViewById(R.id.textViewPrecoEventoLista);
             TextView dataEvento = (TextView) convertView.findViewById(R.id.textViewDataEventoLista);
-
+            linearLayoutLista= (LinearLayout) convertView.findViewById(R.id.LinearLayoutPrincipalEventos);
             //seta os atributos
             Evento evento=getItem(position);
             //converte bytes em bitmap
              if(evento.getImagem()!=null){
                  Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
-                 imagemEvento.setImageBitmap(imagemBitmap);
+                 BitmapDrawable background = new BitmapDrawable(imagemBitmap);
+                 linearLayoutLista.setBackgroundDrawable(background);
              }
              tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());

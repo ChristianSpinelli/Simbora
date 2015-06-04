@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="240dp"
     android:descendantFocusability="blocksDescendants"
-    android:background="#FFFFFF"
+    android:background="@mipmap/evangelizar_pe_reginaldo"
     android:paddingBottom="2dp"
     android:id="@+id/LinearLayoutPrincipalEventos">
 
@@ -36,11 +36,12 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="185dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="180dp"
         android:layout_weight="3"
-        android:id="@+id/linearLayoutInformacoes">
+        android:id="@+id/linearLayoutInformacoes"
+        android:background="#dcff6f30">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -140,12 +141,6 @@
                 android:id="@+id/textViewPrecoEventoLista" />
         </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simbora!"
-            android:background="#ffff7017"
-            android:id="@+id/buttonSimboraLista" />
     </LinearLayout>
 
 </LinearLayout>
