@@ -1,5 +1,7 @@
 package com.simbora.usuario.persistencia;
 
+import android.util.Log;
+
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.persistencia.AbstractDAO;
 
@@ -71,6 +73,7 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
             usuario.setMascates(jsonObject.getLong("mascates"));
             usuario.setNome(jsonObject.getString("nome"));
             usuario.setSenha(jsonObject.getString("senha"));
+            usuario.setId(jsonObject.getString("uri").split("/")[7]);
         } catch (JSONException e) {
             e.printStackTrace();
         }

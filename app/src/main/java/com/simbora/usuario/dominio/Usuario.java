@@ -7,14 +7,32 @@ import com.simbora.util.dominio.Imagem;
  */
 //classe que contém todos os atributos de um usuário
 public class Usuario {
+    private static Usuario usuarioLogado;
     private String email;
     private String senha;
     private long mascates;
     private String nome;
     private Imagem imagem;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public static Usuario getUsuarioLogado() {
+        return usuarioLogado;
+    }
+
+    public static void setUsuarioLogado(Usuario usuarioLogado) {
+        Usuario.usuarioLogado = usuarioLogado;
+    }
 
 
- public String getNome() {
+
+    public String getNome() {
         return nome;
     }
     public void setNome(String nome) {

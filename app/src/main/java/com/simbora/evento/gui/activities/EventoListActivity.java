@@ -1,12 +1,17 @@
 package com.simbora.evento.gui.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.simbora.R;
 import com.simbora.evento.gui.fragments.EventoDetailFragment;
 import com.simbora.evento.gui.fragments.EventoListFragment;
+import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.pessoa.dominio.negocio.PessoaService;
+import com.simbora.pessoa.dominio.persistencia.PessoaDAO;
+import com.simbora.usuario.dominio.Usuario;
 
 
 /**
@@ -48,6 +53,7 @@ public class EventoListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_list);
+        new PessoaAsyncTask().execute(Usuario.getUsuarioLogado());
 
         if (findViewById(R.id.evento_detail_container) != null) {
             // The detail container view will be present only in the
@@ -68,7 +74,6 @@ public class EventoListActivity extends FragmentActivity
         }
 
 
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
     /**
@@ -95,6 +100,18 @@ public class EventoListActivity extends FragmentActivity
             Intent detailIntent = new Intent(this, EventoDetailActivity.class);
             detailIntent.putExtra(EventoDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
+        }
+    }
+
+    private class PessoaAsyncTask extends AsyncTask<Usuario, Void, Pessoa>{
+
+        @Override
+        protected Pessoa doInBackground(Usuario... params) {
+            PessoaService pessoaService = new PessoaService();
+            Pessoa pessoa= new Pessoa();
+            pessoa.setUsuario(params[0]);
+            return pessoaService.consultarPessoa(pessoa);
+
         }
     }
 }

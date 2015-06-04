@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -265,7 +266,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             Usuario usuario=new Usuario();
             usuario.setEmail(mEmail);
             usuario.setSenha(mPassword);
-            if(usuarioService.consultarUsuario(usuario)!=null){
+            Usuario retornoUsuario=usuarioService.consultarUsuario(usuario);
+            if(retornoUsuario!=null){
+                Usuario.setUsuarioLogado(retornoUsuario);
                 return true;
             }
             return false;

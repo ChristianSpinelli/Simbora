@@ -29,11 +29,17 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
 
     @Override
     public Pessoa consultar(Pessoa pessoa, String url) {
+        String urlPessoa=retornarUrl(pessoa.getUsuario());
+        if(urlPessoa!=null){
+            Pessoa pessoaARetornar=consultarPessoa(urlPessoa);
+            pessoaARetornar.setUsuario(pessoa.getUsuario());
+            Log.d("Pessoa", pessoaARetornar.getDataNascimento().toString()+" "+pessoaARetornar.getUsuario().getNome());
+            return pessoaARetornar;
+        }
         return null;
     }
 
-    @Override
-    public Pessoa remover(Pessoa pessoa, String url) {
+    @Override    public Pessoa remover(Pessoa pessoa, String url) {
         return null;
     }
 
@@ -55,7 +61,6 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
     @Override
     public Pessoa converterParaObjeto(JSONObject jsonObject) {
         Pessoa pessoa = new Pessoa();
-        Usuario usuario = new Usuario();
         Imagem imagem = new Imagem();
 
         try {
@@ -64,18 +69,6 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
 
             JSONObject generoObject = jsonObject.getJSONArray("genero").getJSONObject(0);
             pessoa.setGenero(generoObject.getString("descricao"));
-
-            JSONObject usuarioObject = jsonObject.getJSONArray("usuario").getJSONObject(0);
-            usuario.setEmail(usuarioObject.getString("email"));
-            usuario.setMascates(usuarioObject.getLong("mascates"));
-            usuario.setNome(usuarioObject.getString("nome"));
-            usuario.setSenha(usuarioObject.getString("senha"));
-            imagem.setCaminho(usuarioObject.getString("imagem"));
-            usuario.setImagem(imagem);
-
-            pessoa.setUsuario(usuario);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,21 +98,37 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
 
     //TODO: colocar para consultar
     public String retornarUrl(String email){
-        String url = "";
+        String url = null;
         String urlPessoas = "";
-        Url urlPagina = new Url();
-        urlPessoas = urlPagina.getIp("pessoas");
-        Log.d("Teste", urlPessoas);
-
+        urlPessoas = Url.getIp("pessoas");
         try {
             JSONObject jsonObject = new JSONObject(getJSON(urlPessoas));
             JSONArray pessoas = jsonObject.getJSONArray("pessoas");
             for (int i=0;i<pessoas.length();i++){
               JSONObject usuario =  pessoas.getJSONObject(i).getJSONArray("usuario").getJSONObject(0);
-                Log.d("Teste",usuario.getString("email"));
-                if(usuario.getString("email").equals(email)){
+                if(usuario.getString("email").        equals(email)){
                    url = pessoas.getJSONObject(i).getString("uri");
-                    Log.d("Teste3",url);
+                    return url;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    private String retornarUrl(Usuario usuario){
+        String url = "";
+        String urlPessoas = "";
+        urlPessoas = Url.getIp("pessoas");
+        try {
+            JSONObject jsonObject = new JSONObject(getJSON(urlPessoas));
+            JSONArray pessoas = jsonObject.getJSONArray("pessoas");
+            for (int i=0;i<pessoas.length();i++){
+                String idUsuario=pessoas.getJSONObject(i).getString("idUsuario");
+                if(idUsuario.equals(usuario.getId())){
+                    url = pessoas.getJSONObject(i).getString("uri");
                     return url;
                 }
             }
