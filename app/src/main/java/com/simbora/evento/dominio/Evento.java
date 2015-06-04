@@ -1,6 +1,7 @@
 package com.simbora.evento.dominio;
 
 import com.simbora.pessoa.dominio.Simbora;
+import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Evento {
     private ArrayList<Horario> horarios;
     private List<TipoDeEvento> tiposDeEvento;
     private Simbora simbora;
-
+    private Usuario criador;
     private static ArrayList<Evento> listaEventosPorTipo;
 
     public static ArrayList<Evento> getListaEventosPorTipo() {
@@ -46,6 +47,15 @@ public class Evento {
         this.endereco=endereco;
         this.descricao = descricao;
         this.tiposDeEvento = tiposDeEvento;
+    }
+
+
+    public Usuario getCriador() {
+        return criador;
+    }
+
+    public void setCriador(Usuario criador) {
+        this.criador = criador;
     }
 
 
@@ -145,12 +155,7 @@ public class Evento {
 
     }
 
-    //retorna eventos por tipo
-    public static ArrayList<Evento> getEventos(String tipo){
-        return null;
-    }
-
-    public ArrayList<Preco> getPrecos() {
+     public ArrayList<Preco> getPrecos() {
         return precos;
     }
 

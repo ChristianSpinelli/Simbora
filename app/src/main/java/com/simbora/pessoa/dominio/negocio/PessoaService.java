@@ -12,4 +12,8 @@ public class PessoaService {
     public Pessoa consultarPessoa(Pessoa pessoa){
         return pessoaDAO.consultar(pessoa, Url.getUsuarios());
     }
+
+    public Pessoa consultarPessoa(String url){
+        return pessoaDAO.consultarPessoa(url);
+    }
 }

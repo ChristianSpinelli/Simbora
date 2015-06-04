@@ -8,6 +8,15 @@ import java.util.ArrayList;
 public class Simbora {
 
     private int qtdSimboras;
+
+    public void setQtdSimboras(int qtdSimboras) {
+        this.qtdSimboras = qtdSimboras;
+    }
+
+    public void setPessoas(ArrayList<Pessoa> pessoas) {
+        this.pessoas = pessoas;
+    }
+
     private ArrayList<Pessoa> pessoas;
 
     public int getQtdSimboras() {

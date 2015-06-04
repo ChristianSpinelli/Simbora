@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.usuario.dominio.Usuario;
+import com.simbora.usuario.negocio.UsuarioService;
+import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
@@ -19,18 +21,23 @@ import java.util.ArrayList;
  */
 public class PessoaDAO extends AbstractDAO<Pessoa>{
 
+    /** Consulta a pessoa com um usuário já inserido nela*/
     @Override
     public Pessoa consultar(Pessoa pessoa, String url) {
         String urlPessoa=retornarUrl(pessoa.getUsuario());
         if(urlPessoa!=null){
             Pessoa pessoaARetornar=consultarPessoa(urlPessoa);
-            pessoaARetornar.setUsuario(pessoa.getUsuario());
             Log.d("Pessoa", pessoaARetornar.getDataNascimento().toString()+" "+pessoaARetornar.getUsuario().getNome());
             return pessoaARetornar;
         }
         return null;
     }
 
+    /** consulta retornando apenas a pessoa */
+    public Pessoa consultarPorUrl(String url){
+        Pessoa pessoaARetornar=consultarPessoa(url);
+        return pessoaARetornar;
+    }
     @Override    public Pessoa remover(Pessoa pessoa, String url) {
         return null;
     }
@@ -75,9 +82,12 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
         try {
             pessoa.setCpf(jsonObject.getString("cpf"));
             pessoa.setDataNascimento(jsonObject.getString("dataNascimento"));
-
             JSONObject generoObject = jsonObject.getJSONArray("genero").getJSONObject(0);
             pessoa.setGenero(generoObject.getString("descricao"));
+            UsuarioDAO usuarioDAO=new UsuarioDAO();
+            Usuario usuario=usuarioDAO.consultarPorId(jsonObject.getString("idUsuario"));
+
+            pessoa.setUsuario(usuario);
         } catch (JSONException e) {
             e.printStackTrace();
         }

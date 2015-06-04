@@ -13,6 +13,11 @@ import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.pessoa.dominio.Simbora;
+import com.simbora.pessoa.dominio.negocio.PessoaService;
+import com.simbora.usuario.dominio.Usuario;
+import com.simbora.usuario.negocio.UsuarioService;
+import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
@@ -49,7 +54,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
     }
 
-
+    @Override
     public boolean inserir(Evento evento, String url) {
         JSONObject eventoAInserir = converterEventoJSON(evento);
         postImagem(url, evento.getImagem().getCaminho());
@@ -87,6 +92,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
         ArrayList<Horario> horarios=new ArrayList<Horario>();
         ArrayList<Preco> precos=new ArrayList<Preco>();
         ArrayList<TipoDeEvento> tiposDeEvento=new ArrayList<TipoDeEvento>();
+        Simbora simbora=new Simbora();
 
         try {
             evento.setNome(jsonObject.getString("titulo"));
@@ -126,6 +132,23 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 }
             }
 
+            PessoaService pessoaService=new PessoaService();
+            JSONArray jsonArraySimbora=jsonObject.getJSONArray("simbora");
+            ArrayList<Pessoa> pessoasSimbora=new ArrayList<Pessoa>();
+            for(int k=0; k<jsonArraySimbora.length();k++){
+                Pessoa pessoa=new Pessoa();
+                String idPessoa=jsonArraySimbora.getJSONObject(k).getString("idPessoa");
+                pessoa=pessoaService.consultarPessoa(Url.getPessoas()+"/"+idPessoa);
+
+                pessoasSimbora.add(pessoa);
+            }
+            simbora.setPessoas(pessoasSimbora);
+
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuario=null;
+            String idUsuario=jsonObject.getString("idCriador");
+            usuario=usuarioDAO.consultarPorId(idUsuario);
+
             Bitmap bitmap = null;
             byte[] bitmapdata=null;
 
@@ -152,6 +175,8 @@ public class EventoDAO extends AbstractDAO<Evento>{
             evento.setTiposDeEvento(tiposDeEvento);
             //seta imagem
             evento.setImagem(new Imagem(jsonObject.getString("imagem"), bitmapdata));
+            evento.setSimbora(simbora);
+            evento.setCriador(usuario);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Erro no evento", "erro no json do evento");
@@ -217,6 +242,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
         JSONArray jsonArrayHorarios=new JSONArray();
         JSONArray jsonArrayPrecos=new JSONArray();
         JSONArray jsonArrayTiposDeEvento=new JSONArray();
+        JSONArray jsonArraySimbora=new JSONArray();
 
         try {
             JSONObject jsonObjectEndereco=new JSONObject();
@@ -254,6 +280,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
             }
 
 
+
             jsonObjectEvento.put("titulo", evento.getNome());
             jsonObjectEvento.put("descricao",evento.getDescricao());
             jsonObjectEvento.put("endereco",jsonArrayEndereco);
@@ -261,6 +288,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
             jsonObjectEvento.put("precos", jsonArrayPrecos);
             jsonObjectEvento.put("tiposDeEvento", jsonArrayTiposDeEvento);
             jsonObjectEvento.put("telefone", evento.getTelefone());
+
 
             //default caso não tenha imagem no evento
             String nomeImagem="logo_simbora_nome.png";
