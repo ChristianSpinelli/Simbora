@@ -19,7 +19,11 @@ import android.widget.Toast;
 
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.negocio.EventoService;
 import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.usuario.dominio.Usuario;
+import com.simbora.usuario.negocio.UsuarioService;
+import com.simbora.util.dominio.Url;
 
 
 public class EventoActivity extends ActionBarActivity {
@@ -102,6 +106,7 @@ public class EventoActivity extends ActionBarActivity {
             buttonSimbora.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    EventoService eventoService=new EventoService();
                     if (!evento.getSimbora().deuSimbora(Pessoa.getPessoaLogada())) {
                         evento.getSimbora().darSimbora(Pessoa.getPessoaLogada());
                         Toast.makeText(getActivity().getBaseContext(), "Simbora dado com sucesso!", Toast.LENGTH_LONG).show();
@@ -111,6 +116,7 @@ public class EventoActivity extends ActionBarActivity {
                         Toast.makeText(getActivity().getBaseContext(), "Você desistiu do evento", Toast.LENGTH_LONG).show();
                         changeButtonDesistir();
                     }
+                    eventoService.atualizar(evento, Url.getEventos());
                     Intent intent=new Intent(getActivity(), EventoListActivity.class);
                     startActivity(intent);
                     getActivity().finish();

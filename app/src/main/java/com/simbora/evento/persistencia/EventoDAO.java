@@ -21,6 +21,19 @@ import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +41,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,8 +63,49 @@ public class EventoDAO extends AbstractDAO<Evento>{
         return null;
     }
 
+    private String retornarUrl(Evento evento, String url) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(getJSON(url));
+            JSONArray eventos = jsonObject.getJSONArray("eventos");
+
+            //percorre a lista e adiciona os atributos no método retornarEvento
+            for (int i = 0; i < eventos.length(); i++) {
+                if (eventos.getJSONObject(i).getString("nome").equals(evento.getNome())) {
+                    //fazer a lógica
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     @Override
     public void atualizar(Evento evento, String url) {
+        JSONObject jsonObject = converterParaJSON(evento);
+        try {
+            HttpResponse response;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPut putConnection = new HttpPut(url);
+            putConnection.setHeader("json", jsonObject.toString());
+            StringEntity se = new StringEntity(jsonObject.toString(), "UTF-8");
+            se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                    "application/json"));
+            putConnection.setEntity(se);
+            try {
+                response = httpClient.execute(putConnection);
+                String JSONString = EntityUtils.toString(response.getEntity(),
+                        "UTF-8");
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -350,4 +405,6 @@ public class EventoDAO extends AbstractDAO<Evento>{
         Log.d("Retornar evento", nomeSemEspaco);
         return nomeSemEspaco;
     }
+
+
 }

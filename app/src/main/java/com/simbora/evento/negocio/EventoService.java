@@ -37,6 +37,9 @@ public class EventoService {
         }
         return eventoDAO.inserir(evento, url);
     }
+    public void atualizar(Evento evento, String url){
+        eventoDAO.atualizar(evento,url);
+    }
 
 
 
