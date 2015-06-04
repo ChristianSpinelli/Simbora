@@ -63,6 +63,20 @@ public class Horario {
         return this.getHoraInicio();
     }
 
+    /** retorna a data em forma de String */
+    public String getData(Date date){
+        DateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+        String dataString=dateFormat.format(date);
+        return dataString;
+    }
+
+    /** retorna a hora em forma de String*/
+    public String getHora(Date date){
+        DateFormat dateFormat=new SimpleDateFormat("HH:mm");
+        String horaString=dateFormat.format(date);
+        return horaString;
+    }
+
     public void setData(Date data) {
         this.setHoraInicio(data);
     }

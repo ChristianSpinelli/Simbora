@@ -54,9 +54,16 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
              }
              tituloEvento.setText(evento.getNome());
             localEvento.setText(evento.getEndereco().getNome());
-            horarioEvento.setText(evento.getHorarios().get(0).getHoraInicio().toString());
-            precoEvento.setText("A partir de R$: "+evento.getPrecos().get(0).getValor()+"0");
-           dataEvento.setText(evento.getHorarios().get(0).getData().toString());
+            horarioEvento.setText(evento.getHorarios().get(0).getHora(evento.getHorarios().get(0).getHoraInicio()));
+
+            //se o evento tiver preço 0,00, ele é setado como gratuito
+            if(evento.getPrecos().get(0).getValor()==0.0){
+                precoEvento.setText("Entrada Gratuita ");
+            }
+            else{
+                precoEvento.setText("A partir de R$: "+evento.getPrecos().get(0).getValor()+"0");
+            }
+            dataEvento.setText(evento.getHorarios().get(0).getData(evento.getHorarios().get(0).getHoraInicio()));
           return convertView;
         }
     // Decodifica a imagem para evitar erros de memória
