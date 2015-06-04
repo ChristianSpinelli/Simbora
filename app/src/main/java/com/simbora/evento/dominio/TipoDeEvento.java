@@ -48,7 +48,7 @@ public enum TipoDeEvento {
             List<TipoDeEvento> tiposDeEvento = new ArrayList<TipoDeEvento>();
 
                 for (TipoDeEvento tipoDeEvento:values()){
-                    if (!strsTipoDeEvento.contains(tipoDeEvento.getNome())){
+                    if (strsTipoDeEvento.contains(tipoDeEvento.getNome())){
                         tiposDeEvento.add(tipoDeEvento);
 
                     }

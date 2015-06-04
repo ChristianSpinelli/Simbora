@@ -120,6 +120,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setEndereco(endereco);
                 evento.setHorarios(horarios);
                 evento.setPrecos(precos);
+                tiposDeEvento = TipoDeEvento.strsToTipoDeEvento(spinnerTipos.getSelectedStrings());
                 evento.setTiposDeEvento(tiposDeEvento);
                 evento.setImagem(imagem);
 
@@ -131,11 +132,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
         });
     }
 
-    public void onClick(View v) {
-        tiposDeEvento = TipoDeEvento.strsToTipoDeEvento(spinnerTipos.getSelectedStrings());
-
-    }
-    public void carregarImagemDaGaleria(View view) {
+     public void carregarImagemDaGaleria(View view) {
         // Cria intent para ir a galeria
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
