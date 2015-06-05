@@ -16,7 +16,6 @@ import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.pessoa.dominio.negocio.PessoaService;
 import com.simbora.usuario.dominio.Usuario;
-import com.simbora.usuario.negocio.UsuarioService;
 import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
@@ -71,8 +70,8 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
             //percorre a lista e adiciona os atributos no método retornarEvento
             for (int i = 0; i < eventos.length(); i++) {
-                if (eventos.getJSONObject(i).getString("nome").equals(evento.getNome())) {
-                    //fazer a lógica
+                if (eventos.getJSONObject(i).getString("titulo").equals(evento.getNome())) {
+                    return eventos.getJSONObject(i).getString("uri");
                 }
             }
 
@@ -83,12 +82,16 @@ public class EventoDAO extends AbstractDAO<Evento>{
         return null;
     }
     @Override
-    public void atualizar(Evento evento, String url) {
+    public boolean atualizar(Evento evento, String url) {
+        String urlEvento=retornarUrl(evento, url);
         JSONObject jsonObject = converterParaJSON(evento);
         try {
             HttpResponse response;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPut putConnection = new HttpPut(url);
+            HttpParams httpParameters = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParameters, 200);
+            HttpConnectionParams.setSoTimeout(httpParameters, 200);
+            HttpClient httpClient = new DefaultHttpClient(httpParameters);
+            HttpPut putConnection = new HttpPut(urlEvento);
             putConnection.setHeader("json", jsonObject.toString());
             StringEntity se = new StringEntity(jsonObject.toString(), "UTF-8");
             se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
@@ -98,6 +101,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 response = httpClient.execute(putConnection);
                 String JSONString = EntityUtils.toString(response.getEntity(),
                         "UTF-8");
+                return true;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -106,12 +110,13 @@ public class EventoDAO extends AbstractDAO<Evento>{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
 
     }
 
     @Override
     public boolean inserir(Evento evento, String url) {
-        JSONObject eventoAInserir = converterEventoJSON(evento);
+        JSONObject eventoAInserir = converterParaJSON(evento);
         postImagem(url, evento.getImagem().getCaminho());
         boolean inseriu=post(eventoAInserir,url);
         return inseriu;
@@ -241,57 +246,6 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
     @Override
     public JSONObject converterParaJSON(Evento evento) {
-        return null;
-    }
-
-    public ArrayList<Evento> consultar(String url, TipoDeEvento tipo){
-        try {
-            JSONObject jsonObject=new JSONObject(getJSON(url));
-            JSONArray eventos=jsonObject.getJSONArray("eventos");
-            ArrayList<Evento> listaEventos=new ArrayList<Evento>();
-            //criar um método para esta funcionalidade
-            //verifica se um tipo est´no evento
-             for (int i=0;i<eventos.length();i++){
-                 JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
-                 for (int j=0;j<tiposDeEventoObject.length();j++) {
-                     if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
-                         Evento evento = converterParaObjeto(eventos.getJSONObject(i));
-                         listaEventos.add(evento);
-                     }
-                 }
-             }
-            return listaEventos;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ArrayList<Evento> consultarRolandoAgora(String url){
-        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
-        ArrayList<Evento> listaEventosRolandoAgora=new ArrayList<Evento>();
-
-        try {
-            listaEventos=consultar(url);
-            for(Evento evento: listaEventos){
-                if(evento.isRolandoAgora()){
-                    listaEventosRolandoAgora.add(evento);
-                }
-            }
-            //corrigir índices
-            for(int i=0;i<listaEventosRolandoAgora.size();i++){
-                listaEventosRolandoAgora.get(i).setId(i+1);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listaEventosRolandoAgora;
-    }
-
-    private JSONObject converterEventoJSON(Evento evento){
-
         JSONObject jsonObjectEvento=new JSONObject();
         JSONArray jsonArrayEndereco=new JSONArray();
         JSONArray jsonArrayHorarios=new JSONArray();
@@ -352,16 +306,70 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 nomeImagem=retornarNomeImagem(evento.getImagem().getCaminho());
             }
 
+            jsonObjectEvento.put("idCriador",evento.getCriador().getId());
+
+            for (int i=0;i<evento.getSimbora().getPessoas().size();i++){
+                JSONObject jsonObjectIdUsuario=new JSONObject();
+                jsonObjectIdUsuario.put("idPessoa", evento.getSimbora().getPessoas().get(i).getId());
+                jsonArraySimbora.put(i,jsonObjectIdUsuario);
+            }
             jsonObjectEvento.put("imagem",nomeImagem);
 
+            jsonObjectEvento.put("simbora", jsonArraySimbora);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.d("JSON Object", jsonObjectEvento.toString());
         return jsonObjectEvento;
     }
+
+    public ArrayList<Evento> consultar(String url, TipoDeEvento tipo){
+        try {
+            JSONObject jsonObject=new JSONObject(getJSON(url));
+            JSONArray eventos=jsonObject.getJSONArray("eventos");
+            ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+            //criar um método para esta funcionalidade
+            //verifica se um tipo est´no evento
+             for (int i=0;i<eventos.length();i++){
+                 JSONArray tiposDeEventoObject=eventos.getJSONObject(i).getJSONArray("tiposDeEvento");
+                 for (int j=0;j<tiposDeEventoObject.length();j++) {
+                     if (tipo.getDescricao().equals(tiposDeEventoObject.getJSONObject(j).getString("descricao"))) {
+                         Evento evento = converterParaObjeto(eventos.getJSONObject(i));
+                         listaEventos.add(evento);
+                     }
+                 }
+             }
+            return listaEventos;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Evento> consultarRolandoAgora(String url){
+        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        ArrayList<Evento> listaEventosRolandoAgora=new ArrayList<Evento>();
+
+        try {
+            listaEventos=consultar(url);
+            for(Evento evento: listaEventos){
+                if(evento.isRolandoAgora()){
+                    listaEventosRolandoAgora.add(evento);
+                }
+            }
+            //corrigir índices
+            for(int i=0;i<listaEventosRolandoAgora.size();i++){
+                listaEventosRolandoAgora.get(i).setId(i+1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaEventosRolandoAgora;
+    }
+
 
     public void postImagem(String url, String caminho){
         RequestParams params = new RequestParams();

@@ -4,24 +4,15 @@ import android.util.Log;
 
 import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.usuario.dominio.Usuario;
-import com.simbora.usuario.negocio.UsuarioService;
 import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -51,8 +42,8 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
     }
 
     @Override
-    public void atualizar(Pessoa pessoa, String url) {
-
+    public boolean atualizar(Pessoa pessoa, String url) {
+        return false;
     }
 
     @Override
@@ -77,7 +68,7 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
             pessoa.setGenero(generoObject.getString("descricao"));
             UsuarioDAO usuarioDAO=new UsuarioDAO();
             Usuario usuario=usuarioDAO.consultarPorId(jsonObject.getString("idUsuario"));
-
+            pessoa.setId(jsonObject.getString("uri").split("/")[7]);
             pessoa.setUsuario(usuario);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -60,8 +60,8 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
     }
 
     @Override
-    public void atualizar(Usuario usuario, String url) {
-
+    public boolean atualizar(Usuario usuario, String url) {
+        return false;
     }
 
     @Override
@@ -116,7 +116,6 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
         Usuario usuario=null;
         try {
             JSONObject jsonObjectUsuario=new JSONObject(getJSON(Url.getUsuarios()+"/"+id)).getJSONObject("usuario");
-            Log.d("JSON Usuario", jsonObjectUsuario.toString());
             usuario=converterParaObjeto(jsonObjectUsuario);
         } catch (JSONException e) {
             e.printStackTrace();
