@@ -26,6 +26,8 @@ import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
 import com.simbora.evento.negocio.EventoService;
+import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.gui.MaskType;
 import com.simbora.util.dominio.Url;
@@ -111,7 +113,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 Imagem imagem = new Imagem();
                 ArrayList<Horario> horarios=new ArrayList<Horario>();
                 ArrayList<Preco> precos=new ArrayList<Preco>();
-
+                Simbora simbora = new Simbora();
 
                 horarios.add(horario);
                 precos.add(preco);
@@ -132,7 +134,8 @@ public class CadastroEventoActivity extends ActionBarActivity {
                 evento.setTiposDeEvento(tiposDeEvento);
                 evento.setImagem(imagem);
 
-
+                evento.setCriador(Pessoa.getPessoaLogada().getUsuario());
+                evento.setSimbora(simbora);
                 new CadastrarAsyncTask().execute(evento);
 
 

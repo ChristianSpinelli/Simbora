@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,20 +108,17 @@ public class EventoActivity extends ActionBarActivity {
             buttonSimbora.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventoService eventoService=new EventoService();
                     if (!evento.getSimbora().deuSimbora(Pessoa.getPessoaLogada())) {
                         evento.getSimbora().darSimbora(Pessoa.getPessoaLogada());
                         Toast.makeText(getActivity().getBaseContext(), "Simbora dado com sucesso!", Toast.LENGTH_LONG).show();
                         changeButtonSimbora();
                     } else {
-                        evento.getSimbora().getPessoas().remove(Pessoa.getPessoaLogada());
+                        evento.getSimbora().desistir(Pessoa.getPessoaLogada());
                         Toast.makeText(getActivity().getBaseContext(), "Você desistiu do evento", Toast.LENGTH_LONG).show();
                         changeButtonDesistir();
                     }
-                    eventoService.atualizar(evento, Url.getEventos());
-                    Intent intent=new Intent(getActivity(), EventoListActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    Log.d("Tamanho da lista:", Integer.toString(evento.getSimbora().getPessoas().size()));
+                    new AtualizarAsyncTask().execute(evento);
                 }
             });
             return rootView;
@@ -132,6 +131,23 @@ public class EventoActivity extends ActionBarActivity {
         public void changeButtonDesistir(){
             buttonSimbora.setText("SIMBORA");
             buttonSimbora.setTextColor(Color.BLACK);
+        }
+
+        private class AtualizarAsyncTask extends AsyncTask<Evento, Void, Boolean>{
+
+            @Override
+            protected Boolean doInBackground(Evento... params) {
+                EventoService eventoService=new EventoService();
+                Boolean resultado=eventoService.atualizar(params[0], Url.getEventos());
+                return resultado;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean b) {
+                Intent intent=new Intent(getActivity(), EventoListActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
         }
 
     }

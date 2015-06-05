@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.usuario.dominio.Usuario;
-import com.simbora.usuario.negocio.UsuarioService;
 import com.simbora.usuario.persistencia.UsuarioDAO;
 import com.simbora.util.dominio.Imagem;
 import com.simbora.util.dominio.Url;
@@ -43,8 +42,8 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
     }
 
     @Override
-    public void atualizar(Pessoa pessoa, String url) {
-
+    public boolean atualizar(Pessoa pessoa, String url) {
+        return false;
     }
 
     @Override
@@ -86,7 +85,7 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
             pessoa.setGenero(generoObject.getString("descricao"));
             UsuarioDAO usuarioDAO=new UsuarioDAO();
             Usuario usuario=usuarioDAO.consultarPorId(jsonObject.getString("idUsuario"));
-
+            pessoa.setId(jsonObject.getString("uri").split("/")[7]);
             pessoa.setUsuario(usuario);
         } catch (JSONException e) {
             e.printStackTrace();

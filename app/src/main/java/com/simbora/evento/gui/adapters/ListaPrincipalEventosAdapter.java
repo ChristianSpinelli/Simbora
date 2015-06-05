@@ -53,7 +53,13 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
                  relativeLayoutLista.setBackgroundDrawable(background);
              }
              tituloEvento.setText(evento.getNome());
-            localEvento.setText(evento.getEndereco().getNome());
+            if(evento.getEndereco()==null){
+                localEvento.setText("");
+            }
+            else{
+                localEvento.setText(evento.getEndereco().getNome());
+
+            }
             horarioEvento.setText(evento.getHorarios().get(0).getHora(evento.getHorarios().get(0).getHoraInicio()));
 
             //se o evento tiver preço 0,00, ele é setado como gratuito

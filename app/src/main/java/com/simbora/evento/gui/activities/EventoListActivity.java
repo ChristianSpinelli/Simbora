@@ -55,8 +55,11 @@ public class EventoListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_list);
-        new PessoaAsyncTask().execute(Usuario.getUsuarioLogado());
-        new EmpresaAsyncTask().execute(Usuario.getUsuarioLogado());
+        if(Pessoa.getPessoaLogada()==null && Empresa.getEmpresaLogada()==null){
+            new PessoaAsyncTask().execute(Usuario.getUsuarioLogado());
+            new EmpresaAsyncTask().execute(Usuario.getUsuarioLogado());
+
+        }
 
         if (findViewById(R.id.evento_detail_container) != null) {
             // The detail container view will be present only in the

@@ -3,7 +3,6 @@ package com.simbora.empresa.persistencia;
 import android.util.Log;
 
 import com.simbora.empresa.dominio.Empresa;
-import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Url;
 import com.simbora.util.persistencia.AbstractDAO;
@@ -37,8 +36,8 @@ public class EmpresaDAO extends AbstractDAO<Empresa>{
     }
 
     @Override
-    public void atualizar(Empresa empresa, String url) {
-
+    public boolean atualizar(Empresa empresa, String url) {
+        return false;
     }
 
     @Override

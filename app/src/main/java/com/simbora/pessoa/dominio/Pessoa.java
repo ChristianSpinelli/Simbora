@@ -23,6 +23,7 @@ public class Pessoa {
         Pessoa.pessoaLogada = pessoaLogada;
     }
 
+    private String id;
     private String cpf;
     private Date dataNascimento;
     private Genero genero;
@@ -75,6 +76,15 @@ public class Pessoa {
             }
         }
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     public Usuario getUsuario() {
         return usuario;

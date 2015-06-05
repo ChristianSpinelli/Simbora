@@ -29,7 +29,7 @@ public abstract class AbstractDAO<E> {
 
     public abstract E consultar(E e, String url);
     public abstract E remover(E e, String url);
-    public abstract void atualizar(E e, String url);
+    public abstract boolean atualizar(E e, String url);
     public abstract boolean inserir(E e, String url);
 
     /** consultar uma lista de objetos */
@@ -93,7 +93,7 @@ public abstract class AbstractDAO<E> {
                 result = "Não funcionou!";
 
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Log.d("InputStream", e.getMessage());
         }
 
         return result;
