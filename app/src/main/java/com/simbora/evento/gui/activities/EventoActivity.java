@@ -1,7 +1,9 @@
 package com.simbora.evento.gui.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,11 +12,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.simbora.R;
 import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.negocio.EventoService;
+import com.simbora.pessoa.dominio.Pessoa;
+import com.simbora.usuario.dominio.Usuario;
+import com.simbora.usuario.negocio.UsuarioService;
+import com.simbora.util.dominio.Url;
 
 
 public class EventoActivity extends ActionBarActivity {
@@ -61,7 +70,8 @@ public class EventoActivity extends ActionBarActivity {
 
     //fragmento que contém os detalhes do evento
     public static class PlaceholderFragment extends Fragment {
-
+        Evento evento;
+        Button buttonSimbora;
         public PlaceholderFragment() {
         }
 
@@ -75,18 +85,56 @@ public class EventoActivity extends ActionBarActivity {
             TextView tituloEvento=(TextView) rootView.findViewById(R.id.textViewTituloEvento);
             TextView curtidas=(TextView) rootView.findViewById(R.id.textViewCurtidas);
             TextView descricao=(TextView) rootView.findViewById(R.id.textViewDescricao);
+            buttonSimbora= (Button) rootView.findViewById(R.id.buttonSimbora);
 
            // imageViewEvento.set
             //pega o id do evento selecionado
             //seta os atributos em cada campo da tela
-            Evento evento=Evento.getListaEventosPorTipo().get(Evento.getIdEvento());
+            evento=Evento.getListaEventosPorTipo().get(Evento.getIdEvento());
             //converte a imagem de um array de bytes para um bitmap
             Bitmap imagemBitmap = BitmapFactory.decodeByteArray(evento.getImagem().getImagemByte(), 0, evento.getImagem().getImagemByte().length);
             imageViewEvento.setImageBitmap(imagemBitmap);
             tituloEvento.setText(evento.getNome());
             descricao.setText(evento.getDescricao());
-            curtidas.setText("Curtidas: "+evento.getSimbora().getPessoas().size());
+            curtidas.setText("Simboras: " + evento.getSimbora().getPessoas().size());
+            if(evento.getSimbora().deuSimbora(Pessoa.getPessoaLogada())){
+                changeButtonSimbora();
+             }
+            else{
+                changeButtonDesistir();
+            }
+            buttonSimbora.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventoService eventoService=new EventoService();
+                    if (!evento.getSimbora().deuSimbora(Pessoa.getPessoaLogada())) {
+                        evento.getSimbora().darSimbora(Pessoa.getPessoaLogada());
+                        Toast.makeText(getActivity().getBaseContext(), "Simbora dado com sucesso!", Toast.LENGTH_LONG).show();
+                        changeButtonSimbora();
+                    } else {
+                        evento.getSimbora().getPessoas().remove(Pessoa.getPessoaLogada());
+                        Toast.makeText(getActivity().getBaseContext(), "Você desistiu do evento", Toast.LENGTH_LONG).show();
+                        changeButtonDesistir();
+                    }
+                    eventoService.atualizar(evento, Url.getEventos());
+                    Intent intent=new Intent(getActivity(), EventoListActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
             return rootView;
         }
+        public void changeButtonSimbora(){
+            buttonSimbora.setText("DESISTIR");
+            buttonSimbora.setTextColor(Color.WHITE);
+        }
+
+        public void changeButtonDesistir(){
+            buttonSimbora.setText("SIMBORA");
+            buttonSimbora.setTextColor(Color.BLACK);
+        }
+
     }
+
+
 }

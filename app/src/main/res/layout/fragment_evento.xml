@@ -49,10 +49,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simbora!"
             android:layout_gravity="center"
             android:id="@+id/buttonSimbora"
-            android:background="#ffa500"/>
+            android:background="#ffa500"
+             />
 
 
 

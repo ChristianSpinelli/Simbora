@@ -1,5 +1,6 @@
 package com.simbora.evento.dominio;
 
+import com.simbora.pessoa.dominio.Pessoa;
 import com.simbora.pessoa.dominio.Simbora;
 import com.simbora.usuario.dominio.Usuario;
 import com.simbora.util.dominio.Imagem;
