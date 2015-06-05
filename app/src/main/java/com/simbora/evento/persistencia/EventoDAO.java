@@ -192,15 +192,22 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 }
             }
 
-            PessoaService pessoaService=new PessoaService();
-            JSONArray jsonArraySimbora=jsonObject.getJSONArray("simbora");
             ArrayList<Pessoa> pessoasSimbora=new ArrayList<Pessoa>();
-            for(int k=0; k<jsonArraySimbora.length();k++){
-                Pessoa pessoa=new Pessoa();
-                String idPessoa=jsonArraySimbora.getJSONObject(k).getString("idPessoa");
-                pessoa=pessoaService.consultarPessoa(Url.getPessoas()+"/"+idPessoa);
 
-                pessoasSimbora.add(pessoa);
+            PessoaService pessoaService=new PessoaService();
+            try{
+                JSONArray jsonArraySimbora=jsonObject.getJSONArray("simbora");
+                for(int k=0; k<jsonArraySimbora.length();k++){
+                    Pessoa pessoa=new Pessoa();
+                    String idPessoa=jsonArraySimbora.getJSONObject(k).getString("idPessoa");
+                    pessoa=pessoaService.consultarPessoa(Url.getPessoas()+"/"+idPessoa);
+
+                    pessoasSimbora.add(pessoa);
+                }
+
+            }
+            catch (Exception e){
+                e.getMessage();
             }
             simbora.setPessoas(pessoasSimbora);
 
@@ -308,10 +315,12 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
             jsonObjectEvento.put("idCriador",evento.getCriador().getId());
 
-            for (int i=0;i<evento.getSimbora().getPessoas().size();i++){
-                JSONObject jsonObjectIdUsuario=new JSONObject();
-                jsonObjectIdUsuario.put("idPessoa", evento.getSimbora().getPessoas().get(i).getId());
-                jsonArraySimbora.put(i,jsonObjectIdUsuario);
+            if(evento.getSimbora().getPessoas()!=null){
+                for (int i=0;i<evento.getSimbora().getPessoas().size();i++){
+                    JSONObject jsonObjectIdUsuario=new JSONObject();
+                    jsonObjectIdUsuario.put("idPessoa", evento.getSimbora().getPessoas().get(i).getId());
+                    jsonArraySimbora.put(i,jsonObjectIdUsuario);
+                }
             }
             jsonObjectEvento.put("imagem",nomeImagem);
 
