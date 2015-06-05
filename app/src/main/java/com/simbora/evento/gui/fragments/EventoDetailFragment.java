@@ -5,6 +5,7 @@ import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -64,6 +65,7 @@ public class EventoDetailFragment extends Fragment {
     private ProgressBar progressBarEventos;
     private ImageView imageViewUsuario;
     private TextView textViewUsuario;
+    private Button meusEventos;
 
     public EventoDetailFragment() {
     }
@@ -92,13 +94,22 @@ public class EventoDetailFragment extends Fragment {
         progressBarEventos=(ProgressBar) rootView.findViewById(R.id.progressBarLoadingEventos);
         textViewUsuario= (TextView) rootView.findViewById(R.id.textViewNomeUsuario);
         imageViewUsuario= (ImageView) rootView.findViewById(R.id.imageViewUsuario);
+        meusEventos=(Button) rootView.findViewById(R.id.buttonMeusEventos);
+        meusEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MeusEventosAsyncTask().execute(Url.getEventos());
+            }
+        });
+
 
         if (Usuario.getUsuarioLogado()!=null){
             imageViewUsuario.setImageBitmap(decodeFile(Usuario.getUsuarioLogado().getImagem().getImagemByte()));
             textViewUsuario.setText(Usuario.getUsuarioLogado().getNome());
         }
 
-        new HttpAsyncTask().execute(Url.getIp("eventos"));
+                 new HttpAsyncTask().execute(Url.getIp("eventos"));
+
         //seta o listview com o layout do xml
         lv = (ListView) rootView.findViewById(R.id.listView);
         this.bCriarEvento = (Button) rootView.findViewById(R.id.bCriarEvento);
@@ -190,11 +201,72 @@ public class EventoDetailFragment extends Fragment {
         //está retornando os eventos a partir da url
         @Override
         protected ArrayList<Evento> doInBackground(String... urls) {
-
             Log.d("tipo do evento", tipoDeEvento.getDescricao());
             EventoService eventoService = new EventoService();
-            progressBarEventos.setVisibility(View.VISIBLE);
+            //mostra  a barra de progresso se a API for maior que a 20, para evitar erros de permissão de Thread
+            if(Build.VERSION.SDK_INT >20){
+                progressBarEventos.setVisibility(View.VISIBLE);
+            }
             return eventoService.retornarEventos(tipoDeEvento);
+        }
+
+        // o onPostExecute é executado após o resultado da Thread ser coletado
+        //ou seja, quando a Thread é finalizada
+        @Override
+        protected void onPostExecute(ArrayList<Evento> result) {
+            if(Build.VERSION.SDK_INT >20){
+                progressBarEventos.setVisibility(View.GONE);
+            }
+            if(result.size()!=0){
+                //seta a lista de eventos por tipo com os eventos do tipo escolhido
+                Evento.setListaEventosPorTipo(result);
+                //ESTA LISTA DE EVENTOS É INSERIDA NA CLASSE LISTAPRINCIPALEVENTOSADAPTER()
+                //QUE JOGA CADA EVENTO NUM LAYOUT CHAMADO LIST_PRINCIPAL_EVENTOS
+                //A LIST VIEW CRIADA RECEBE O ADAPTER PARA MONTAR A LISTVIEW DO JEITO QUE INDICAMOS EM SEU LAYOUT
+                ArrayAdapter ad = new ListaPrincipalEventosAdapter(getActivity(), R.layout.list_principal_eventos, Evento.getListaEventosPorTipo());
+
+                lv.setAdapter(ad);
+
+                //O OnItemClickListener permite que a listView receba cliques e responda a eles;
+                //Neste caso, há um Intent que manda abrir a tela que mostra o Evento clickado
+                //seta o Id do evento com a posição da lista pra que a EventoActivity abra o evento correspondente
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Evento.setIdEvento(i);
+                        Intent intent = new Intent(getActivity(), EventoActivity.class);
+                        EventoListActivity.setGoToTodos(true);
+                        startActivity(intent);
+
+                    }
+                });
+
+            }
+            else{
+                Toast.makeText(getActivity().getBaseContext(), "Erro na comunicação com o servidor.", Toast.LENGTH_LONG).show();
+            }
+
+
+
+        }
+
+    }
+
+    //Thread que executa as operações assincronamente
+    private class MeusEventosAsyncTask extends AsyncTask<String, Void, ArrayList<Evento>> {
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getActivity().getBaseContext(), " Carregando...", Toast.LENGTH_LONG).show();
+        }
+
+        //doInBackground realiza a operação com as outras funcionalidades do sistema rodando
+        //está retornando os eventos a partir da url
+        @Override
+        protected ArrayList<Evento> doInBackground(String... urls) {
+
+            EventoService eventoService = new EventoService();
+            return eventoService.retornarMeusEventos(urls[0]);
 
 
         }
@@ -203,7 +275,6 @@ public class EventoDetailFragment extends Fragment {
         //ou seja, quando a Thread é finalizada
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
-            progressBarEventos.setVisibility(View.GONE);
             if(result.size()!=0){
                 //seta a lista de eventos por tipo com os eventos do tipo escolhido
                 Evento.setListaEventosPorTipo(result);
