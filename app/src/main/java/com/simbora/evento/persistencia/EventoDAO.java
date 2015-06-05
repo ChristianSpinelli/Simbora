@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -143,6 +144,35 @@ public class EventoDAO extends AbstractDAO<Evento>{
         }
         return listaEventos;
 
+    }
+
+    /** busca os eventos que o usuário "simborou"*/
+    public ArrayList<Evento> consultar(String url, Pessoa pessoa){
+        ArrayList<Evento> listaEventos=new ArrayList<Evento>();
+        try {
+            //recebe um array de objetos JSON
+            //o nome deste array é eventos
+            JSONObject jsonObject=new JSONObject(getJSON(url));
+            JSONArray eventos=jsonObject.getJSONArray("eventos");
+            //percorre a lista e adiciona os atributos no método retornarEvento
+            for (int i=0;i<eventos.length();i++)   {
+                JSONArray simbora=eventos.getJSONObject(i).getJSONArray("simbora");
+                for(int j=0;j<simbora.length();j++)
+                {
+                    if(simbora.getJSONObject(j).getString("idPessoa").equals(pessoa.getId())){
+                        Evento evento=converterParaObjeto(eventos.getJSONObject(i));
+                        evento.setId(i+1);
+                        listaEventos.add(evento);
+                    }
+
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Erro no evento", "erro na lista de eventos");
+        }
+        return listaEventos;
     }
 
     @Override
