@@ -20,20 +20,13 @@ public class Evento {
     private String telefone;
     private ArrayList<Preco> precos;
     private Endereco endereco;
-
     private ArrayList<Horario> horarios;
     private List<TipoDeEvento> tiposDeEvento;
     private Simbora simbora;
     private Usuario criador;
     private static ArrayList<Evento> listaEventosPorTipo;
 
-    public static ArrayList<Evento> getListaEventosPorTipo() {
-        return listaEventosPorTipo;
-    }
 
-    public static void setListaEventosPorTipo(ArrayList<Evento> listaEventosPorTipo) {
-        Evento.listaEventosPorTipo = listaEventosPorTipo;
-    }
 
     public Evento() {
 
@@ -50,6 +43,13 @@ public class Evento {
         this.tiposDeEvento = tiposDeEvento;
     }
 
+    public static ArrayList<Evento> getListaEventosPorTipo() {
+        return listaEventosPorTipo;
+    }
+
+    public static void setListaEventosPorTipo(ArrayList<Evento> listaEventosPorTipo) {
+        Evento.listaEventosPorTipo = listaEventosPorTipo;
+    }
 
     public Usuario getCriador() {
         return criador;

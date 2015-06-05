@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class PessoaDAO extends AbstractDAO<Pessoa>{
 
     /** Consulta a pessoa com um usuário já inserido nela*/
+    //parâmetro url não está sendo utilizado.
     @Override
     public Pessoa consultar(Pessoa pessoa, String url) {
         String urlPessoa=retornarUrl(pessoa.getUsuario());
@@ -99,7 +100,7 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
     public JSONObject converterParaJSON(Pessoa pessoa) {
         return null;
     }
-
+//Pq n fazer um overload no metodo consultar ao inves de criar o metodo cosultarPessoa?
      public Pessoa consultarPessoa(String url){
         Pessoa pessoa = new Pessoa();
         JSONObject pessoaObect = null;
