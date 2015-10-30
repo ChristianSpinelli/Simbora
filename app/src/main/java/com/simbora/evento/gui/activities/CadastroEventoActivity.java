@@ -222,7 +222,7 @@ public class CadastroEventoActivity extends ActionBarActivity {
         protected Boolean doInBackground(Evento... evento) {
 
             EventoService eventoService = new EventoService();
-            return eventoService.inserirEvento(evento[0], Url.getIp() + ":5000/todo/api/v1.0/eventos");
+            return eventoService.inserirEvento(evento[0], Url.getIp() + "/todo/api/v1.0/eventos");
 
         }
 

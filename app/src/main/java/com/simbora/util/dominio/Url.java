@@ -9,9 +9,9 @@ package com.simbora.util.dominio;
 public class Url {
 
     private static String ip;
-    public static final String EVENTOS=":5000/todo/api/v1.0/eventos";
-    public static final String USUARIOS=":5000/todo/api/v1.0/usuarios";
-    public static final String PESSOAS=":5000/todo/api/v1.0/pessoas";
+    public static final String EVENTOS="/todo/api/v1.0/eventos";
+    public static final String USUARIOS="/todo/api/v1.0/usuarios";
+    public static final String PESSOAS="/todo/api/v1.0/pessoas";
 
     public static String getEventos() {
         return getIp()+EVENTOS;
@@ -30,7 +30,7 @@ public class Url {
     }
 
     public static String getIp(String pagina){
-        return "http://"+ip+":5000/todo/api/v1.0/"+pagina;
+        return "http://"+ip+"/todo/api/v1.0/"+pagina;
     }
 
     public static void setIp(String ip) {

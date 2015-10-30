@@ -251,7 +251,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
 
             //pega a imagem do servidor e converte em um bitmap
             try {
-                InputStream in = new java.net.URL(Url.getIp()+":5000/"+jsonObject.getString("imagem")).openStream();
+                InputStream in = new java.net.URL(Url.getIp()+"/"+jsonObject.getString("imagem")).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
 
                 ByteArrayOutputStream blob = new ByteArrayOutputStream();
@@ -420,7 +420,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 e.printStackTrace();
             }
             AsyncHttpClient client = new AsyncHttpClient();
-            client.post(Url.getIp()+":5000/", params, new AsyncHttpResponseHandler() {
+            client.post(Url.getIp()+"/", params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     Log.w("async", "success!!!!");

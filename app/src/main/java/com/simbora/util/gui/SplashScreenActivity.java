@@ -27,6 +27,10 @@ public class SplashScreenActivity extends Activity {
         progress.setVisibility(View.INVISIBLE);
         textViewCarregando=(TextView) findViewById(R.id.textViewCarregando);
         textViewCarregando.setVisibility(View.INVISIBLE);
+
+        Url.setIp("myflaskapp-simbora.rhcloud.com");
+        gotoTelaInicial();
+
         //configuramos um IP padrão
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo

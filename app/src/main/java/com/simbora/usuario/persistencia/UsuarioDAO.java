@@ -89,7 +89,7 @@ public class UsuarioDAO extends AbstractDAO<Usuario>{
             Bitmap bitmap;
             byte[] bitmapdata=null;
             try {
-                InputStream in = new java.net.URL(Url.getIp()+":5000/"+jsonObject.getString("imagem")).openStream();
+                InputStream in = new java.net.URL(Url.getIp()+"/"+jsonObject.getString("imagem")).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
 
                 ByteArrayOutputStream blob = new ByteArrayOutputStream();

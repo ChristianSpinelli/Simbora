@@ -204,9 +204,9 @@ public class EventoDetailFragment extends Fragment {
             Log.d("tipo do evento", tipoDeEvento.getDescricao());
             EventoService eventoService = new EventoService();
             //mostra  a barra de progresso se a API for maior que a 20, para evitar erros de permissão de Thread
-            if(Build.VERSION.SDK_INT >20){
-                progressBarEventos.setVisibility(View.VISIBLE);
-            }
+          //  if(Build.VERSION.SDK_INT >20){
+            //    progressBarEventos.setVisibility(View.VISIBLE);
+            //}
             return eventoService.retornarEventos(tipoDeEvento);
         }
 
