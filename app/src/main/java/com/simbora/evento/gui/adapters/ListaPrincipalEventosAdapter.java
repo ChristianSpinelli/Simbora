@@ -47,11 +47,13 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
             TextView precoEvento= (TextView) convertView.findViewById(R.id.textViewPrecoEventoLista);
             TextView dataEvento = (TextView) convertView.findViewById(R.id.textViewDataEventoLista);
             relativeLayoutLista= (RelativeLayout) convertView.findViewById(R.id.relativeLayoutPrincipalEventos);
-            //seta os atributo
+            //seta os atributos
             evento=getItem(position);
             if(evento.getImagem().getImagemByte()==null){
-                new ImagemTask().execute(evento.getImagem().getCaminho());
-
+                new ImagemTask().execute(evento);
+                //ImagemTask imagemTask=new ImagemTask();
+                //evento.getImagem().setImagemByte(imagemTask.doInBackground(evento.getImagem().getCaminho()));
+                //imagemTask.onPostExecute(evento.getImagem().getImagemByte());
             }
             else{
                 evento.getImagem().setImagemByte(evento.getImagem().getImagemByte());
@@ -61,6 +63,11 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
 
             }
 
+            if(relativeLayoutLista.getBackground()==null){
+                Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
+                BitmapDrawable background = new BitmapDrawable(imagemBitmap);
+                relativeLayoutLista.setBackgroundDrawable(background);
+            }
             //byte [] bitmap=imagemTask.doInBackground(evento);
             //imagemTask.onPostExecute(bitmap);
             //evento.getImagem().setImagemByte(bitmap);
@@ -114,46 +121,49 @@ public class ListaPrincipalEventosAdapter extends ArrayAdapter<Evento>{
         }
         return null;
     }
-    public byte[] getImagem(String nomeImagem){
+    public byte[] getImagem(Evento evento){
         Bitmap bitmap = null;
         byte[] bitmapdata=null;
 
         //pega a imagem do servidor e converte em um bitmap
         try {
-            Log.d("Nome da Imagem", nomeImagem);
-            InputStream in = new java.net.URL(Url.getIp()+"/"+nomeImagem).openStream();
+            Log.d("Nome da Imagem", evento.getImagem().getCaminho());
+            InputStream in = new java.net.URL(Url.getIp()+"/"+evento.getImagem().getCaminho()).openStream();
             bitmap = BitmapFactory.decodeStream(in);
 
             ByteArrayOutputStream blob = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, blob);
             bitmapdata = blob.toByteArray();
 
-            return bitmapdata;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return bitmapdata;
     }
 
-    private class ImagemTask extends AsyncTask<String, Integer, byte[]> {
+    private class ImagemTask extends AsyncTask<Evento, Integer, byte[]> {
 
         @Override
-        protected byte[] doInBackground(String... strings) {
-            return getImagem(strings[0]);
+        protected byte[] doInBackground(Evento ...eventos) {
+            evento.getImagem().setImagemByte(getImagem(eventos[0]));
+            return evento.getImagem().getImagemByte();
 
         }
 
         @Override
         protected void onPostExecute(byte[] bytes) {
             //if(evento.getImagem()!=null){
-                evento.getImagem().setImagemByte(bytes);
-                Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
-                BitmapDrawable background = new BitmapDrawable(imagemBitmap);
-                relativeLayoutLista.setBackgroundDrawable(background);
+                /*evento.getImagem().setImagemByte(bytes);*/
+                        Bitmap imagemBitmap=decodeFile(evento.getImagem().getImagemByte());
+                        BitmapDrawable background = new BitmapDrawable(imagemBitmap);
+                        relativeLayoutLista.setBackgroundDrawable(background);
+                        relativeLayoutLista.animate();
+
+
+
 
             Log.d("onPostExecute", evento.getNome());
-
         }
     }
 

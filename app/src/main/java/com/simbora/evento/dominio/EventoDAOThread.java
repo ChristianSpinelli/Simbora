@@ -95,7 +95,6 @@ public class EventoDAOThread implements Runnable{
             }
 
             ArrayList<Pessoa> pessoasSimbora=new ArrayList<Pessoa>();
-            //TODO: Tirar o comentário abaixo antes do commit
             /*PessoaService pessoaService=new PessoaService();
             try{
                 JSONArray jsonArraySimbora=jsonObject.getJSONArray("simbora");
@@ -110,31 +109,14 @@ public class EventoDAOThread implements Runnable{
             }
             catch (Exception e){
                 e.getMessage();
-            }
-            */simbora.setPessoas(pessoasSimbora);
+            }*/
+            simbora.setPessoas(pessoasSimbora);
 
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             Usuario usuario=null;
             String idUsuario=jsonObject.getString("idCriador");
             usuario=usuarioDAO.consultarPorId(idUsuario);
 
-            Bitmap bitmap = null;
-            byte[] bitmapdata=null;
-
-            //pega a imagem do servidor e converte em um bitmap
-            //TODO: tirar este comentário antes di commit
-/*            try {
-                InputStream in = new java.net.URL(Url.getIp()+"/"+jsonObject.getString("imagem")).openStream();
-                bitmap = BitmapFactory.decodeStream(in);
-
-                ByteArrayOutputStream blob = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0 *//*ignored for PNG*//*, blob);
-                bitmapdata = blob.toByteArray();
-
-            } catch (Exception e) {
-                Log.e("Erro na imagem", e.getMessage());
-                e.printStackTrace();
-            }*/
             //seta endereco
             evento.setEndereco(endereco);
             //seta horarios
