@@ -3,7 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="240dp"
     android:descendantFocusability="blocksDescendants"
-    android:background="@mipmap/evangelizar_pe_reginaldo"
     android:paddingBottom="2dp"
     android:id="@+id/relativeLayoutPrincipalEventos">
 

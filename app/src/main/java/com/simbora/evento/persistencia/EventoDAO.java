@@ -9,6 +9,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.simbora.evento.dominio.Endereco;
 import com.simbora.evento.dominio.Evento;
+import com.simbora.evento.dominio.EventoDAOThread;
 import com.simbora.evento.dominio.Horario;
 import com.simbora.evento.dominio.Preco;
 import com.simbora.evento.dominio.TipoDeEvento;
@@ -119,7 +120,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
     public boolean inserir(Evento evento, String url) {
         JSONObject eventoAInserir = converterParaJSON(evento);
         postImagem(url, evento.getImagem().getCaminho());
-        boolean inseriu=post(eventoAInserir,url);
+        boolean inseriu=post(eventoAInserir, url);
         return inseriu;
 
     }
@@ -134,7 +135,12 @@ public class EventoDAO extends AbstractDAO<Evento>{
             JSONArray eventos=jsonObject.getJSONArray("eventos");
             //percorre a lista e adiciona os atributos no método retornarEvento
             for (int i=0;i<eventos.length();i++)   {
-                Evento evento=converterParaObjeto(eventos.getJSONObject(i));
+                Evento evento;
+                EventoDAOThread eventoDAOThread=new EventoDAOThread();
+                eventoDAOThread.setJsonObject(eventos.getJSONObject(i));
+                eventoDAOThread.run();
+                evento=eventoDAOThread.getEvento();
+                //Evento evento=converterParaObjeto(eventos.getJSONObject(i));
                 evento.setId(i+1);
                 listaEventos.add(evento);
             }
@@ -262,7 +268,7 @@ public class EventoDAO extends AbstractDAO<Evento>{
                 Log.e("Erro na imagem", e.getMessage());
                 e.printStackTrace();
             }
-            //seta endereco
+           //seta endereco
             evento.setEndereco(endereco);
             //seta horarios
             evento.setHorarios(horarios);
@@ -448,10 +454,11 @@ public class EventoDAO extends AbstractDAO<Evento>{
     private String retornarNomeImagem(String caminho){
         String[] nomes=caminho.split("/");
         String nome=nomes[nomes.length-1];
-        String nomeSemEspaco=nome.replace(" ","_");
+        String nomeSemEspaco=nome.replace(" ", "_");
         Log.d("Retornar evento", nomeSemEspaco);
         return nomeSemEspaco;
     }
+
 
 
 }

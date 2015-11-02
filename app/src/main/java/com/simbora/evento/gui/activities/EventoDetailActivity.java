@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.simbora.R;
 import com.simbora.evento.gui.fragments.EventoDetailFragment;
+import com.simbora.util.dominio.Url;
 
 
 /**
@@ -25,6 +26,7 @@ public class EventoDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_detail);
+        Url.setIp("myflaskapp-simbora.rhcloud.com");
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -195,6 +195,9 @@ public class EventoDetailFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             Toast.makeText(getActivity().getBaseContext(), " Carregando...", Toast.LENGTH_LONG).show();
+
+                progressBarEventos.setVisibility(View.VISIBLE);
+
         }
 
         //doInBackground realiza a operação com as outras funcionalidades do sistema rodando
@@ -204,9 +207,7 @@ public class EventoDetailFragment extends Fragment {
             Log.d("tipo do evento", tipoDeEvento.getDescricao());
             EventoService eventoService = new EventoService();
             //mostra  a barra de progresso se a API for maior que a 20, para evitar erros de permissão de Thread
-          //  if(Build.VERSION.SDK_INT >20){
-            //    progressBarEventos.setVisibility(View.VISIBLE);
-            //}
+
             return eventoService.retornarEventos(tipoDeEvento);
         }
 
@@ -214,9 +215,9 @@ public class EventoDetailFragment extends Fragment {
         //ou seja, quando a Thread é finalizada
         @Override
         protected void onPostExecute(ArrayList<Evento> result) {
-            if(Build.VERSION.SDK_INT >20){
+            //if(Build.VERSION.SDK_INT >20){
                 progressBarEventos.setVisibility(View.GONE);
-            }
+            //}
             if(result.size()!=0){
                 //seta a lista de eventos por tipo com os eventos do tipo escolhido
                 Evento.setListaEventosPorTipo(result);
